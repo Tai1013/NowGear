@@ -1,0 +1,10 @@
+{
+  "id": "ore",
+  "name": "礦石",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "poison-res", "level": 2 }
+    ]
+  }
+}

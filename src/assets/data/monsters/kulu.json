@@ -1,0 +1,53 @@
+{
+  "id": "kulu",
+  "name": "搔鳥",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "hammer",
+      "lance",
+      "bow",
+      "dual-blades",
+      "long-sword",
+      "insect-glaive"
+    ],
+    "skills": [
+      { "id": "guts", "level": 2 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "lock-on", "level": 1 },
+        { "id": "weakness-exploit", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 2,
+      "skills": [
+        { "id": "fortify", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "def-focus", "level": 1 },
+        { "id": "weakness-exploit", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 2,
+      "skills": [
+        { "id": "def-focus", "level": 1 },
+        { "id": "evade-extender", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "weakness-exploit", "level": 2 }
+      ]
+    }
+  }
+}

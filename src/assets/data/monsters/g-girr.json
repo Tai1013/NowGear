@@ -1,0 +1,52 @@
+{
+  "id": "g-girr",
+  "name": "大凶顎龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "shield-sword",
+      "great-sword",
+      "hammer",
+      "charge-blade",
+      "gunlance"
+    ],
+    "skills": [
+      { "id": "sneak-attack", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 2,
+      "skills": [
+        { "id": "paralysis-res", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "paralysis-res", "level": 1 },
+        { "id": "sneak-attack", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "sneak-attack", "level": 1 },
+        { "id": "earplugs", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "paralysis-attack", "level": 1 },
+        { "id": "earplugs", "level": 2 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "paralysis-attack", "level": 2 }
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "leather",
+  "name": "皮製",
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "weakness-exploit", "level": 1 },
+        { "id": "ice-res", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "attack-boost", "level": 1 },
+        { "id": "fire-res", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "def-up", "level": 1 },
+        { "id": "thunder-res", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "hp-up", "level": 1 },
+        { "id": "water-res", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "poison-res", "level": 1 },
+        { "id": "paralysis-res", "level": 1 }
+      ]
+    }
+  }
+}

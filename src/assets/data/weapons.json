@@ -1,0 +1,54 @@
+[
+  {
+    "id": "shield-sword",
+    "name": "片手劍"
+  },
+  {
+    "id": "great-sword",
+    "name": "大劍"
+  },
+  {
+    "id": "hammer",
+    "name": "大錘"
+  },
+  {
+    "id": "long-sword",
+    "name": "太刀"
+  },
+  {
+    "id": "light-gun",
+    "name": "輕弩"
+  },
+  {
+    "id": "bow",
+    "name": "弓"
+  },
+  {
+    "id": "dual-blades",
+    "name": "雙劍"
+  },
+  {
+    "id": "lance",
+    "name": "長槍"
+  },
+  {
+    "id": "charge-blade",
+    "name": "充能斧"
+  },
+  {
+    "id": "gunlance",
+    "name": "銃槍"
+  },
+  {
+    "id": "heavy-gun",
+    "name": "重弩"
+  },
+  {
+    "id": "switch-axe",
+    "name": "斬擊斧"
+  },
+  {
+    "id": "hunting-horn",
+    "name": "狩獵笛"
+  }
+]

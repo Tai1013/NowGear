@@ -1,0 +1,50 @@
+{
+  "id": "paol",
+  "name": "浮空龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "shield-sword",
+      "light-gun",
+      "switch-axe",
+      "insect-glaive"
+    ],
+    "skills": [
+      { "id": "divine-blessing", "level": 2 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "sp-meter-accel", "level": 1 },
+        { "id": "windproof", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "recoil-down", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "sp-meter-accel", "level": 2 },
+        { "id": "divine-blessing", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 2,
+      "skills": [
+        { "id": "divine-blessing", "level": 2 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "windproof", "level": 2 }
+      ]
+    }
+  }
+}

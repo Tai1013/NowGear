@@ -1,0 +1,76 @@
+{
+  "id": "baze",
+  "name": "爆鱗龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "long-sword",
+      "light-gun",
+      "dual-blades",
+      "lance",
+      "gunlance",
+      "switch-axe",
+      "hunting-horn"
+    ],
+    "skills": [
+      { "id": "weapon-specific" }
+    ],
+    "customSkills": {
+      "long-sword": [
+        { "id": "flow-state", "level": 1 }
+      ],
+      "light-gun": [
+        { "id": "evade-reload", "level": 2 }
+      ],
+      "dual-blades": [
+        { "id": "negative-critical", "level": 1 }
+      ],
+      "lance": [
+        { "id": "attack-focus", "level": 2 }
+      ],
+      "gunlance": [
+        { "id": "artillery", "level": 1 }
+      ],
+      "switch-axe": [
+        { "id": "combo-attack", "level": 2 }
+      ],
+      "hunting-horn": [
+        { "id": "destroyer", "level": 1 }
+      ]
+    }
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "reload-speed", "level": 2 },
+        { "id": "artillery", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "bravery", "level": 3 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "negative-critical", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "artillery", "level": 2 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "bravery", "level": 2 },
+        { "id": "blast-attack", "level": 1 }
+      ]
+    }
+  }
+}

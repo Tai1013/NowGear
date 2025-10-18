@@ -1,0 +1,53 @@
+{
+  "id": "akno",
+  "name": "傘鳥",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "great-sword",
+      "long-sword",
+      "dual-blades",
+      "lance",
+      "gunlance",
+      "switch-axe"
+    ],
+    "skills": [
+      { "id": "lock-on", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "guard-reload", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "guard-reload", "level": 1 },
+        { "id": "def-focus", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "flow-state", "level": 1 },
+        { "id": "item-effect-up", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "critical-eye", "level": 1 },
+        { "id": "unscathed", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "fire-attack", "level": 2 }
+      ]
+    }
+  }
+}

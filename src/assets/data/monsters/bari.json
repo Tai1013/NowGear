@@ -1,0 +1,46 @@
+{
+  "id": "bari",
+  "name": "冰牙龍",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "evade-distance", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "evade-distance", "level": 1 },
+        { "id": "evade-extender", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "ice-res", "level": 1 },
+        { "id": "ice-attack", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 2,
+      "skills": [
+        { "id": "ice-attack", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "evade-extender", "level": 1 },
+        { "id": "ice-res", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "sneak-attack", "level": 1 },
+        { "id": "evade-distance", "level": 1 }
+      ]
+    }
+  }
+}

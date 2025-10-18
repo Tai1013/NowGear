@@ -1,0 +1,56 @@
+{
+  "id": "a-ratha",
+  "name": "蒼火龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "shield-sword",
+      "great-sword",
+      "long-sword",
+      "light-gun",
+      "bow",
+      "lance",
+      "charge-blade",
+      "gunlance",
+      "switch-axe"
+    ],
+    "skills": [
+      { "id": "sp-skill-power", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "focus", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "earplugs", "level": 2 },
+        { "id": "fire-attack", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "critical-boost", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "sp-skill-power", "level": 1 },
+        { "id": "critical-boost", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "reload-speed", "level": 2 },
+        { "id": "fire-attack", "level": 1 }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "bone",
+  "name": "龍骨",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "sp-meter-accel", "level": 1 }
+    ]
+  }
+}

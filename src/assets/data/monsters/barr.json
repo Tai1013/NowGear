@@ -1,0 +1,55 @@
+{
+  "id": "barr",
+  "name": "土砂龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "shield-sword",
+      "great-sword",
+      "hammer",
+      "light-gun",
+      "lance",
+      "gunlance",
+      "switch-axe",
+      "hunting-horn"
+    ],
+    "skills": [
+      { "id": "def-up", "level": 2 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "def-up", "level": 1 },
+        { "id": "attack-focus", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "attack-focus", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "def-focus", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "def-up", "level": 1 },
+        { "id": "def-focus", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "recoil-down", "level": 1 },
+        { "id": "def-up", "level": 2 }
+      ]
+    }
+  }
+}
