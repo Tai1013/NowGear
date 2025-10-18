@@ -16,47 +16,47 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "獵人集結", "level": 1 },
-      { "id": "弱點特效", "level": 1 }
+      { "id": "hunter-rally", "level": 1 },
+      { "id": "weakness-exploit", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "溟波龍的雷浪", "level": 1 },
-        { "id": "裝填速度", "level": 1 },
-        { "id": "後座力減輕", "level": 1 }
+        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "reload-speed", "level": 1 },
+        { "id": "recoil-down", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "溟波龍的雷浪", "level": 1 },
-        { "id": "力量解放", "level": 1 },
-        { "id": "超會心", "level": 1 }
+        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "power-release", "level": 1 },
+        { "id": "critical-boost", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "溟波龍的雷浪", "level": 1 },
-        { "id": "看破", "level": 1 },
-        { "id": "弱點特效", "level": 1 }
+        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "critical-eye", "level": 1 },
+        { "id": "weakness-exploit", "level": 1 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "溟波龍的雷浪", "level": 1 },
-        { "id": "水屬性攻擊強化", "level": 2 }
+        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "water-attack", "level": 2 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "溟波龍的雷浪", "level": 1 },
-        { "id": "完美巧擊", "level": 2 }
+        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "perfect-strike", "level": 2 }
       ]
     }
   }

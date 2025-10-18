@@ -12,40 +12,40 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "迴避距離UP", "level": 1 }
+      { "id": "evade-distance", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "迴避裝填", "level": 1 },
-        { "id": "迴避距離UP", "level": 1 }
+        { "id": "evade-reload", "level": 1 },
+        { "id": "evade-distance", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "輕巧", "level": 2 }
+        { "id": "evade-extender", "level": 2 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "迴避裝填", "level": 2 }
+        { "id": "evade-reload", "level": 2 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "睡眠攻擊強化", "level": 1 },
-        { "id": "覺醒一擊", "level": 1 }
+        { "id": "sleep-attack", "level": 1 },
+        { "id": "punishing-draw", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "奇襲【狀態異常】", "level": 2 }
+        { "id": "sneak-attack-status", "level": 2 }
       ]
     }
   }

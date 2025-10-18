@@ -17,46 +17,46 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "獵人集結", "level": 1 },
-      { "id": "奇襲【狀態異常】", "level": 2 }
+      { "id": "hunter-rally", "level": 1 },
+      { "id": "sneak-attack-status", "level": 2 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "霞龍的毒霧", "level": 1 },
-        { "id": "追擊【毒】", "level": 1 },
-        { "id": "奇襲【狀態異常】", "level": 1 }
+        { "id": "chameleos-mist", "level": 1 },
+        { "id": "follow-up-poison", "level": 1 },
+        { "id": "sneak-attack-status", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "霞龍的毒霧", "level": 1 },
-        { "id": "集中", "level": 2 }
+        { "id": "chameleos-mist", "level": 1 },
+        { "id": "focus", "level": 2 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "霞龍的毒霧", "level": 1 },
-        { "id": "勇猛", "level": 2 }
+        { "id": "chameleos-mist", "level": 1 },
+        { "id": "bravery", "level": 2 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "霞龍的毒霧", "level": 1 },
-        { "id": "追擊【毒】", "level": 2 }
+        { "id": "chameleos-mist", "level": 1 },
+        { "id": "follow-up-poison", "level": 2 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "霞龍的毒霧", "level": 1 },
-        { "id": "攻擊守勢", "level": 1 },
-        { "id": "防禦性能", "level": 1 }
+        { "id": "chameleos-mist", "level": 1 },
+        { "id": "attack-focus", "level": 1 },
+        { "id": "def-focus", "level": 1 }
       ]
     }
   }

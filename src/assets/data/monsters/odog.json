@@ -10,41 +10,41 @@
       "charge-blade"
     ],
     "skills": [
-      { "id": "SP計量表加速【完美迴避】", "level": 1 }
+      { "id": "sp-meter-accel-evade", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "行雲流水", "level": 2 }
+        { "id": "flow-state", "level": 2 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "看破", "level": 2 },
-        { "id": "裂傷耐性", "level": 1 }
+        { "id": "critical-eye", "level": 2 },
+        { "id": "bleeding-res", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "行雲流水", "level": 1 },
-        { "id": "裂傷耐性", "level": 2 }
+        { "id": "flow-state", "level": 1 },
+        { "id": "bleeding-res", "level": 2 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "看破", "level": 1 },
-        { "id": "SP計量表加速【完美迴避】", "level": 1 }
+        { "id": "critical-eye", "level": 1 },
+        { "id": "sp-meter-accel-evade", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "SP計量表加速【完美迴避】", "level": 2 }
+        { "id": "sp-meter-accel-evade", "level": 2 }
       ]
     }
   }

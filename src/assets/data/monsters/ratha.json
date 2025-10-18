@@ -17,42 +17,42 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "耳塞", "level": 1 }
+      { "id": "earplugs", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "攻擊", "level": 2 },
-        { "id": "火屬性攻擊強化", "level": 1 }
+        { "id": "attack-boost", "level": 2 },
+        { "id": "fire-attack", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "弱點特效", "level": 2 }
+        { "id": "weakness-exploit", "level": 2 }
       ]
     },
     "gloves": {
       "accessory": 2,
       "skills": [
-        { "id": "火耐性", "level": 1 },
-        { "id": "攻擊", "level": 1 }
+        { "id": "fire-res", "level": 1 },
+        { "id": "attack-boost", "level": 1 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "集中", "level": 1 },
-        { "id": "火屬性攻擊強化", "level": 1 }
+        { "id": "focus", "level": 1 },
+        { "id": "fire-attack", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "火耐性", "level": 1 },
-        { "id": "弱點特效", "level": 1 }
+        { "id": "fire-res", "level": 1 },
+        { "id": "weakness-exploit", "level": 1 }
       ]
     }
   }

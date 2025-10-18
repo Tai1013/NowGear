@@ -17,40 +17,40 @@
       "switch-axe"
     ],
     "skills": [
-      { "id": "會心擊【屬性】", "level": 2 }
+      { "id": "critical-element", "level": 2 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "會心擊【屬性】", "level": 2 }
+        { "id": "critical-element", "level": 2 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "火屬性攻擊強化", "level": 1 },
-        { "id": "超會心", "level": 1 }
+        { "id": "fire-attack", "level": 1 },
+        { "id": "critical-boost", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "力量解放", "level": 2 }
+        { "id": "power-release", "level": 2 }
       ]
     },
     "belt": {
       "accessory": 2,
       "skills": [
-        { "id": "風壓耐性", "level": 2 }
+        { "id": "windproof", "level": 2 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "會心擊【屬性】", "level": 1 },
-        { "id": "弱點特效", "level": 1 }
+        { "id": "critical-element", "level": 1 },
+        { "id": "weakness-exploit", "level": 1 }
       ]
     }
   }

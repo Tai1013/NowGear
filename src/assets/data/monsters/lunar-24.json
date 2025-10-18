@@ -5,7 +5,7 @@
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "超會心", "level": 2 }
+        { "id": "critical-boost", "level": 2 }
       ]
     }
   }

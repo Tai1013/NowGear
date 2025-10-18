@@ -4,42 +4,42 @@
   "weapon": {
     "type": "all",
     "skills": [
-      { "id": "死裡逃生", "level": 2 }
+      { "id": "last-stand", "level": 2 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "鬥氣活性", "level": 1 },
-        { "id": "集中", "level": 1 }
+        { "id": "fighting-spirit", "level": 1 },
+        { "id": "focus", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "超會心", "level": 2 },
-        { "id": "鎖定", "level": 1 }
+        { "id": "critical-boost", "level": 2 },
+        { "id": "lock-on", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "累積狀態異常時威力UP", "level": 3 }
+        { "id": "status-buildup-power", "level": 3 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "迴避裝填", "level": 2 },
-        { "id": "無傷", "level": 1 }
+        { "id": "evade-reload", "level": 2 },
+        { "id": "unscathed", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "累積狀態異常時威力UP", "level": 2 },
-        { "id": "完美迴避強化", "level": 1 }
+        { "id": "status-buildup-power", "level": 2 },
+        { "id": "evade-window", "level": 1 }
       ]
     }
   }

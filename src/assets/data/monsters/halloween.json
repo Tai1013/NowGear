@@ -5,7 +5,7 @@
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "團結力【秋季採南瓜】", "level": 1 }
+        { "id": "autumn-pumpkin-unity", "level": 1 }
       ]
     }
   }

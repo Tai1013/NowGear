@@ -5,7 +5,7 @@
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "新年快樂【2024】", "level": 1 }
+        { "id": "new-year-2024", "level": 1 }
       ]
     }
   }

@@ -17,49 +17,49 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "獵人集結", "level": 1 },
-      { "id": "火場怪力", "level": 2 }
+      { "id": "hunter-rally", "level": 1 },
+      { "id": "heat-boost", "level": 2 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "炎王龍的爆塵", "level": 1 },
-        { "id": "力量解放", "level": 1 },
-        { "id": "毅力", "level": 1 }
+        { "id": "teostra-blast-dust", "level": 1 },
+        { "id": "power-release", "level": 1 },
+        { "id": "fortify", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "炎王龍的爆塵", "level": 1 },
-        { "id": "看破", "level": 1 },
-        { "id": "完美迴避強化", "level": 1 }
+        { "id": "teostra-blast-dust", "level": 1 },
+        { "id": "critical-eye", "level": 1 },
+        { "id": "evade-window", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "炎王龍的爆塵", "level": 1 },
-        { "id": "砲術", "level": 1 },
-        { "id": "防禦性能", "level": 1 }
+        { "id": "teostra-blast-dust", "level": 1 },
+        { "id": "artillery", "level": 1 },
+        { "id": "def-focus", "level": 1 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "炎王龍的爆塵", "level": 1 },
-        { "id": "強化持續", "level": 1 },
-        { "id": "連擊", "level": 1 }
+        { "id": "teostra-blast-dust", "level": 1 },
+        { "id": "item-effect-up", "level": 1 },
+        { "id": "combo-attack", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "炎王龍的爆塵", "level": 1 },
-        { "id": "超會心", "level": 1 },
-        { "id": "迴避距離UP", "level": 1 }
+        { "id": "teostra-blast-dust", "level": 1 },
+        { "id": "critical-boost", "level": 1 },
+        { "id": "evade-distance", "level": 1 }
       ]
     }
   }

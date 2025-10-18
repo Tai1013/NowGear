@@ -7,7 +7,7 @@
       "shield-sword"
     ],
     "skills": [
-      { "id": "MrBeast挑戰", "level": 1 }
+      { "id": "mrbeast-challenge", "level": 1 }
     ]
   }
 }

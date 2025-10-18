@@ -7,14 +7,14 @@
       "long-sword"
     ],
     "skills": [
-      { "id": "強化持續", "level": 2 }
+      { "id": "item-effect-up", "level": 2 }
     ]
   },
   "armor": {
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "完美迴避強化", "level": 2 }
+        { "id": "evade-window", "level": 2 }
       ]
     }
   }

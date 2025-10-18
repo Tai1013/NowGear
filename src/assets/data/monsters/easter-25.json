@@ -8,14 +8,14 @@
       "charge-blade"
     ],
     "skills": [
-      { "id": "視武器而不同", "level": null }
+      { "id": "weapon-specific", "level": null }
     ],
     "customSkills": {
       "great-sword": [
-        { "id": "氣球碰撞", "level": 1 }
+        { "id": "balloon-collision", "level": 1 }
       ],
       "charge-blade": [
-        { "id": "彩蛋爆發", "level": 1 }
+        { "id": "easter-egg-burst", "level": 1 }
       ]
     }
   },
@@ -23,7 +23,7 @@
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "完美迴避強化", "level": 3 }
+        { "id": "evade-window", "level": 3 }
       ]
     }
   }

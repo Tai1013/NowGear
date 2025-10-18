@@ -10,42 +10,42 @@
       "charge-blade"
     ],
     "skills": [
-      { "id": "超會心", "level": 1 }
+      { "id": "critical-boost", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "堅忍不拔", "level": 1 },
-        { "id": "死裡逃生", "level": 1 }
+        { "id": "perseverance", "level": 1 },
+        { "id": "last-stand", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "力量解放", "level": 1 },
-        { "id": "會心擊【屬性】", "level": 1 }
+        { "id": "power-release", "level": 1 },
+        { "id": "critical-element", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "堅忍不拔", "level": 2 }
+        { "id": "perseverance", "level": 2 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "超會心", "level": 2 },
-        { "id": "SP計量表加速【完美迴避】", "level": 1 }
+        { "id": "critical-boost", "level": 2 },
+        { "id": "sp-meter-accel-evade", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "龍屬性攻擊強化", "level": 2 },
-        { "id": "迴避距離UP", "level": 1 }
+        { "id": "dragon-attack", "level": 2 },
+        { "id": "evade-distance", "level": 1 }
       ]
     }
   }

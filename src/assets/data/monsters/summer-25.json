@@ -7,29 +7,29 @@
       "heavy-gun"
     ],
     "skills": [
-      { "id": "急速勁泳【2025】", "level": 1 }
+      { "id": "swift-swim-2025", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "熱情盛夏【2025】", "level": 1 },
-        { "id": "勇猛", "level": 1 }
+        { "id": "summer-passion-2025", "level": 1 },
+        { "id": "bravery", "level": 1 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "熱情盛夏【2025】", "level": 1 },
-        { "id": "團體狩獵強化【攻擊】", "level": 2 }
+        { "id": "summer-passion-2025", "level": 1 },
+        { "id": "group-hunt-attack", "level": 2 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "熱情盛夏【2025】", "level": 1 },
-        { "id": "團體狩獵強化【防禦】", "level": 2 }
+        { "id": "summer-passion-2025", "level": 1 },
+        { "id": "group-hunt-defense", "level": 2 }
       ]
     }
   }

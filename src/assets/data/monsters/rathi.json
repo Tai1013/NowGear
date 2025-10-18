@@ -14,41 +14,41 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "體力增強", "level": 2 }
+      { "id": "hp-up", "level": 2 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "體力增強", "level": 2 },
-        { "id": "毒屬性強化", "level": 1 }
+        { "id": "hp-up", "level": 2 },
+        { "id": "poison-attack", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "毒屬性強化", "level": 2 }
+        { "id": "poison-attack", "level": 2 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "鎖定", "level": 1 },
-        { "id": "連擊", "level": 2 }
+        { "id": "lock-on", "level": 1 },
+        { "id": "combo-attack", "level": 2 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "毒耐性", "level": 1 },
-        { "id": "連擊", "level": 1 }
+        { "id": "poison-res", "level": 1 },
+        { "id": "combo-attack", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 2,
       "skills": [
-        { "id": "體力增強", "level": 2 }
+        { "id": "hp-up", "level": 2 }
       ]
     }
   }

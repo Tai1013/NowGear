@@ -4,49 +4,49 @@
   "weapon": {
     "type": "all",
     "skills": [
-      { "id": "獵人集結", "level": 1 },
-      { "id": "破壞王", "level": 2 }
+      { "id": "hunter-rally", "level": 1 },
+      { "id": "destroyer", "level": 2 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "滅盡龍的渴望", "level": 1 },
-        { "id": "看破", "level": 1 },
-        { "id": "完美迴避強化", "level": 1 }
+        { "id": "nergigante-hunger", "level": 1 },
+        { "id": "critical-eye", "level": 1 },
+        { "id": "evade-window", "level": 1 }
       ]
     },
     "mail": {
       "accessory": 1,
       "skills": [
-        { "id": "滅盡龍的渴望", "level": 1 },
-        { "id": "奇襲", "level": 1 },
-        { "id": "迴避距離UP", "level": 1 }
+        { "id": "nergigante-hunger", "level": 1 },
+        { "id": "sneak-attack", "level": 1 },
+        { "id": "evade-distance", "level": 1 }
       ]
     },
     "gloves": {
       "accessory": 1,
       "skills": [
-        { "id": "滅盡龍的渴望", "level": 1 },
-        { "id": "攻擊守勢", "level": 1 },
-        { "id": "防禦性能", "level": 1 }
+        { "id": "nergigante-hunger", "level": 1 },
+        { "id": "attack-focus", "level": 1 },
+        { "id": "def-focus", "level": 1 }
       ]
     },
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "滅盡龍的渴望", "level": 1 },
-        { "id": "攻擊", "level": 1 },
-        { "id": "破壞王", "level": 1 }
+        { "id": "nergigante-hunger", "level": 1 },
+        { "id": "attack-boost", "level": 1 },
+        { "id": "destroyer", "level": 1 }
       ]
     },
     "greaves": {
       "accessory": 1,
       "skills": [
-        { "id": "滅盡龍的渴望", "level": 1 },
-        { "id": "裝填速度", "level": 1 },
-        { "id": "後座力減輕", "level": 1 }
+        { "id": "nergigante-hunger", "level": 1 },
+        { "id": "reload-speed", "level": 1 },
+        { "id": "recoil-down", "level": 1 }
       ]
     }
   }
