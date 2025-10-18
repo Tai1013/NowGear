@@ -1,0 +1,44 @@
+{
+  "id": "luna",
+  "name": "冰狼龍",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "高能強化【冰】", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "後座力減輕", "level": 2 },
+        { "id": "彈道強化", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "高能強化【冰】", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "蓄攻・響音強化", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "體力增強", "level": 3 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "彈道強化", "level": 2 },
+        { "id": "連擊", "level": 1 }
+      ]
+    }
+  }
+}

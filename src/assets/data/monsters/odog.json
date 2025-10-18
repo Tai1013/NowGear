@@ -1,0 +1,51 @@
+{
+  "id": "odog",
+  "name": "慘爪龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "light-gun",
+      "dual-blades",
+      "lance",
+      "charge-blade"
+    ],
+    "skills": [
+      { "id": "SP計量表加速【完美迴避】", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "行雲流水", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "看破", "level": 2 },
+        { "id": "裂傷耐性", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "行雲流水", "level": 1 },
+        { "id": "裂傷耐性", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "看破", "level": 1 },
+        { "id": "SP計量表加速【完美迴避】", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "SP計量表加速【完美迴避】", "level": 2 }
+      ]
+    }
+  }
+}

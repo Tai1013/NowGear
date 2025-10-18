@@ -1,0 +1,51 @@
+{
+  "id": "beot",
+  "name": "冰魚龍",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "great-sword",
+      "light-gun",
+      "dual-blades",
+      "charge-blade"
+    ],
+    "skills": [
+      { "id": "勇猛", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "無傷", "level": 3 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "蓄攻・響音強化", "level": 1 },
+        { "id": "KO術", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "鎖定", "level": 1 },
+        { "id": "集中", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "裝填防禦", "level": 2 },
+        { "id": "冰屬性攻擊強化", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "蓄攻・響音強化", "level": 2 }
+      ]
+    }
+  }
+}

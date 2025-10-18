@@ -13,7 +13,7 @@
       "hunting-horn"
     ],
     "skills": [
-      { "id": "weapon-specific" }
+      { "id": "weapon-specific", "level": null }
     ],
     "customSkills": {
       "long-sword": [

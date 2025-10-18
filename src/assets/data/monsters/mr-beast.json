@@ -1,0 +1,13 @@
+{
+  "id": "mr-beast",
+  "name": "Mr. Beast",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "shield-sword"
+    ],
+    "skills": [
+      { "id": "MrBeast挑戰", "level": 1 }
+    ]
+  }
+}

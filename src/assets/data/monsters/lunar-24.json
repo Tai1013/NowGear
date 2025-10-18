@@ -1,0 +1,12 @@
+{
+  "id": "lunar-24",
+  "name": "春節24",
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "超會心", "level": 2 }
+      ]
+    }
+  }
+}

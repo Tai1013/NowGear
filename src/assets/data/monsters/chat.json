@@ -1,0 +1,52 @@
+{
+  "id": "chat",
+  "name": "纏蛙",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "shield-sword",
+      "hunting-horn",
+      "charge-blade",
+      "heavy-gun"
+    ],
+    "skills": [
+      { "id": "防禦準備", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "防禦準備", "level": 1 },
+        { "id": "奇襲", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "防禦準備", "level": 1 },
+        { "id": "龍解強化", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 2,
+      "skills": [
+        { "id": "防禦準備", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "防禦準備", "level": 1 },
+        { "id": "怨恨", "level": 2 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "防禦準備", "level": 1 },
+        { "id": "迴避裝填", "level": 2 }
+      ]
+    }
+  }
+}

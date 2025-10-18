@@ -1,0 +1,45 @@
+{
+  "id": "magn",
+  "name": "怨虎龍",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "破壞王", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "鬼火纏身", "level": 2 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "裝填速度", "level": 2 },
+        { "id": "爆破異常耐性", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "爆破屬性強化", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 2,
+      "skills": [
+        { "id": "爆破異常耐性", "level": 1 },
+        { "id": "鬼火纏身", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "爆破屬性強化", "level": 1 },
+        { "id": "奇襲", "level": 1 }
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "espi",
+  "name": "棘龍",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "破壞王【SP技能】", "level": 2 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "高能強化【火】", "level": 1 },
+        { "id": "體力增強", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "追擊", "level": 3 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "破壞王【SP技能】", "level": 2 },
+        { "id": "鎖定", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "追擊", "level": 2 },
+        { "id": "破壞王", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "高能強化【火】", "level": 2 }
+      ]
+    }
+  }
+}

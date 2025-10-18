@@ -1,0 +1,47 @@
+{
+  "id": "zino",
+  "name": "雷狼龍",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "完美迴避強化", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "SP計量表加速【完美迴避】", "level": 1 },
+        { "id": "連擊", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "SP計量表加速【完美迴避】", "level": 2 },
+        { "id": "奇襲【狀態異常】", "level": 1 },
+        { "id": "雷耐性", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "雷屬性攻擊強化", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "完美迴避強化", "level": 1 },
+        { "id": "裝填速度", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "連擊", "level": 1 },
+        { "id": "雷屬性攻擊強化", "level": 1 }
+      ]
+    }
+  }
+}

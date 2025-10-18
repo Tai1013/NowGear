@@ -1,0 +1,87 @@
+{
+  "id": "devi",
+  "name": "恐暴龍",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "視武器而不同", "level": null }
+    ],
+    "customSkills": {
+      "shield-sword": [
+        { "id": "輕巧", "level": 2 }
+      ],
+      "great-sword": [
+        { "id": "集中", "level": 1 }
+      ],
+      "hammer": [
+        { "id": "KO術", "level": 1 }
+      ],
+      "long-sword": [
+        { "id": "行雲流水", "level": 1 }
+      ],
+      "light-gun": [
+        { "id": "愈戰愈勇", "level": 2 }
+      ],
+      "bow": [
+        { "id": "無傷", "level": 2 }
+      ],
+      "dual-blades": [
+        { "id": "連擊", "level": 2 }
+      ],
+      "lance": [
+        { "id": "攻擊守勢", "level": 2 }
+      ],
+      "charge-blade": [
+        { "id": "力量解放", "level": 1 }
+      ],
+      "gunlance": [
+        { "id": "砲術", "level": 1 }
+      ],
+      "heavy-gun": [
+        { "id": "裝填防禦", "level": 1 }
+      ],
+      "switch-axe": [
+        { "id": "變形強化", "level": 1 }
+      ],
+      "hunting-horn": [
+        { "id": "強化持續", "level": 1 }
+      ]
+    }
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "KO術", "level": 2 },
+        { "id": "龍屬性攻擊強化", "level": 1 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "力量解放", "level": 2 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "無傷", "level": 2 },
+        { "id": "龍屬性攻擊強化", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "龍屬性攻擊強化", "level": 2 },
+        { "id": "耐震", "level": 1 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "毅力", "level": 2 },
+        { "id": "力量解放", "level": 1 }
+      ]
+    }
+  }
+}

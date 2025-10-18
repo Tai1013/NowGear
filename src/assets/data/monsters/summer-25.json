@@ -1,0 +1,36 @@
+{
+  "id": "summer-25",
+  "name": "夏季25",
+  "weapon": {
+    "type": "specific",
+    "weapons": [
+      "heavy-gun"
+    ],
+    "skills": [
+      { "id": "急速勁泳【2025】", "level": 1 }
+    ]
+  },
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "熱情盛夏【2025】", "level": 1 },
+        { "id": "勇猛", "level": 1 }
+      ]
+    },
+    "belt": {
+      "accessory": 1,
+      "skills": [
+        { "id": "熱情盛夏【2025】", "level": 1 },
+        { "id": "團體狩獵強化【攻擊】", "level": 2 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "熱情盛夏【2025】", "level": 1 },
+        { "id": "團體狩獵強化【防禦】", "level": 2 }
+      ]
+    }
+  }
+}

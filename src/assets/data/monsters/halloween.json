@@ -1,0 +1,12 @@
+{
+  "id": "halloween",
+  "name": "萬聖節",
+  "armor": {
+    "helm": {
+      "accessory": 1,
+      "skills": [
+        { "id": "團結力【秋季採南瓜】", "level": 1 }
+      ]
+    }
+  }
+}

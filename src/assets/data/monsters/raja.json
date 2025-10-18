@@ -1,0 +1,85 @@
+{
+  "id": "raja",
+  "name": "金獅子",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "視武器而不同" }
+    ],
+    "customSkills": {
+      "shield-sword": [
+        { "id": "KO術", "level": 2 }
+      ],
+      "great-sword": [
+        { "id": "怨恨", "level": 2 }
+      ],
+      "hammer": [
+        { "id": "破壞王", "level": 1 }
+      ],
+      "long-sword": [
+        { "id": "集中", "level": 1 }
+      ],
+      "light-gun": [
+        { "id": "砲術", "level": 1 }
+      ],
+      "bow": [
+        { "id": "愈戰愈勇", "level": 2 }
+      ],
+      "dual-blades": [
+        { "id": "強化持續", "level": 2 }
+      ],
+      "lance": [
+        { "id": "連擊", "level": 2 }
+      ],
+      "charge-blade": [
+        { "id": "行雲流水", "level": 1 }
+      ],
+      "gunlance": [
+        { "id": "裝填防禦", "level": 1 }
+      ],
+      "heavy-gun": [
+        { "id": "攻擊守勢", "level": 2 }
+      ],
+      "switch-axe": [
+        { "id": "鬥氣活性", "level": 1 }
+      ],
+      "hunting-horn": [
+        { "id": "蠻力", "level": 1 }
+      ]
+    }
+  },
+  "armor": {
+    "helm": {
+      "accessory": 2,
+      "skills": [
+        { "id": "雷耐性", "level": 3 }
+      ]
+    },
+    "mail": {
+      "accessory": 1,
+      "skills": [
+        { "id": "鬥氣活性", "level": 1 },
+        { "id": "SP計量表加速", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "鬥氣活性", "level": 2 }
+      ]
+    },
+    "belt": {
+      "accessory": 0,
+      "skills": [
+        { "id": "集中", "level": 3 }
+      ]
+    },
+    "greaves": {
+      "accessory": 1,
+      "skills": [
+        { "id": "怨恨", "level": 2 },
+        { "id": "耐震", "level": 1 }
+      ]
+    }
+  }
+}

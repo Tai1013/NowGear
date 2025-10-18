@@ -1,0 +1,10 @@
+{
+  "id": "hope",
+  "name": "希望",
+  "weapon": {
+    "type": "all",
+    "skills": [
+      { "id": "鎖定", "level": 1 }
+    ]
+  }
+}
