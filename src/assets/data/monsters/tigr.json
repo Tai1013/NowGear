@@ -4,14 +4,14 @@
   "weapon": {
     "type": "all",
     "skills": [
-      { "id": "negative-critical-alt", "level": 1 }
+      { "id": "negative-critical", "level": 1 }
     ]
   },
   "armor": {
     "helm": {
       "accessory": 1,
       "skills": [
-        { "id": "negative-critical-alt", "level": 1 },
+        { "id": "negative-critical", "level": 1 },
         { "id": "sp-meter-accel", "level": 1 }
       ]
     },
@@ -31,7 +31,7 @@
     "belt": {
       "accessory": 1,
       "skills": [
-        { "id": "negative-critical-alt", "level": 2 }
+        { "id": "negative-critical", "level": 2 }
       ]
     },
     "greaves": {
