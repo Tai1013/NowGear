@@ -2,53 +2,52 @@
   "id": "b-diab",
   "name": "黑角龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "hammer",
-      "bow",
-      "dual-blades",
-      "charge-blade",
-      "heavy-gun",
-      "switch-axe"
-    ],
-    "skills": [
-      { "id": "destroyer", "level": 1 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "partbreaker", "level": 1 }
+      ]
+    },
+    "hammer": {},
+    "bow": {},
+    "dual-blades": {},
+    "charge-blade": {},
+    "heavy-gun": {},
+    "switch-axe": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "destroyer", "level": 2 },
+        { "id": "partbreaker", "level": 2 },
         { "id": "resentment", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "destroyer", "level": 2 },
-        { "id": "torso-up", "level": 1 }
+        { "id": "resentment", "level": 2 },
+        { "id": "firm-foothold", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "resentment", "level": 1 },
         { "id": "focus", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "lock-on", "level": 1 },
-        { "id": "heat-boost", "level": 1 }
+        { "id": "heroics", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "heat-boost", "level": 1 },
-        { "id": "attack-focus", "level": 1 }
+        { "id": "heroics", "level": 1 },
+        { "id": "offensive-guard", "level": 1 }
       ]
     }
   }

@@ -2,52 +2,51 @@
   "id": "arzu",
   "name": "青熊獸",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "hammer",
-      "long-sword",
-      "bow",
-      "dual-blades",
-      "heavy-gun",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "sp-skill-power", "level": 2 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "special-boost", "level": 1 }
+      ]
+    },
+    "hammer": {},
+    "long-sword": {},
+    "bow": {},
+    "dual-blades": {},
+    "heavy-gun": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "group-hunt-attack", "level": 1 },
-        { "id": "group-hunt-defense", "level": 1 }
+        { "id": "shared-sword", "level": 1 },
+        { "id": "shared-shield", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "group-hunt-attack", "level": 3 }
+        { "id": "shared-sword", "level": 3 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "focus", "level": 2 },
-        { "id": "sp-meter-accel", "level": 1 }
+        { "id": "concentration", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "morph-boost", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "negative-critical", "level": 1 },
-        { "id": "sp-skill-power", "level": 1 }
+        { "id": "critical-ferocity", "level": 1 },
+        { "id": "special-boost", "level": 1 }
       ]
     }
   }

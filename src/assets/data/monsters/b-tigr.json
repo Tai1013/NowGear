@@ -1,0 +1,111 @@
+{
+  "id": "b-tigr",
+  "name": "黑轟龍",
+  "weapon": {
+    "default": {
+      "skills": [
+        { "id": "weapon-special" }
+      ]
+    },
+    "shield-sword": {
+      "skills": [
+        { "id": "aggressive-dodger", "level": 5 }
+      ]
+    },
+    "great-sword": {
+      "skills": [
+        { "id": "litheness", "level": 3 }
+      ]
+    },
+    "long-sword": {
+      "skills": [
+        { "id": "quick-work", "level": 3 }
+      ]
+    },
+    "light-gun": {
+      "skills": [
+        { "id": "ballistics", "level": 3 }
+      ]
+    },
+    "bow": {
+      "effect": "blast",
+      "skills": [
+        { "id": "ballistics", "level": 3 }
+      ]
+    },
+    "dual-blades": {
+      "skills": [
+        { "id": "power-prolonger", "level": 5 }
+      ]
+    },
+    "lance": {
+      "skills": [
+        { "id": "dauntless", "level": 5 }
+      ]
+    },
+    "charge-blade": {
+      "skills": [
+        { "id": "evading-reload", "level": 5 }
+      ]
+    },
+    "gunlance": {
+      "skills": [
+        { "id": "aggressive-dodger", "level": 5 }
+      ]
+    },
+    "heavy-gun": {
+      "skills": [
+        { "id": "defensive-loading", "level": 3 }
+      ]
+    },
+    "switch-axe": {
+      "skills": [
+        { "id": "litheness", "level": 3 }
+      ]
+    },
+    "hunting-horn": {
+      "skills": [
+        { "id": "power-prolonger", "level": 5 }
+      ]
+    }
+  },
+  "armor": {
+    "helm": {
+      "slots": 1,
+      "skills": [
+        { "id": "advanced-attack-boost", "level": 1 },
+        { "id": "reckless", "level": 2 }
+      ]
+    },
+    "mail": {
+      "slots": 1,
+      "skills": [
+        { "id": "advanced-attack-boost", "level": 1 },
+        { "id": "lock-on", "level": 1 },
+        { "id": "attack-boost", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "slots": 1,
+      "skills": [
+        { "id": "advanced-attack-boost", "level": 1 },
+        { "id": "reload-speed", "level": 1 },
+        { "id": "recoil-down", "level": 1 }
+      ]
+    },
+    "belt": {
+      "slots": 1,
+      "skills": [
+        { "id": "advanced-attack-boost", "level": 1 },
+        { "id": "attack-boost", "level": 2 }
+      ]
+    },
+    "greaves": {
+      "slots": 1,
+      "skills": [
+        { "id": "advanced-attack-boost", "level": 1 },
+        { "id": "offensive-dodger", "level": 2 }
+      ]
+    }
+  }
+}

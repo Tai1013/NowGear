@@ -3,31 +3,31 @@
   "name": "合金",
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "earplugs", "level": 3 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "shockproof", "level": 2 }
+        { "id": "tremor-resistance", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "hp-up", "level": 3 }
+        { "id": "health-boost", "level": 3 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "def-up", "level": 3 }
+        { "id": "defense-boost", "level": 3 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "lock-on", "level": 1 },
         { "id": "windproof", "level": 1 }
