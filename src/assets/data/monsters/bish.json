@@ -2,51 +2,52 @@
   "id": "bish",
   "name": "天狗獸",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "hammer",
-      "light-gun",
-      "bow",
-      "heavy-gun",
-      "switch-axe"
-    ],
-    "skills": [
-      { "id": "group-hunt-attack", "level": 2 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "shared-sword", "level": 2 }
+      ]
+    },
+    "shield-sword": {},
+    "hammer": {},
+    "light-gun": {},
+    "bow": {
+      "effect": "paralysis"
+    },
+    "heavy-gun": {},
+    "switch-axe": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "follow-up-paralysis", "level": 2 }
+        { "id": "paralysis-exploit", "level": 2 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "reload-speed", "level": 1 },
-        { "id": "combo-attack", "level": 2 }
+        { "id": "burst", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "ko-king", "level": 2 },
-        { "id": "evade-extender", "level": 1 }
+        { "id": "slugger", "level": 2 },
+        { "id": "skyward-striker", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "follow-up-paralysis", "level": 1 },
-        { "id": "group-hunt-attack", "level": 2 }
+        { "id": "paralysis-exploit", "level": 1 },
+        { "id": "shared-sword", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "flow-state", "level": 1 },
+        { "id": "quick-work", "level": 1 },
         { "id": "focus", "level": 2 }
       ]
     }

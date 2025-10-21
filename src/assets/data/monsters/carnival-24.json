@@ -2,56 +2,73 @@
   "id": "carnival-24",
   "name": "嘉年華24",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "long-sword",
-      "light-gun",
-      "bow",
-      "dual-blades",
-      "lance",
-      "charge-blade",
-      "gunlance",
-      "heavy-gun"
-    ],
-    "skills": [
-      { "id": "def-up", "level": 2 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "defense-boost", "level": 2 }
+      ]
+    },
+    "shield-sword": {
+      "effect": "blast"
+    },
+    "great-sword": {
+      "effect": "blast"
+    },
+    "hammer": {
+      "effect": "blast"
+    },
+    "long-sword": {
+      "effect": "blast"
+    },
+    "light-gun": {},
+    "bow": {
+      "effect": "blast"
+    },
+    "dual-blades": {
+      "effect": "blast"
+    },
+    "lance": {
+      "effect": "blast"
+    },
+    "charge-blade": {
+      "effect": "blast"
+    },
+    "gunlance": {
+      "effect": "blast"
+    },
+    "heavy-gun": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "poison-res", "level": 3 }
+        { "id": "poison-resistance", "level": 3 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "lock-on", "level": 1 },
         { "id": "critical-eye", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "recoil-down", "level": 1 },
-        { "id": "def-up", "level": 1 }
+        { "id": "defense-boost", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sp-skill-power", "level": 2 }
+        { "id": "special-boost", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "shockproof", "level": 1 },
-        { "id": "adrenaline", "level": 2 }
+        { "id": "tremor-resistance", "level": 1 },
+        { "id": "rising-tide", "level": 2 }
       ]
     }
   }

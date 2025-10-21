@@ -2,85 +2,85 @@
   "id": "devi",
   "name": "恐暴龍",
   "weapon": {
-    "type": "all",
-    "skills": [
-      { "id": "weapon-specific", "level": null }
-    ],
-    "customSkills": {
-      "shield-sword": [
-        { "id": "evade-extender", "level": 2 }
-      ],
-      "great-sword": [
-        { "id": "focus", "level": 1 }
-      ],
-      "hammer": [
-        { "id": "ko-king", "level": 1 }
-      ],
-      "long-sword": [
-        { "id": "flow-state", "level": 1 }
-      ],
-      "light-gun": [
-        { "id": "adrenaline", "level": 2 }
-      ],
-      "bow": [
-        { "id": "unscathed", "level": 2 }
-      ],
-      "dual-blades": [
-        { "id": "combo-attack", "level": 2 }
-      ],
-      "lance": [
-        { "id": "attack-focus", "level": 2 }
-      ],
-      "charge-blade": [
-        { "id": "power-release", "level": 1 }
-      ],
-      "gunlance": [
-        { "id": "artillery", "level": 1 }
-      ],
-      "heavy-gun": [
-        { "id": "guard-reload", "level": 1 }
-      ],
-      "switch-axe": [
-        { "id": "morph-boost", "level": 1 }
-      ],
-      "hunting-horn": [
-        { "id": "item-effect-up", "level": 1 }
+    "default": {
+      "effect": "dragon",
+      "skills": [
+        { "id": "weapon-specific" }
       ]
+    },
+    "shield-sword": {
+      "skills": [{ "id": "evade-extender", "level": 2 }]
+    },
+    "great-sword": {
+      "skills": [{ "id": "focus", "level": 1 }]
+    },
+    "hammer": {
+      "skills": [{ "id": "slugger", "level": 1 }]
+    },
+    "long-sword": {
+      "skills": [{ "id": "quick-work", "level": 1 }]
+    },
+    "light-gun": {
+      "skills": [{ "id": "rising-tide", "level": 2 }]
+    },
+    "bow": {
+      "skills": [{ "id": "peak-performance", "level": 2 }]
+    },
+    "dual-blades": {
+      "skills": [{ "id": "burst", "level": 2 }]
+    },
+    "lance": {
+      "skills": [{ "id": "offensive-guard", "level": 2 }]
+    },
+    "charge-blade": {
+      "skills": [{ "id": "latent-power", "level": 1 }]
+    },
+    "gunlance": {
+      "skills": [{ "id": "artillery", "level": 1 }]
+    },
+    "heavy-gun": {
+      "skills": [{ "id": "defensive-loading", "level": 1 }]
+    },
+    "switch-axe": {
+      "skills": [{ "id": "morph-boost", "level": 1 }]
+    },
+    "hunting-horn": {
+      "skills": [{ "id": "power-prolonger", "level": 1 }]
     }
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "ko-king", "level": 2 },
+        { "id": "slugger", "level": 2 },
         { "id": "dragon-attack", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "power-release", "level": 2 }
+        { "id": "latent-power", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "unscathed", "level": 2 },
+        { "id": "peak-performance", "level": 2 },
         { "id": "dragon-attack", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "dragon-attack", "level": 2 },
-        { "id": "shockproof", "level": 1 }
+        { "id": "tremor-resistance", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "fortify", "level": 2 },
-        { "id": "power-release", "level": 1 }
+        { "id": "guts", "level": 2 },
+        { "id": "latent-power", "level": 1 }
       ]
     }
   }

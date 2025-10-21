@@ -2,49 +2,49 @@
   "id": "beot",
   "name": "冰魚龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "great-sword",
-      "light-gun",
-      "dual-blades",
-      "charge-blade"
-    ],
-    "skills": [
-      { "id": "bravery", "level": 1 }
-    ]
+    "default": {
+      "effect": "ice",
+      "skills": [
+        { "id": "valor", "level": 1 }
+      ]
+    },
+    "great-sword": {},
+    "light-gun": {},
+    "dual-blades": {},
+    "charge-blade": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "unscathed", "level": 3 }
+        { "id": "peak-performance", "level": 3 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "horn-maestro", "level": 1 },
-        { "id": "ko-king", "level": 2 }
+        { "id": "blunt-force", "level": 1 },
+        { "id": "slugger", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "lock-on", "level": 1 },
         { "id": "focus", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "guard-reload", "level": 2 },
+        { "id": "defensive-loading", "level": 2 },
         { "id": "ice-attack", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "horn-maestro", "level": 2 }
+        { "id": "blunt-force", "level": 2 }
       ]
     }
   }

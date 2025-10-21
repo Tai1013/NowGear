@@ -2,55 +2,55 @@
   "id": "c-puke",
   "name": "水妖鳥",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "light-gun",
-      "bow",
-      "dual-blades",
-      "heavy-gun",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "earplugs", "level": 1 }
-    ]
+    "default": {
+      "effect": "water",
+      "skills": [
+        { "id": "earplugs", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "light-gun": {},
+    "bow": {},
+    "dual-blades": {},
+    "heavy-gun": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "weakness-exploit", "level": 2 },
         { "id": "lock-on", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "item-effect-up", "level": 2 },
-        { "id": "adrenaline", "level": 1 }
+        { "id": "power-prolonger", "level": 2 },
+        { "id": "rising-tide", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "adrenaline", "level": 1 },
-        { "id": "evade-extender", "level": 1 }
+        { "id": "rising-tide", "level": 1 },
+        { "id": "skyward-striker", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "reload-speed", "level": 1 },
         { "id": "recoil-down", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "item-effect-up", "level": 1 },
+        { "id": "power-prolonger", "level": 1 },
         { "id": "weakness-exploit", "level": 1 }
       ]
     }

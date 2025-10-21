@@ -2,9 +2,23 @@
   "id": "bone",
   "name": "龍骨",
   "weapon": {
-    "type": "all",
-    "skills": [
-      { "id": "sp-meter-accel", "level": 1 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "concentration", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "light-gun": {},
+    "bow": {},
+    "dual-blades": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "heavy-gun": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   }
 }

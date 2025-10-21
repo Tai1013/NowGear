@@ -2,50 +2,49 @@
   "id": "chat",
   "name": "纏蛙",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "hunting-horn",
-      "charge-blade",
-      "heavy-gun"
-    ],
-    "skills": [
-      { "id": "defense-ready", "level": 1 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "litheness", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "hunting-horn": {},
+    "charge-blade": {},
+    "heavy-gun": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "defense-ready", "level": 1 },
+        { "id": "litheness", "level": 1 },
         { "id": "sneak-attack", "level": 2 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "defense-ready", "level": 1 },
-        { "id": "torso-up", "level": 2 }
+        { "id": "litheness", "level": 1 },
+        { "id": "firm-foothold", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 2,
+      "slots": 2,
       "skills": [
-        { "id": "defense-ready", "level": 2 }
+        { "id": "litheness", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "defense-ready", "level": 1 },
+        { "id": "litheness", "level": 1 },
         { "id": "resentment", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "defense-ready", "level": 1 },
-        { "id": "evade-reload", "level": 2 }
+        { "id": "litheness", "level": 1 },
+        { "id": "evading-reload", "level": 2 }
       ]
     }
   }
