@@ -2,9 +2,21 @@
   "id": "ore",
   "name": "礦石",
   "weapon": {
-    "type": "all",
-    "skills": [
-      { "id": "poison-res", "level": 2 }
-    ]
+    "default": {
+      "skills": [{ "id": "poison-resistance", "level": 2 }]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "light-gun": {},
+    "bow": {},
+    "dual-blades": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "heavy-gun": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   }
 }

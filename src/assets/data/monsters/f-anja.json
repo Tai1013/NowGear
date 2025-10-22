@@ -2,57 +2,59 @@
   "id": "f-anja",
   "name": "雷顎龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "long-sword",
-      "light-gun",
-      "bow",
-      "dual-blades",
-      "gunlance",
-      "heavy-gun",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "critical-element", "level": 1 }
-    ]
+    "default": {
+      "effect": "thunder",
+      "skills": [{ "id": "critical-element", "level": 1 }]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "light-gun": {
+      "skills": [{ "id": "critical-ferocity", "level": 1 }]
+    },
+    "bow": {},
+    "dual-blades": {},
+    "gunlance": {},
+    "heavy-gun": {
+      "skills": [{ "id": "critical-ferocity", "level": 1 }]
+    },
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "destroyer-sp", "level": 2 },
-        { "id": "sp-skill-power", "level": 1 }
+        { "id": "special-partbreaker", "level": 2 },
+        { "id": "special-boost", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "thunder-charge", "level": 1 },
-        { "id": "hp-up", "level": 1 }
+        { "id": "vital-thunder", "level": 1 },
+        { "id": "health-boost", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "thunder-charge", "level": 2 }
+        { "id": "vital-thunder", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sp-skill-power", "level": 2 },
+        { "id": "special-boost", "level": 2 },
         { "id": "lock-on", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sp-meter-accel", "level": 2 },
-        { "id": "brute-force", "level": 1 }
+        { "id": "concentration", "level": 2 },
+        { "id": "raw-power", "level": 1 }
       ]
     }
   }

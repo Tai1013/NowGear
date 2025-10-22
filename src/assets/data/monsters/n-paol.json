@@ -2,54 +2,58 @@
   "id": "n-paol",
   "name": "浮眠龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "light-gun",
-      "bow",
-      "long-sword",
-      "heavy-gun",
-      "switch-axe",
-      "insect-glaive"
-    ],
-    "skills": [
-      { "id": "sneak-attack", "level": 1 }
-    ]
+    "default": {
+      "effect": "sleep",
+      "skills": [
+        { "id": "sneak-attack", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "light-gun": {
+      "effect": null
+    },
+    "bow": {},
+    "long-sword": {},
+    "heavy-gun": {
+      "effect": null
+    },
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "punishing-draw", "level": 2 }
+        { "id": "rude-awakener", "level": 2 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "focus", "level": 2 },
-        { "id": "sleep-res", "level": 1 }
+        { "id": "sleep-resistance", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "sleep-attack", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "sneak-attack", "level": 2 },
         { "id": "evade-extender", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "punishing-draw", "level": 1 },
-        { "id": "sneak-attack-status", "level": 1 }
+        { "id": "rude-awakener", "level": 1 },
+        { "id": "status-sneak-attack", "level": 1 }
       ]
     }
   }
