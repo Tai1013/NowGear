@@ -2,53 +2,53 @@
   "id": "khez",
   "name": "奇怪龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "light-gun",
-      "bow",
-      "gunlance",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "unscathed", "level": 1 }
-    ]
+    "default": {
+      "effect": "thunder",
+      "skills": [
+        { "id": "peak-performance", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "light-gun": {},
+    "bow": {},
+    "gunlance": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "paralysis-attack", "level": 1 },
-        { "id": "sp-meter-insurance", "level": 1 }
+        { "id": "special-insurance", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "thunder-attack", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sp-meter-insurance", "level": 2 },
-        { "id": "guts", "level": 1 }
+        { "id": "special-insurance", "level": 2 },
+        { "id": "fortify", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 2,
+      "slots": 2,
       "skills": [
-        { "id": "paralysis-res", "level": 2 }
+        { "id": "paralysis-resistance", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "focus", "level": 1 },
-        { "id": "ko-king", "level": 1 }
+        { "id": "slugger", "level": 1 }
       ]
     }
   }

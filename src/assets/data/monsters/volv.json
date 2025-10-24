@@ -2,50 +2,52 @@
   "id": "volv",
   "name": "赤甲獸",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "hammer",
-      "lance",
-      "charge-blade",
-      "light-gun",
-      "heavy-gun",
-      "switch-axe"
-    ],
-    "skills": [
-      { "id": "evade-distance", "level": 1 }
-    ]
+    "default": {
+      "effect": "blast",
+      "skills": [
+        { "id": "evade-extender", "level": 1 }
+      ]
+    },
+    "hammer": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "heavy-gun": {
+      "effect": null
+    },
+    "switch-axe": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "morph-boost", "level": 1 },
-        { "id": "item-effect-up", "level": 1 }
+        { "id": "power-prolonger", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "paralysis-attack", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "morph-boost", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sp-meter-insurance", "level": 2 },
+        { "id": "special-insurance", "level": 2 },
         { "id": "fighting-spirit", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "paralysis-res", "level": 3 }
+        { "id": "paralysis-resistance", "level": 3 }
       ]
     }
   }

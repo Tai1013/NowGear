@@ -2,50 +2,50 @@
   "id": "somn",
   "name": "人魚龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "great-sword",
-      "hammer",
-      "long-sword",
-      "dual-blades",
-      "charge-blade",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "evade-distance", "level": 1 }
-    ]
+    "default": {
+      "effect": "sleep",
+      "skills": [
+        { "id": "evade-extender", "level": 1 }
+      ]
+    },
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "dual-blades": {},
+    "charge-blade": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "evade-reload", "level": 1 },
-        { "id": "evade-distance", "level": 1 }
+        { "id": "evading-reload", "level": 1 },
+        { "id": "evade-extender", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "evade-extender", "level": 2 }
+        { "id": "skyward-striker", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "evade-reload", "level": 2 }
+        { "id": "evading-reload", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "sleep-attack", "level": 1 },
-        { "id": "punishing-draw", "level": 1 }
+        { "id": "rude-awakener", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sneak-attack-status", "level": 2 }
+        { "id": "status-sneak-attack", "level": 2 }
       ]
     }
   }
