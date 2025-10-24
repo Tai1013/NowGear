@@ -1,0 +1,93 @@
+{
+  "crimson": {
+    "name": "紅",
+    "skills": [
+      "fire-attack",
+      "heroics",
+      "peak-performance",
+      "rising-tide",
+      "windproof"
+    ]
+  },
+  "azure": {
+    "name": "藍",
+    "skills": [
+      "water-attack",
+      "concentration",
+      "sleep-attack",
+      "artful-dodger",
+      "tremor-resistance"
+    ]
+  },
+  "amber": {
+    "name": "水藍",
+    "skills": [
+      "thunder-attack",
+      "burst",
+      "paralysis-attack",
+      "offensive-guard",
+      "divine-blessing"
+    ]
+  },
+  "cyan": {
+    "name": "黃",
+    "skills": [
+      "ice-attack",
+      "critical-eye",
+      "poison-attack",
+      "skyward-striker",
+      "guard"
+    ]
+  },
+  "pale": {
+    "name": "白",
+    "skills": [
+      "weakness-exploit",
+      "special-boost",
+      "sneak-attack",
+      "evade-extender",
+      "earplugs"
+    ]
+  },
+  "mysterious": {
+    "name": "神秘",
+    "skills": [
+      "dragon-attack",
+      "critical-boost",
+      "blast-attack",
+      "partbreaker",
+      "blast-resistance",
+      "guts",
+      "dauntless",
+      "special-partbreaker",
+      "fighting-spirit",
+      "fortify",
+      "latent-power",
+      "status-sneak-attack",
+      "power-prolonger",
+      "offensive-dodger",
+      "focus"
+    ]
+  },
+  "common": {
+    "name": "共通",
+    "skills": [
+      "aggressive-dodger",
+      "attack-boost",
+      "defense-boost",
+      "health-boost",
+      "fortify",
+      "guts",
+      "firm-foothold",
+      "last-stand",
+      "fire-resistance",
+      "water-resistance",
+      "thunder-resistance",
+      "ice-resistance",
+      "poison-resistance",
+      "paralysis-resistance",
+      "sleep-resistance",
+      "bleeding-resistance"
+    ]
+  }
+}
