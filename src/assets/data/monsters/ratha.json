@@ -2,56 +2,56 @@
   "id": "ratha",
   "name": "火龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "long-sword",
-      "light-gun",
-      "bow",
-      "lance",
-      "charge-blade",
-      "gunlance",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "earplugs", "level": 1 }
-    ]
+    "default": {
+      "effect": "fire",
+      "skills": [
+        { "id": "earplugs", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "light-gun": {},
+    "bow": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "attack-boost", "level": 2 },
         { "id": "fire-attack", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "weakness-exploit", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 2,
+      "slots": 2,
       "skills": [
-        { "id": "fire-res", "level": 1 },
+        { "id": "fire-resistance", "level": 1 },
         { "id": "attack-boost", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "focus", "level": 1 },
         { "id": "fire-attack", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "fire-res", "level": 1 },
+        { "id": "fire-resistance", "level": 1 },
         { "id": "weakness-exploit", "level": 1 }
       ]
     }

@@ -2,49 +2,48 @@
   "id": "odog",
   "name": "慘爪龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "light-gun",
-      "dual-blades",
-      "lance",
-      "charge-blade"
-    ],
-    "skills": [
-      { "id": "sp-meter-accel-evade", "level": 1 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "evasive-concentration", "level": 1 }
+      ]
+    },
+    "light-gun": {},
+    "dual-blades": {},
+    "lance": {},
+    "charge-blade": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "flow-state", "level": 2 }
+        { "id": "quick-work", "level": 2 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "critical-eye", "level": 2 },
-        { "id": "bleeding-res", "level": 1 }
+        { "id": "bleeding-resistance", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "flow-state", "level": 1 },
-        { "id": "bleeding-res", "level": 2 }
+        { "id": "quick-work", "level": 1 },
+        { "id": "bleeding-resistance", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "critical-eye", "level": 1 },
-        { "id": "sp-meter-accel-evade", "level": 1 }
+        { "id": "evasive-concentration", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sp-meter-accel-evade", "level": 2 }
+        { "id": "evasive-concentration", "level": 2 }
       ]
     }
   }

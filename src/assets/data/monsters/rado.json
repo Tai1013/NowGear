@@ -2,50 +2,52 @@
   "id": "rado",
   "name": "骨鎚龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "hammer",
-      "heavy-gun",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "def-up", "level": 2 }
-    ]
+    "default": {
+      "effect": "sleep",
+      "skills": [
+        { "id": "defense-boost", "level": 2 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "heavy-gun": {
+      "effect": null
+    },
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "def-focus", "level": 2 }
+        { "id": "guard", "level": 2 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "sleep-attack", "level": 1 },
-        { "id": "def-up", "level": 2 }
+        { "id": "defense-boost", "level": 2 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "ko-king", "level": 1 },
-        { "id": "sleep-res", "level": 1 }
+        { "id": "slugger", "level": 1 },
+        { "id": "sleep-resistance", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "sleep-attack", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "sleep-res", "level": 1 },
-        { "id": "def-focus", "level": 1 }
+        { "id": "sleep-resistance", "level": 1 },
+        { "id": "guard", "level": 1 }
       ]
     }
   }
