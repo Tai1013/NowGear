@@ -3,52 +3,35 @@
   "name": "霞龍",
   "weapon": {
     "default": {
+      "effect": "poison",
       "skills": [
-        { "id": "chameleos-venomist", "level": 1 }
+        { "id": "hunters-unity", "level": 1 },
+        { "id": "status-sneak-attack", "level": 2 }
       ]
     },
-    "great-sword": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
-    "hammer": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
-    "long-sword": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
     "light-gun": {
-      "skills": [{ "id": "sneak-attack", "level": 2 }]
+      "effect": null,
+      "skills": [
+        { "id": "hunters-unity", "level": 1 },
+        { "id": "sneak-attack", "level": 2 }
+      ]
     },
-    "bow": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
-    "dual-blades": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
-    "charge-blade": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
-    "gunlance": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
+    "bow": {},
+    "dual-blades": {},
+    "charge-blade": {},
+    "gunlance": {},
     "heavy-gun": {
-      "skills": [{ "id": "sneak-attack", "level": 2 }]
+      "effect": null,
+      "skills": [
+        { "id": "hunters-unity", "level": 1 },
+        { "id": "sneak-attack", "level": 2 }
+      ]
     },
-    "switch-axe": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    },
-    "hunting-horn": {
-      "effect": "poison",
-      "skills": [{ "id": "status-sneak-attack", "level": 2 }]
-    }
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {

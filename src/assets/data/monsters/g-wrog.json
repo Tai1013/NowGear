@@ -2,48 +2,48 @@
   "id": "g-wrog",
   "name": "毒狗龍王",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "hunting-horn",
-      "long-sword",
-      "bow",
-      "dual-blades"
-    ],
-    "skills": [
-      { "id": "lock-on", "level": 1 }
-    ]
+    "default": {
+      "effect": "poison",
+      "skills": [
+        { "id": "lock-on", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "hunting-horn": {},
+    "long-sword": {},
+    "bow": {},
+    "dual-blades": {}
   },
   "armor": {
     "helm": {
-      "accessory": 2,
+      "slots": 2,
       "skills": [
-        { "id": "item-effect-up", "level": 2 }
+        { "id": "power-prolonger", "level": 2 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "final-strike", "level": 1 },
+        { "id": "final-shot", "level": 1 },
         { "id": "recoil-down", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "critical-eye", "level": 2 }
       ]
     },
     "belt": {
-      "accessory": 2,
+      "slots": 2,
       "skills": [
-        { "id": "def-focus", "level": 2 }
+        { "id": "guard", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "final-strike", "level": 2 }
+        { "id": "final-shot", "level": 2 }
       ]
     }
   }

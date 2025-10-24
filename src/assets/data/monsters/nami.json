@@ -2,61 +2,61 @@
   "id": "nami",
   "name": "溟波龍",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "long-sword",
-      "light-gun",
-      "bow",
-      "lance",
-      "charge-blade",
-      "gunlance",
-      "heavy-gun",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "hunter-rally", "level": 1 },
-      { "id": "weakness-exploit", "level": 1 }
-    ]
+    "default": {
+      "effect": "water",
+      "skills": [
+        { "id": "hunters-unity", "level": 1 },
+        { "id": "weakness-exploit", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "long-sword": {},
+    "light-gun": {},
+    "bow": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "heavy-gun": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "namielle-electrowave", "level": 1 },
         { "id": "reload-speed", "level": 1 },
         { "id": "recoil-down", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "namielle-thunder-wave", "level": 1 },
-        { "id": "power-release", "level": 1 },
+        { "id": "namielle-electrowave", "level": 1 },
+        { "id": "latent-power", "level": 1 },
         { "id": "critical-boost", "level": 1 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "namielle-electrowave", "level": 1 },
         { "id": "critical-eye", "level": 1 },
         { "id": "weakness-exploit", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "namielle-thunder-wave", "level": 1 },
+        { "id": "namielle-electrowave", "level": 1 },
         { "id": "water-attack", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "namielle-thunder-wave", "level": 1 },
-        { "id": "perfect-strike", "level": 2 }
+        { "id": "namielle-electrowave", "level": 1 },
+        { "id": "aggressive-dodger", "level": 2 }
       ]
     }
   }

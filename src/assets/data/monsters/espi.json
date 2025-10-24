@@ -2,43 +2,83 @@
   "id": "espi",
   "name": "棘龍",
   "weapon": {
-    "type": "all",
-    "skills": [
-      { "id": "destroyer-sp", "level": 2 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "special-partbreaker", "level": 1 }
+      ]
+    },
+    "shield-sword": {
+      "effect": "fire"
+    },
+    "great-sword": {
+      "effect": "fire"
+    },
+    "hammer": {
+      "effect": "fire"
+    },
+    "long-sword": {
+      "effect": "poison"
+    },
+    "light-gun": {
+      "effect": "fire"
+    },
+    "bow": {
+      "effect": "fire"
+    },
+    "dual-blades": {
+      "effect": "fire"
+    },
+    "lance": {
+      "effect": "fire"
+    },
+    "charge-blade": {
+      "effect": "poison"
+    },
+    "gunlance": {
+      "effect": "poison"
+    },
+    "heavy-gun": {
+      "effect": "fire"
+    },
+    "switch-axe": {
+      "effect": "fire"
+    },
+    "hunting-horn": {
+      "effect": "poison"
+    }
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "fire-boost", "level": 1 },
-        { "id": "hp-up", "level": 1 }
+        { "id": "vital-fire", "level": 1 },
+        { "id": "health-boost", "level": 1 }
       ]
     },
     "mail": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "follow-up", "level": 3 }
+        { "id": "pursuit", "level": 3 }
       ]
     },
     "gloves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "destroyer-sp", "level": 2 },
+        { "id": "special-partbreaker", "level": 2 },
         { "id": "lock-on", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "follow-up", "level": 2 },
-        { "id": "destroyer", "level": 1 }
+        { "id": "pursuit", "level": 2 },
+        { "id": "partbreaker", "level": 1 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "fire-boost", "level": 2 }
+        { "id": "vital-fire", "level": 2 }
       ]
     }
   }
