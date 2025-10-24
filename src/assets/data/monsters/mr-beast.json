@@ -2,12 +2,11 @@
   "id": "mr-beast",
   "name": "Mr. Beast",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword"
-    ],
-    "skills": [
-      { "id": "mrbeast-challenge", "level": 1 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "mrbeast-challenge", "level": 1 }
+      ]
+    },
+    "shield-sword": {}
   }
 }

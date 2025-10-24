@@ -4,7 +4,7 @@
   "weapon": {
     "default": {
       "skills": [
-        { "id": "weapon-specific" }
+        { "id": "weapon-special" }
       ]
     },
     "long-sword": {

@@ -2,28 +2,23 @@
   "id": "easter-25",
   "name": "復活節25",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "great-sword",
-      "charge-blade"
-    ],
-    "skills": [
-      { "id": "weapon-specific", "level": null }
-    ],
-    "customSkills": {
-      "great-sword": [
-        { "id": "balloon-collision", "level": 1 }
-      ],
-      "charge-blade": [
-        { "id": "easter-egg-burst", "level": 1 }
+    "default": {
+      "skills": [
+        { "id": "weapon-special" }
       ]
+    },
+    "great-sword": {
+      "skills": [{ "id": "balloon-charge", "level": 1 }]
+    },
+    "charge-blade": {
+      "skills": [{ "id": "eggsplosive", "level": 1 }]
     }
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "evade-window", "level": 3 }
+        { "id": "artful-dodger", "level": 3 }
       ]
     }
   }

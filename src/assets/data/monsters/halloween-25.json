@@ -1,0 +1,13 @@
+{
+  "id": "halloween-25",
+  "name": "萬聖節2025",
+  "weapon": {
+    "default": {
+      "effect": "paralysis",
+      "skills": [
+        { "id": "shared-sword", "level": 3 }
+      ]
+    },
+    "hunting-horn": {}
+  }
+}

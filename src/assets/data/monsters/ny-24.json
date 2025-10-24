@@ -3,7 +3,7 @@
   "name": "新年24",
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "new-year-2024", "level": 1 }
       ]

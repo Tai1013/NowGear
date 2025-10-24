@@ -2,19 +2,19 @@
   "id": "halloween-24",
   "name": "萬聖節2024",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "long-sword"
-    ],
-    "skills": [
-      { "id": "item-effect-up", "level": 2 }
-    ]
+    "default": {
+      "effect": "dragon",
+      "skills": [
+        { "id": "power-prolonger", "level": 2 }
+      ]
+    },
+    "long-sword": {}
   },
   "armor": {
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "evade-window", "level": 2 }
+        { "id": "artful-dodger", "level": 2 }
       ]
     }
   }

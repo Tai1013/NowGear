@@ -2,34 +2,34 @@
   "id": "summer-25",
   "name": "夏季25",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "heavy-gun"
-    ],
-    "skills": [
-      { "id": "swift-swim-2025", "level": 1 }
-    ]
+    "default": {
+      "effect": "fire",
+      "skills": [
+        { "id": "super-swimmer-2025", "level": 1 }
+      ]
+    },
+    "heavy-gun": {}
   },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "summer-passion-2025", "level": 1 },
-        { "id": "bravery", "level": 1 }
+        { "id": "sweltering-summer-2025", "level": 1 },
+        { "id": "valor", "level": 1 }
       ]
     },
     "belt": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "summer-passion-2025", "level": 1 },
-        { "id": "group-hunt-attack", "level": 2 }
+        { "id": "sweltering-summer-2025", "level": 1 },
+        { "id": "shared-sword", "level": 2 }
       ]
     },
     "greaves": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "summer-passion-2025", "level": 1 },
-        { "id": "group-hunt-defense", "level": 2 }
+        { "id": "sweltering-summer-2025", "level": 1 },
+        { "id": "shared-shield", "level": 2 }
       ]
     }
   }

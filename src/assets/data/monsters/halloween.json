@@ -3,9 +3,9 @@
   "name": "萬聖節",
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
-        { "id": "autumn-pumpkin-unity", "level": 1 }
+        { "id": "solidarity-pumpkin-hunt", "level": 1 }
       ]
     }
   }

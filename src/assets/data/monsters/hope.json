@@ -2,9 +2,29 @@
   "id": "hope",
   "name": "希望",
   "weapon": {
-    "type": "all",
-    "skills": [
-      { "id": "lock-on", "level": 1 }
-    ]
+    "default": {
+      "skills": [
+        { "id": "lock-on", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "light-gun": {
+      "skills": [{ "id": "artful-dodger", "level": 1 }]
+    },
+    "bow": {
+      "skills": [{ "id": "focus", "level": 1 }]
+    },
+    "dual-blades": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "heavy-gun": {
+      "skills": [{ "id": "guard", "level": 1 }]
+    },
+    "switch-axe": {},
+    "hunting-horn": {}
   }
 }

@@ -1,9 +1,19 @@
 {
   "id": "lunar-24",
   "name": "春節24",
+  "weapon": {
+    "default": {
+      "effect": "dragon",
+      "skills": [
+        { "id": "divine-blessing", "level": 2 }
+      ]
+    },
+    "hammer": {},
+    "dual-blades": {}
+  },
   "armor": {
     "helm": {
-      "accessory": 1,
+      "slots": 1,
       "skills": [
         { "id": "critical-boost", "level": 2 }
       ]

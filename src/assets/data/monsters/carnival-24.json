@@ -3,39 +3,26 @@
   "name": "嘉年華24",
   "weapon": {
     "default": {
+      "effect": "blast",
       "skills": [
         { "id": "defense-boost", "level": 2 }
       ]
     },
-    "shield-sword": {
-      "effect": "blast"
+    "shield-sword": {},
+    "great-sword": {},
+    "hammer": {},
+    "long-sword": {},
+    "light-gun": {
+      "effect": null
     },
-    "great-sword": {
-      "effect": "blast"
-    },
-    "hammer": {
-      "effect": "blast"
-    },
-    "long-sword": {
-      "effect": "blast"
-    },
-    "light-gun": {},
-    "bow": {
-      "effect": "blast"
-    },
-    "dual-blades": {
-      "effect": "blast"
-    },
-    "lance": {
-      "effect": "blast"
-    },
-    "charge-blade": {
-      "effect": "blast"
-    },
-    "gunlance": {
-      "effect": "blast"
-    },
-    "heavy-gun": {}
+    "bow": {},
+    "dual-blades": {},
+    "lance": {},
+    "charge-blade": {},
+    "gunlance": {},
+    "heavy-gun": {
+      "effect": null
+    }
   },
   "armor": {
     "helm": {

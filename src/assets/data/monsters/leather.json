@@ -20,14 +20,14 @@
       "slots": 1,
       "skills": [
         { "id": "defense-boost", "level": 1 },
-        { "id": "thunder-res", "level": 1 }
+        { "id": "thunder-resistance", "level": 1 }
       ]
     },
     "belt": {
       "slots": 1,
       "skills": [
         { "id": "health-boost", "level": 1 },
-        { "id": "water-res", "level": 1 }
+        { "id": "water-resistance", "level": 1 }
       ]
     },
     "greaves": {

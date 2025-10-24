@@ -27,7 +27,7 @@
     "helm": {
       "slots": 1,
       "skills": [
-        { "id": "kushala-ice-wind", "level": 1 },
+        { "id": "kushala-frostwind", "level": 1 },
         { "id": "reload-speed", "level": 1 },
         { "id": "earplugs", "level": 1 }
       ]
@@ -35,7 +35,7 @@
     "mail": {
       "slots": 1,
       "skills": [
-        { "id": "kushala-ice-wind", "level": 1 },
+        { "id": "kushala-frostwind", "level": 1 },
         { "id": "partbreaker", "level": 1 },
         { "id": "health-boost", "level": 1 }
       ]
@@ -43,7 +43,7 @@
     "gloves": {
       "slots": 1,
       "skills": [
-        { "id": "kushala-ice-wind", "level": 1 },
+        { "id": "kushala-frostwind", "level": 1 },
         { "id": "focus", "level": 1 },
         { "id": "evade-extender", "level": 1 }
       ]
@@ -51,7 +51,7 @@
     "belt": {
       "slots": 1,
       "skills": [
-        { "id": "kushala-ice-wind", "level": 1 },
+        { "id": "kushala-frostwind", "level": 1 },
         { "id": "weakness-exploit", "level": 1 },
         { "id": "windproof", "level": 1 }
       ]
@@ -59,7 +59,7 @@
     "greaves": {
       "slots": 1,
       "skills": [
-        { "id": "kushala-ice-wind", "level": 1 },
+        { "id": "kushala-frostwind", "level": 1 },
         { "id": "skyward-striker", "level": 1 },
         { "id": "artful-dodger", "level": 1 }
       ]

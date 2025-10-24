@@ -5,7 +5,7 @@
     "default": {
       "effect": "dragon",
       "skills": [
-        { "id": "weapon-specific" }
+        { "id": "weapon-special" }
       ]
     },
     "shield-sword": {

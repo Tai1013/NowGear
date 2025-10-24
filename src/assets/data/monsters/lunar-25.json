@@ -1,0 +1,13 @@
+{
+  "id": "lunar-25",
+  "name": "春節25",
+  "weapon": {
+    "default": {
+      "effect": "dragon",
+      "skills": [
+        { "id": "slugger", "level": 2 }
+      ]
+    },
+    "light-gun": {}
+  }
+}
