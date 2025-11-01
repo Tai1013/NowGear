@@ -2,5 +2,7 @@
 </script>
 
 <template>
-  <router-view />
+  <div class="build-container">
+    配裝區
+  </div>
 </template>
