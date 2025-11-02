@@ -1,6 +1,7 @@
 {
   "id": "g-girr",
   "name": "大凶顎龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "paralysis",

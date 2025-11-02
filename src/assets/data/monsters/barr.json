@@ -1,6 +1,7 @@
 {
   "id": "barr",
   "name": "土砂龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "skills": [

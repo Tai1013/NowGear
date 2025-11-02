@@ -1,6 +1,7 @@
 {
   "id": "devi",
   "name": "恐暴龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "dragon",

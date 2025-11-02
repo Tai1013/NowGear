@@ -2,21 +2,21 @@
   "id": "kiri",
   "name": "麒麟",
   "weapon": {
-    "type": "specific",
-    "weapons": [
-      "shield-sword",
-      "great-sword",
-      "light-gun",
-      "dual-blades",
-      "lance",
-      "heavy-gun",
-      "switch-axe",
-      "hunting-horn"
-    ],
-    "skills": [
-      { "id": "hunters-unity", "level": 1 },
-      { "id": "latent-power", "level": 1 }
-    ]
+    "default": {
+      "effect": "thunder",
+      "skills": [
+        { "id": "hunters-unity", "level": 1 },
+        { "id": "latent-power", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "long-sword": {},
+    "dual-blades": {},
+    "lance": {},
+    "heavy-gun": {},
+    "switch-axe": {},
+    "hunting-horn": {}
   },
   "armor": {
     "helm": {

@@ -1,6 +1,7 @@
 {
   "id": "anja",
   "name": "蠻顎龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "fire",

@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useBestiaryStore } from '@/stores'
+
+const { loadMonsters } = useBestiaryStore()
+
+onMounted(() => {
+  loadMonsters()
+})
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 {
   "id": "magn",
   "name": "怨虎龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "blast",

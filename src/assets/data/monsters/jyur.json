@@ -1,6 +1,7 @@
 {
   "id": "jyur",
   "name": "泥魚龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "water",

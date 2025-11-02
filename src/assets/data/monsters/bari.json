@@ -1,6 +1,7 @@
 {
   "id": "bari",
   "name": "冰牙龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "ice",

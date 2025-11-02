@@ -1,6 +1,7 @@
 {
   "id": "rado",
   "name": "骨鎚龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "sleep",

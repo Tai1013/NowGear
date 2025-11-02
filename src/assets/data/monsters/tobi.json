@@ -1,6 +1,7 @@
 {
   "id": "tobi",
   "name": "飛雷龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "thunder",
