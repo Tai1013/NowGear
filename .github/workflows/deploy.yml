@@ -37,9 +37,9 @@ jobs:
 
       # 設置 pnpm
       - name: 設置 pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.15.9
 
       # 安裝依賴
       - name: 安裝依賴
