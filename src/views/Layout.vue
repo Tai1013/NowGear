@@ -11,7 +11,8 @@ onMounted(() => {
 
 <template>
   <div class="layout">
-    Layout
+    <router-link to="/">Home</router-link>
+    <router-link to="/Monster">Monster</router-link>
     <router-view />
   </div>
 </template>
