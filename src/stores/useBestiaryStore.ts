@@ -1,4 +1,4 @@
-import type { Monster, SkillType, SkillDetail } from '@/types'
+import type { Monster } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
