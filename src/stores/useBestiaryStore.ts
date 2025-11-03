@@ -16,6 +16,12 @@ export const useBestiaryStore = defineStore('bestiaryStore',
 
     // 載入所有龍的資料
     const loadMonsters = async () => {
+      // 如果已經有資料（從 localStorage 恢復），就不需要重新載入
+      if (monstersData.value.length > 0) {
+        console.log('從 localStorage 恢復資料，跳過載入')
+        return
+      }
+
       monstersData.value = []
       load()
       try {
@@ -54,7 +60,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
   },
   {
     persistedState: {
-      includePaths: []
+      includePaths: ['monstersData']
     }
   }
 )
