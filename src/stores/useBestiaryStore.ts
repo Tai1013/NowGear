@@ -1,12 +1,15 @@
+import type { Monster, SkillType, SkillDetail } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
 import skills from '@/assets/data/skills.json'
 import weapons from '@/assets/data/weapons.json'
-import type { Monster, SkillType, SkillDetail } from '@/types'
+import { useLoading } from '@/composables'
 
 export const useBestiaryStore = defineStore('bestiaryStore',
   () => {
+    const { isLoading, load, unload } = useLoading()
+
     const monstersData = ref<Monster[]>([])
     const weaponsData = ref(weapons)
     const skillsData = ref(skills)
@@ -14,6 +17,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
     // 載入所有龍的資料
     const loadMonsters = async () => {
       monstersData.value = []
+      load()
       try {
         console.log('開始載入龍的資料...')
         // 使用 Vite 的 glob 導入功能
@@ -37,20 +41,14 @@ export const useBestiaryStore = defineStore('bestiaryStore',
       } catch (error) {
         console.error('Error loading monsters:', error)
       }
-    }
-    // 獲取技能詳細資料
-    const getSkillDetail = (skillId: SkillType) => {
-      const skillDetail: SkillDetail = skillsData.value[skillId]
-      // 如果有描述，則設定最大等級
-      if (skillDetail.desc) skillDetail.maxLevel = skillDetail.desc.length
-      return skillDetail
+      unload()
     }
 
     return {
       monstersData,
       weaponsData,
       skillsData,
-      getSkillDetail,
+      isMonsterLoading: isLoading,
       loadMonsters
     }
   },

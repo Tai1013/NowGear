@@ -10,7 +10,7 @@ interface SelectedWeapon extends MonsterWeapon {
   list: Weapon[]
 }
 
-const { monstersData, weaponsData, skillsData } = storeToRefs(useBestiaryStore())
+const { isMonsterLoading, monstersData, weaponsData, skillsData } = storeToRefs(useBestiaryStore())
 
 // 當前龍選擇的武器清單
 const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
@@ -59,13 +59,13 @@ const initSelectedWeapons = () => {
   })
 }
 
-watch(() => monstersData.value, () => {
-  initSelectedWeapons()
-}, { deep: true })
+watch(() => isMonsterLoading.value, (state) => {
+  if (!state) initSelectedWeapons()
+}, { immediate: true })
 </script>
 
 <template>
-  <div class="monster-container">
+  <div v-loading.fullscreen.lock="isMonsterLoading" class="monster-container">
     <ElRow :gutter="8">
       <ElCol
         v-for="monster in monstersData"
