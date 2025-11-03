@@ -5,10 +5,10 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   // 載入環境變數
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, process.cwd())
 
   return {
-    base: env.VITE_BASE_URL || '/',
+    base: env.VITE_APP_BASE,
     css: {
       preprocessorOptions: {
         scss: {
