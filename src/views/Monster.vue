@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Weapon, MonsterWeapon, Monster, MonsterArmor } from '@/types'
+import type { NormalizedMonster, MonsterWeapon, MonsterArmor } from '@/types'
 import { ref, watch } from 'vue'
 import { ElRow, ElCol, ElCard, ElSpace, ElButton, ElImage, ElTag, ElTable, ElTableColumn } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
@@ -7,65 +7,58 @@ import { convertFilePath } from '@/helper'
 
 interface SelectedWeapon extends MonsterWeapon {
   checked: string
-  list: Weapon[]
 }
 
-const { isMonsterLoading, monstersData, weaponsData, skillsData } = storeToRefs(useBestiaryStore())
+const { isLoadingMonsters, monstersData, skillsData } = storeToRefs(useBestiaryStore())
 
 // 當前龍選擇的武器清單
 const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
 
+// 轉換裝備清單
+const convertArmorList = (armor: NormalizedMonster['armor']) => {
+  if (!armor) return []
+  return Object.entries(armor).map(([id, data]) => ({ id, ...data }))
+}
 // 切換武器，並取得選擇武器的資訊
 const changeWeaponHandler = (monsterId: string, weaponId: string) => {
   const monsterWeapon = monstersData.value.find((monster) => monster.id === monsterId)?.weapon
-  const selectedEffect = monsterWeapon?.[weaponId]?.effect || monsterWeapon?.default?.effect
-  const selectedSkills = monsterWeapon?.[weaponId]?.skills || monsterWeapon?.default?.skills
+  const effect = monsterWeapon?.[weaponId]?.effect || monsterWeapon?.default?.effect
+  const skills = monsterWeapon?.[weaponId]?.skills || monsterWeapon?.default?.skills
   const selectedWeapon = selectedWeapons.value[monsterId]
-  if (selectedWeapon?.checked === weaponId) {
+  if (selectedWeapon.checked === weaponId) {
     selectedWeapon.checked = 'default'
     selectedWeapon.effect = monsterWeapon?.default?.effect
     selectedWeapon.skills = monsterWeapon?.default?.skills
     return
   }
   selectedWeapon.checked = weaponId
-  if (selectedEffect) selectedWeapon.effect = selectedEffect
-  if (selectedSkills) selectedWeapon.skills = selectedSkills
-}
-// 轉換裝備清單
-const convertArmorList = (armor: Monster['armor']) => {
-  if (!armor) return []
-  return Object.entries(armor).map(([id, data]) => ({ id, ...data }))
+  if (effect) selectedWeapon.effect = effect
+  if (skills) selectedWeapon.skills = skills
 }
 // 初始化選中的武器
 const initSelectedWeapons = () => {
-  monstersData.value.forEach((monsterData) => {
-    if (monsterData.weapon) {
-      const weaponList:Weapon[] = []
-      weaponsData.value.forEach((weaponData) => {
-        if (monsterData.weapon && weaponData.id in monsterData.weapon) {
-          weaponList.push(weaponData)
-        }
-      })
-      selectedWeapons.value = {
-        ...selectedWeapons.value,
-        [monsterData.id]: {
-          checked: 'default',
-          list: weaponList,
-          effect: monsterData.weapon.default?.effect,
-          skills: monsterData.weapon.default?.skills
-        }
-      }
+  // 如果 selectedWeapons 的數量等於 monstersData 的數量，就不需要初始化
+  if (Object.keys(selectedWeapons.value).length === monstersData.value.length) return
+  selectedWeapons.value = monstersData.value.reduce((acc, monsterData) => {
+    const reduceData: SelectedWeapon = { checked: 'default' }
+    const effect = monsterData.weapon?.default?.effect
+    const skills = monsterData.weapon?.default?.skills
+    if (effect) reduceData.effect = effect
+    if (skills) reduceData.skills = skills
+    return {
+      ...acc,
+      [monsterData.id]: reduceData
     }
-  })
+  }, {})
 }
 
-watch(() => isMonsterLoading.value, (state) => {
-  if (!state) initSelectedWeapons()
+watch(() => isLoadingMonsters.value, (isLoading) => {
+  if (!isLoading) initSelectedWeapons()
 }, { immediate: true })
 </script>
 
 <template>
-  <div v-loading.fullscreen.lock="isMonsterLoading" class="monster-container">
+  <div class="monster-container">
     <ElRow :gutter="8">
       <ElCol
         v-for="monster in monstersData"
@@ -101,10 +94,10 @@ watch(() => isMonsterLoading.value, (state) => {
             </small>
           </template>
           <template #default>
-            <div v-if="monster.weapon" class="weapon-container">
+            <div v-if="monster.sortWeapons" class="weapon-container">
               <ElSpace wrap>
                 <ElButton
-                  v-for="weapon in selectedWeapons[monster.id]?.list"
+                  v-for="weapon in monster.sortWeapons"
                   :key="weapon.id"
                   :type="selectedWeapons[monster.id]?.checked === weapon.id ? 'primary' : ''"
                   circle

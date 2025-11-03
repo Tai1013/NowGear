@@ -1,4 +1,4 @@
-import type { Monster } from '@/types'
+import type { Monster, NormalizedMonster } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
@@ -10,52 +10,82 @@ export const useBestiaryStore = defineStore('bestiaryStore',
   () => {
     const { isLoading, load, unload } = useLoading()
 
-    const monstersData = ref<Monster[]>([])
     const weaponsData = ref(weapons)
     const skillsData = ref(skills)
+    const monstersData = ref<NormalizedMonster[]>([])
 
     // 載入所有龍的資料
-    const loadMonsters = async () => {
-      // 如果已經有資料（從 localStorage 恢復），就不需要重新載入
-      if (monstersData.value.length > 0) {
-        console.log('從 localStorage 恢復資料，跳過載入')
-        return
+    const loadMonsters = async (modules: Record<string, () => Promise<any>>) => {
+      load()
+      console.log('開始載入龍的資料...')
+      for (const dragonId of dragonOrder) {
+        const moduleKey = Object.keys(modules).find(key => key.endsWith(`/${dragonId}.json`))
+        if (moduleKey && modules[moduleKey]) {
+          try {
+            const module = await modules[moduleKey]() as any
+            const monsterData = module.default as Monster
+            monstersData.value.push(monsterData)
+            console.log(`成功載入 ${dragonId}:`, monsterData.name)
+          } catch (error) {
+            console.warn(`Failed to load ${dragonId}:`, error)
+          }
+        } else {
+          console.warn(`Module not found for ${dragonId}`)
+        }
       }
-
-      monstersData.value = []
+      console.log('載入完成')
+      unload()
+    }  
+    // 標準化數據
+    const normalizeMonstersData = () => {
+      console.log('開始標準化龍的資料...')
+      monstersData.value.forEach((monsterData) => {
+        // 處理武器排序
+        if (monsterData.weapon) {
+          const sortWeapons = weaponsData.value.filter((weapon) => monsterData.weapon && weapon.id in monsterData.weapon)
+          monsterData.sortWeapons = sortWeapons
+        }
+      })
+      console.log('標準化完成')
+    }
+    // 初始化數據
+    const initMonstersData = async () => {
+      console.log('初始化數據')
       load()
       try {
-        console.log('開始載入龍的資料...')
+        console.log('檢查是否有需要載入的資料')
         // 使用 Vite 的 glob 導入功能
         const modules = import.meta.glob('@/assets/data/monsters/*.json')
-
-        for (const dragonId of dragonOrder) {
-          const moduleKey = Object.keys(modules).find(key => key.endsWith(`/${dragonId}.json`))
-          if (moduleKey && modules[moduleKey]) {
-            try {
-              const module = await modules[moduleKey]() as any
-              const monsterData = module.default as Monster
-              monstersData.value.push(monsterData)
-              // console.log(`成功載入 ${dragonId}:`, monsterData.name)
-            } catch (error) {
-              console.warn(`Failed to load ${dragonId}:`, error)
-            }
-          } else {
-            console.warn(`Module not found for ${dragonId}`)
-          }
+        const modulesLength = Object.keys(modules).length
+        // 如果已經有資料（從 localStorage 恢復），且資料數量等於 modulesLength，就不需要重新載入
+        if (monstersData.value.length === modulesLength) {
+          console.log('從 localStorage 恢復資料，跳過載入')
+          return
+        }
+        // 否則就載入資料
+        if (modulesLength > 0) {
+          await loadMonsters(modules)
+          normalizeMonstersData()
         }
       } catch (error) {
         console.error('Error loading monsters:', error)
+      } finally {
+        unload()
       }
-      unload()
+    }
+    // 刷新數據
+    const refreshMonstersData = async () => {
+      monstersData.value = []
+      await initMonstersData()
     }
 
     return {
+      isLoadingMonsters: isLoading,
       monstersData,
       weaponsData,
       skillsData,
-      isMonsterLoading: isLoading,
-      loadMonsters
+      initMonstersData,
+      refreshMonstersData
     }
   },
   {

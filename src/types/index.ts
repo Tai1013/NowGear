@@ -26,6 +26,9 @@ export interface Monster {
     greaves?: MonsterArmor
   }
 }
+export interface NormalizedMonster extends Monster {
+  sortWeapons?: Weapon[]
+}
 export type SkillType = keyof typeof import('@/assets/data/skills.json') 
 interface Skill {
   name: string
