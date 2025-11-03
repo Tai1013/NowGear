@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 // https://vite.dev/config/
-export default defineConfig(({ command }) => {
-  // 生產環境使用 /NowGear/，開發環境使用 /
-  const base = command === 'build' ? '/NowGear/' : '/'
+export default defineConfig(({ mode }) => {
+  // 載入環境變數
+  const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base,
+    base: env.VITE_BASE_URL || '/',
     css: {
       preprocessorOptions: {
         scss: {
