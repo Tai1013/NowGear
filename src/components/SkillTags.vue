@@ -9,7 +9,22 @@ defineProps<{
   size?: number
 }>()
 
-const { skillsData, skillDialogId } = storeToRefs(useBestiaryStore())
+const { skillsData, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
+
+const setSkillTagType = (id: SkillType) => {
+  if (id === 'weapon-special') return 'info'
+
+  // 判斷技能是否匹配搜尋關鍵字
+  if (searchKeyword.value && searchKeyword.value.trim() !== '') {
+    const keyword = searchKeyword.value.toLowerCase().trim()
+    const skillName = skillsData.value[id]?.name || ''
+    if (skillName.toLowerCase().includes(keyword)) {
+      return 'warning'
+    }
+  }
+
+  return 'primary'
+}
 
 const openSkillDialog = (id: SkillType) => {
   if (id === 'weapon-special') return
@@ -23,7 +38,7 @@ const openSkillDialog = (id: SkillType) => {
       v-for="skill in skills"
       :key="skill.id"
       :class="{ 'cursor': skill.id !== 'weapon-special' }"
-      :type="skill.id === 'weapon-special' ? 'info' : 'primary'"
+      :type="setSkillTagType(skill.id)"
       disable-transitions
       @click="openSkillDialog(skill.id)"
     >

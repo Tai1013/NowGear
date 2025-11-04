@@ -40,12 +40,10 @@ const filteredMonstersData = computed(() => {
       })
     }
 
-    // 搜尋武器技能
-    if (monster.weapon) {
-      const weaponSkills = Object.values(monster.weapon)
-      if (weaponSkills.some((weapon) => hasMatchingSkill(weapon?.skills))) {
-        return true
-      }
+    // 搜尋武器技能（只搜尋當前選擇的武器）
+    const selectedWeapon = selectedWeapons.value[monster.id]
+    if (selectedWeapon && hasMatchingSkill(selectedWeapon.skills)) {
+      return true
     }
 
     // 搜尋防具技能
@@ -59,6 +57,15 @@ const filteredMonstersData = computed(() => {
     return false
   })
 })
+
+// 判斷魔物名稱是否匹配搜尋關鍵字
+const isMonsterNameMatched = (monsterName: string) => {
+  if (!searchKeyword.value || searchKeyword.value.trim() === '') {
+    return false
+  }
+  const keyword = searchKeyword.value.toLowerCase().trim()
+  return monsterName.toLowerCase().includes(keyword)
+}
 
 // 轉換裝備清單
 const convertArmorList = (armor: NormalizedMonster['armor']) => {
@@ -134,7 +141,10 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
             </div>
             <small
               class="monster-name"
-              :class="{ riftborne: monster.riftborne }"
+              :class="{
+                riftborne: monster.riftborne,
+                'monster-name-matched': isMonsterNameMatched(monster.name)
+              }"
             >
               {{ monster.name }}
             </small>
@@ -246,6 +256,11 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
 
   &.riftborne {
     color: #e0baf3;
+  }
+
+  &.monster-name-matched {
+    color: var(--el-color-warning);
+    font-weight: bold;
   }
 }
 
