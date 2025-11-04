@@ -15,6 +15,8 @@ export const useBestiaryStore = defineStore('bestiaryStore',
     const monstersData = ref<NormalizedMonster[]>([])
     // 技能視窗ID
     const skillDialogId = ref<SkillType>()
+    // 搜尋關鍵字
+    const searchKeyword = ref('')
 
     // 載入所有龍的資料
     const loadMonsters = async (modules: Record<string, () => Promise<any>>) => {
@@ -87,6 +89,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
       weaponsData,
       skillsData,
       skillDialogId,
+      searchKeyword,
       initMonstersData,
       refreshMonstersData
     }

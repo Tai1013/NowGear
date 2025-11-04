@@ -1,19 +1,64 @@
 <script setup lang="ts">
 import type { NormalizedMonster, MonsterWeapon } from '@/types'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { ElRow, ElCol, ElCard, ElSpace, ElButton, ElImage, ElTable, ElTableColumn } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-interface SelectedWeapon extends MonsterWeapon {
+interface SelectedWeapon {
   checked: string
+  effect?: string
+  skills?: MonsterWeapon['skills']
 }
 
-const { isLoadingMonsters, monstersData } = storeToRefs(useBestiaryStore())
+const { isLoadingMonsters, monstersData, skillsData, searchKeyword } = storeToRefs(useBestiaryStore())
 
 // 當前龍選擇的武器清單
 const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
+
+// 根據搜尋關鍵字過濾魔物列表
+const filteredMonstersData = computed(() => {
+  if (!searchKeyword.value || searchKeyword.value.trim() === '') {
+    return monstersData.value
+  }
+
+  const keyword = searchKeyword.value.toLowerCase().trim()
+
+  return monstersData.value.filter((monster) => {
+    // 搜尋魔物名稱
+    if (monster.name.toLowerCase().includes(keyword)) {
+      return true
+    }
+
+    // 搜尋技能名稱
+    const hasMatchingSkill = (skills?: MonsterWeapon['skills']) => {
+      if (!skills) return false
+      return skills.some((skill) => {
+        const skillName = skillsData.value[skill.id]?.name || ''
+        return skillName.toLowerCase().includes(keyword)
+      })
+    }
+
+    // 搜尋武器技能
+    if (monster.weapon) {
+      const weaponSkills = Object.values(monster.weapon)
+      if (weaponSkills.some((weapon) => hasMatchingSkill(weapon?.skills))) {
+        return true
+      }
+    }
+
+    // 搜尋防具技能
+    if (monster.armor) {
+      const armorPieces = Object.values(monster.armor)
+      if (armorPieces.some((armor) => hasMatchingSkill(armor?.skills))) {
+        return true
+      }
+    }
+
+    return false
+  })
+})
 
 // 轉換裝備清單
 const convertArmorList = (armor: NormalizedMonster['armor']) => {
@@ -62,7 +107,7 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
   <div class="monster-container">
     <ElRow :gutter="8">
       <ElCol
-        v-for="monster in monstersData"
+        v-for="monster in filteredMonstersData"
         :key="monster.id"
         :xs="24" :md="12" :lg="8" :xl="6"
       >

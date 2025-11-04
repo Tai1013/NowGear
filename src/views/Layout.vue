@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { ElInput } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { SkillDescDialog } from '@/components'
 
-const { isLoadingMonsters, skillDialogId } = storeToRefs(useBestiaryStore())
+const { isLoadingMonsters, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
 const { initMonstersData, refreshMonstersData } = useBestiaryStore()
 
 onMounted(() => {
@@ -18,7 +20,16 @@ onMounted(() => {
         <router-link to="/" class="nav-link">配裝列表</router-link>
         <router-link to="/monster" class="nav-link">魔物列表</router-link>
       </nav>
-      <button @click="refreshMonstersData" class="refresh-btn">數據刷新</button>
+      <div class="header-actions">
+        <ElInput
+          v-model="searchKeyword"
+          placeholder="搜尋..."
+          :prefix-icon="Search"
+          clearable
+          class="search-input"
+        />
+        <button @click="refreshMonstersData" class="refresh-btn">數據刷新</button>
+      </div>
     </header>
     <main class="layout-content">
       <router-view />
@@ -41,10 +52,18 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   padding: 12px 20px;
   background-color: var(--el-bg-color);
   border-bottom: 1px solid var(--el-border-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .nav-links {
@@ -72,6 +91,11 @@ onMounted(() => {
   }
 }
 
+.search-input {
+  flex: 1;
+  min-width: 150px;
+}
+
 .refresh-btn {
   padding: 8px 16px;
   background-color: var(--el-color-primary);
@@ -80,6 +104,7 @@ onMounted(() => {
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  white-space: nowrap;
   transition: all 0.3s;
 
   &:hover {
