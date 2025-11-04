@@ -29,10 +29,10 @@ export interface Monster {
 export interface NormalizedMonster extends Monster {
   sortWeapons?: Weapon[]
 }
-export type SkillType = keyof typeof import('@/assets/data/skills.json') 
-interface Skill {
+export type SkillType = keyof typeof import('@/assets/data/skills.json')
+export interface Skill {
   name: string
-  desc?: string[]
+  desc: string[]
   remark?: string[]
 }
 export interface SkillDetail extends Skill {

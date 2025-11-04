@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import type { NormalizedMonster, MonsterWeapon, MonsterArmor } from '@/types'
+import type { NormalizedMonster, MonsterWeapon } from '@/types'
 import { ref, watch } from 'vue'
-import { ElRow, ElCol, ElCard, ElSpace, ElButton, ElImage, ElTag, ElTable, ElTableColumn } from 'element-plus'
+import { ElRow, ElCol, ElCard, ElSpace, ElButton, ElImage, ElTable, ElTableColumn } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
+import { SkillTags } from '@/components'
 
 interface SelectedWeapon extends MonsterWeapon {
   checked: string
 }
 
-const { isLoadingMonsters, monstersData, skillsData } = storeToRefs(useBestiaryStore())
+const { isLoadingMonsters, monstersData } = storeToRefs(useBestiaryStore())
 
 // 當前龍選擇的武器清單
 const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
@@ -112,17 +113,9 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                   />
                 </ElButton>
               </ElSpace>
-              <ElSpace wrap :size="6">
-                <ElTag
-                  v-for="skill in selectedWeapons[monster.id]?.skills"
-                  :key="skill.id"
-                  :type="skill.id === 'weapon-special' ? 'info' : 'primary'"
-                  disable-transitions
-                >
-                  {{ skillsData[skill.id].name }}
-                  {{ skill.level }}
-                </ElTag>
-              </ElSpace>
+              <div class="weapon-skills">
+                <SkillTags :skills="selectedWeapons[monster.id]?.skills" />
+              </div>
             </div>
             <div v-if="monster.armor" class="armor-container">
               <ElTable
@@ -140,16 +133,7 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                 </ElTableColumn>
                 <ElTableColumn prop="skills" show-overflow-tooltip>
                   <template #default="scope">
-                    <ElSpace wrap :size="6">
-                      <ElTag
-                        v-for="skill in (scope.row.skills as MonsterArmor['skills'])"
-                        :key="skill.id"
-                        disable-transitions
-                      >
-                        {{ skillsData[skill.id].name }}
-                        {{ skill.level }}
-                      </ElTag>
-                    </ElSpace>
+                    <SkillTags :skills="scope.row.skills" />
                   </template>
                 </ElTableColumn>
                 <ElTableColumn prop="slots" align="right" width="40" />
@@ -232,6 +216,15 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
   .weapon-image {
     width: 25px;
     height: 25px;
+  }
+
+  .weapon-skills {
+    padding: 8px;
+    min-height: 31px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #141414;
   }
 }
 

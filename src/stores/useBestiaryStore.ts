@@ -1,4 +1,4 @@
-import type { Monster, NormalizedMonster } from '@/types'
+import type { Monster, NormalizedMonster, SkillType, Skill, Weapon } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
@@ -10,9 +10,11 @@ export const useBestiaryStore = defineStore('bestiaryStore',
   () => {
     const { isLoading, load, unload } = useLoading()
 
-    const weaponsData = ref(weapons)
-    const skillsData = ref(skills)
+    const weaponsData = ref<Weapon[]>(weapons)
+    const skillsData = ref<Record<SkillType, Skill>>(skills)
     const monstersData = ref<NormalizedMonster[]>([])
+    // 技能視窗ID
+    const skillDialogId = ref<SkillType>()
 
     // 載入所有龍的資料
     const loadMonsters = async (modules: Record<string, () => Promise<any>>) => {
@@ -84,6 +86,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
       monstersData,
       weaponsData,
       skillsData,
+      skillDialogId,
       initMonstersData,
       refreshMonstersData
     }

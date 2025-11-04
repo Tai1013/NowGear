@@ -1,6 +1,7 @@
 {
   "weapon-special": {
-    "name": "視武器而不同"
+    "name": "視武器而不同",
+    "desc": []
   },
   "attack-boost": {
     "name": "攻擊",
