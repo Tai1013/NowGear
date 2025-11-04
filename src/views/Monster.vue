@@ -40,10 +40,12 @@ const filteredMonstersData = computed(() => {
       })
     }
 
-    // 搜尋武器技能（只搜尋當前選擇的武器）
-    const selectedWeapon = selectedWeapons.value[monster.id]
-    if (selectedWeapon && hasMatchingSkill(selectedWeapon.skills)) {
-      return true
+    // 搜尋武器技能（搜尋所有武器）
+    if (monster.weapon) {
+      const weaponValues = Object.values(monster.weapon)
+      if (weaponValues.some((weapon) => hasMatchingSkill(weapon?.skills))) {
+        return true
+      }
     }
 
     // 搜尋防具技能
