@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { ElInput } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { onMounted, ref, onBeforeUnmount } from 'vue'
+import { ElInput, ElButton, ElMenu, ElMenuItem } from 'element-plus'
+import { Search, Refresh } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { SkillDescDialog } from '@/components'
 
 const { isLoadingMonsters, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
 const { initMonstersData, refreshMonstersData } = useBestiaryStore()
 
+// 響應式判斷是否為手機版
+const isMobile = ref(window.innerWidth <= 768)
+
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
 onMounted(() => {
   initMonstersData()
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -25,10 +37,17 @@ onMounted(() => {
           v-model="searchKeyword"
           placeholder="搜尋..."
           :prefix-icon="Search"
+          :size="isMobile ? 'small' : 'default'"
           clearable
           class="search-input"
         />
-        <button @click="refreshMonstersData" class="refresh-btn">數據刷新</button>
+        <ElButton
+          type="primary"
+          :size="isMobile ? 'small' : 'default'"
+          :icon="Refresh"
+          circle
+          @click="refreshMonstersData"
+        />
       </div>
     </header>
     <main class="layout-content">
@@ -57,6 +76,13 @@ onMounted(() => {
   background-color: var(--el-bg-color);
   border-bottom: 1px solid var(--el-border-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  // 手機版響應式
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 8px;
+  }
 }
 
 .header-actions {
@@ -64,55 +90,66 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 12px;
+
+  // 手機版響應式
+  @media (max-width: 768px) {
+    width: 100%;
+    order: 2;
+    gap: 8px;
+  }
 }
 
 .nav-links {
   display: flex;
   gap: 16px;
+
+  // 手機版響應式
+  @media (max-width: 768px) {
+    gap: 8px;
+    order: 1;
+  }
 }
 
 .nav-link {
-  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  height: 32px;
   text-decoration: none;
   color: var(--el-text-color-regular);
-  font-size: 16px;
+  font-size: var(--el-font-size-base);
   font-weight: 500;
-  border-radius: 4px;
+  border-radius: var(--el-border-radius-base);
   transition: all 0.3s;
+  white-space: nowrap;
+  line-height: 1;
 
   &:hover {
     color: var(--el-color-primary);
     background-color: var(--el-fill-color-light);
   }
 
-  &.router-link-active {
+  &.router-link-exact-active {
     color: var(--el-color-primary);
     background-color: var(--el-color-primary-light-9);
+  }
+
+  // 手機版響應式 - 匹配 ElButton small size
+  @media (max-width: 768px) {
+    height: 24px;
+    padding: 0 11px;
+    font-size: 12px;
   }
 }
 
 .search-input {
   flex: 1;
-  min-width: 150px;
-}
+  min-width: 120px;
 
-.refresh-btn {
-  padding: 8px 16px;
-  background-color: var(--el-color-primary);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: var(--el-color-primary-light-3);
-  }
-
-  &:active {
-    background-color: var(--el-color-primary-dark-2);
+  // 手機版響應式
+  @media (max-width: 768px) {
+    min-width: 0;
   }
 }
 
