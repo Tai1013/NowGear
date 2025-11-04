@@ -36,7 +36,7 @@ const skillRemarkList = computed(() => {
     v-if="currentSkill"
     v-model="visible"
     :title="currentSkill.name"
-    width="90%"
+    width="85%"
     center
     align-center
     append-to-body
