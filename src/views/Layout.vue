@@ -1,27 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount } from 'vue'
-import { ElInput, ElButton } from 'element-plus'
-import { Search, Refresh } from '@element-plus/icons-vue'
+import { onMounted } from 'vue'
+import { ElInput } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { SkillDescDialog } from '@/components'
 
 const { isLoadingMonsters, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
-const { initMonstersData, refreshMonstersData } = useBestiaryStore()
-
-// 響應式判斷是否為手機版
-const isMobile = ref(window.innerWidth <= 480)
-
-const handleResize = () => {
-  isMobile.value = window.innerWidth <= 480
-}
+const { initMonstersData } = useBestiaryStore()
 
 onMounted(() => {
   initMonstersData()
-  window.addEventListener('resize', handleResize)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -32,22 +20,19 @@ onBeforeUnmount(() => {
         <router-link to="/" class="nav-link">配裝列表</router-link>
         <router-link to="/monster" class="nav-link">魔物列表</router-link>
       </nav>
-      <div class="header-actions">
-        <ElInput
-          v-model="searchKeyword"
-          placeholder="搜尋..."
-          :prefix-icon="Search"
-          :size="isMobile ? 'small' : 'default'"
-          clearable
-        />
-        <ElButton
-          type="primary"
-          :size="isMobile ? 'small' : 'default'"
-          :icon="Refresh"
-          circle
-          @click="refreshMonstersData"
-        />
-      </div>
+      <ElInput
+        v-model="searchKeyword"
+        class="search-input"
+        placeholder="搜尋..."
+        :prefix-icon="Search"
+        clearable
+      />
+      <!-- <ElButton
+        type="primary"
+        :icon="Refresh"
+        circle
+        @click="refreshMonstersData"
+      /> -->
     </header>
     <main>
       <router-view />
@@ -61,41 +46,34 @@ onBeforeUnmount(() => {
   position: sticky;
   top: 0;
   z-index: 100;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 8px;
   background-color: var(--el-bg-color);
   border-bottom: 1px solid var(--el-border-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.header-actions {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-link {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 0 15px;
-  height: 32px;
+  padding: 8px 15px;
   text-decoration: none;
   color: var(--el-text-color-regular);
   font-size: var(--el-font-size-base);
   font-weight: 500;
   border-radius: var(--el-border-radius-base);
+  border: var(--el-border);
   transition: all 0.3s;
   white-space: nowrap;
   line-height: 1;
@@ -108,13 +86,11 @@ onBeforeUnmount(() => {
   &.router-link-exact-active {
     color: var(--el-color-primary);
     background-color: var(--el-color-primary-light-9);
+    border-color: var(--el-color-primary-light-7);
   }
+}
 
-  // 手機版響應式 - 匹配 ElButton small size
-  @media (max-width: 480px) {
-    height: 24px;
-    padding: 0 11px;
-    font-size: var(--el-font-size-extra-small);
-  }
+.search-input {
+  flex: 1;
 }
 </style>
