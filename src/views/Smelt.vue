@@ -6,10 +6,10 @@ import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-const { smeltData, monstersData } = storeToRefs(useBestiaryStore())
+const { smeltData, monstersData, skillsData, searchKeyword } = storeToRefs(useBestiaryStore())
 
 const normalizedSmeltData = computed(() => {
-  return Object.entries(smeltData.value).map(([id, data]) => {
+  const normalized = Object.entries(smeltData.value).map(([id, data]) => {
     const raritySkills: SmeltSkill[] = []
     const normalSkills: SmeltSkill[] = []
     data.skills.forEach((skill) => {
@@ -36,8 +36,44 @@ const normalizedSmeltData = computed(() => {
     return {
       id,
       name: data.name,
-      dataList
+      dataList,
+      skills: data.skills,
+      monsters: data.monsters
     }
+  })
+
+  // 模糊查詢過濾
+  if (!searchKeyword.value || searchKeyword.value.trim() === '') {
+    return normalized
+  }
+
+  const keyword = searchKeyword.value.toLowerCase().trim()
+
+  return normalized.filter((smelt) => {
+    // 搜尋煉成名稱
+    if (smelt.name.toLowerCase().includes(keyword)) {
+      return true
+    }
+
+    // 搜尋魔物名稱
+    if (smelt.monsters) {
+      const hasMatchingMonster = smelt.monsters.some((monsterId) => {
+        const monsterName = getMonsterName(monsterId)
+        return monsterName.toLowerCase().includes(keyword)
+      })
+      if (hasMatchingMonster) return true
+    }
+
+    // 搜尋技能名稱
+    if (smelt.skills) {
+      const hasMatchingSkill = smelt.skills.some((skill) => {
+        const skillName = skillsData.value[skill.id]?.name || ''
+        return skillName.toLowerCase().includes(keyword)
+      })
+      if (hasMatchingSkill) return true
+    }
+
+    return false
   })
 })
 
