@@ -1,20 +1,23 @@
-import type { Monster, NormalizedMonster, SkillType, Skill, Weapon } from '@/types'
+import type { Monster, NormalizedMonster, SkillData, WeaponData, SmeltData } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
 import skills from '@/assets/data/skills.json'
 import weapons from '@/assets/data/weapons.json'
+import smelt from '@/assets/data/smelt.json'
 import { useLoading } from '@/composables'
 
 export const useBestiaryStore = defineStore('bestiaryStore',
   () => {
     const { isLoading, load, unload } = useLoading()
 
-    const weaponsData = ref<Weapon[]>(weapons)
-    const skillsData = ref<Record<SkillType, Skill>>(skills)
+    const weaponsData = ref<WeaponData>(weapons)
+    const skillsData = ref<SkillData>(skills)
+    const smeltData = ref<SmeltData>(smelt)
+
     const monstersData = ref<NormalizedMonster[]>([])
     // 技能視窗ID
-    const skillDialogId = ref<SkillType>()
+    const skillDialogId = ref<string>('')
     // 搜尋關鍵字
     const searchKeyword = ref('')
 
@@ -88,6 +91,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
       monstersData,
       weaponsData,
       skillsData,
+      smeltData,
       skillDialogId,
       searchKeyword,
       initMonstersData,

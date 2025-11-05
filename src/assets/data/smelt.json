@@ -1,93 +1,110 @@
 {
-  "crimson": {
-    "name": "紅",
+  "red": {
+    "name": "漂流石【紅】",
+    "monsters": ["anja", "ratha", "a-ratha", "s-ratha", "akno", "magn", "baze", "glav", "f-anja"],
     "skills": [
-      "fire-attack",
-      "heroics",
-      "peak-performance",
-      "rising-tide",
-      "windproof"
+      { "id": "fire-attack", "rarity": true },
+      { "id": "headstrong", "rarity": true },
+      { "id": "partbreaker", "rarity": true },
+      { "id": "raw-power", "rarity": true },
+      { "id": "blast-attack" },
+      { "id": "offensive-guard" },
+      { "id": "guard" },
+      { "id": "heroics" }
     ]
   },
-  "azure": {
-    "name": "藍",
+  "blue": {
+    "name": "漂流石【藍】",
+    "monsters": ["g-jagr", "puke", "puke", "jyur", "rathi", "p-rathi", "g-rathi", "basa", "mizu", "g-wrog"],
     "skills": [
-      "water-attack",
-      "concentration",
-      "sleep-attack",
-      "artful-dodger",
-      "tremor-resistance"
+      { "id": "water-attack", "rarity": true },
+      { "id": "focus", "rarity": true },
+      { "id": "charge-master", "rarity": true },
+      { "id": "timed-charger", "rarity": true },
+      { "id": "poison-attack" },
+      { "id": "slugger" },
+      { "id": "aggressive-dodger" },
+      { "id": "peak-performance" }
     ]
   },
-  "amber": {
-    "name": "水藍",
+  "yellow": {
+    "name": "漂流石【黃】",
+    "monsters": ["g-jagr", "tobi", "f-anja", "zino", "tzit", "khez", "raja", "volv", "bish"],
     "skills": [
-      "thunder-attack",
-      "burst",
-      "paralysis-attack",
-      "offensive-guard",
-      "divine-blessing"
+      { "id": "thunder-attack", "rarity": true },
+      { "id": "burst", "rarity": true },
+      { "id": "dauntless", "rarity": true },
+      { "id": "offensive-dodger", "rarity": true },
+      { "id": "paralysis-attack" },
+      { "id": "skyward-striker" },
+      { "id": "power-prolonger" },
+      { "id": "evade-extender" }
     ]
   },
-  "cyan": {
-    "name": "黃",
+  "aqua-blue": {
+    "name": "漂流石【水藍】",
+    "monsters": ["paol", "paol", "rado", "bari", "lago", "somn", "beot", "luna"],
     "skills": [
-      "ice-attack",
-      "critical-eye",
-      "poison-attack",
-      "skyward-striker",
-      "guard"
+      { "id": "ice-attack", "rarity": true },
+      { "id": "critical-eye", "rarity": true },
+      { "id": "critical-boost", "rarity": true },
+      { "id": "weakness-exploit", "rarity": true },
+      { "id": "sleep-attack" },
+      { "id": "earplugs" },
+      { "id": "tremor-resistance" },
+      { "id": "windproof" }
     ]
   },
-  "pale": {
-    "name": "白",
+  "black": {
+    "name": "漂流石【黑】",
+    "monsters": ["b-diab", "chat", "odog", "devi", "b-tigr", "narg"],
     "skills": [
-      "weakness-exploit",
-      "special-boost",
-      "sneak-attack",
-      "evade-extender",
-      "earplugs"
+      { "id": "dragon-attack", "rarity": true },
+      { "id": "status-sneak-attack", "rarity": true },
+      { "id": "ailment-opportunist", "rarity": true },
+      { "id": "coalescence", "rarity": true },
+      { "id": "resentment" },
+      { "id": "sneak-attack" },
+      { "id": "rising-tide" },
+      { "id": "firm-foothold" }
     ]
   },
-  "mysterious": {
-    "name": "神秘",
+  "white": {
+    "name": "漂流石【白】",
+    "monsters": ["kulu", "barr", "paol", "diab", "banb", "tigr", "chat", "arzu", "gara"],
     "skills": [
-      "dragon-attack",
-      "critical-boost",
-      "blast-attack",
-      "partbreaker",
-      "blast-resistance",
-      "guts",
-      "dauntless",
-      "special-partbreaker",
-      "fighting-spirit",
-      "fortify",
-      "latent-power",
-      "status-sneak-attack",
-      "power-prolonger",
-      "offensive-dodger",
-      "focus"
+      { "id": "special-boost", "rarity": true },
+      { "id": "special-partbreaker", "rarity": true },
+      { "id": "fighting-spirit", "rarity": true },
+      { "id": "latent-power", "rarity": true },
+      { "id": "concentration" },
+      { "id": "evasive-concentration" },
+      { "id": "defense-concentration" },
+      { "id": "special-insurance" }
     ]
   },
   "common": {
     "name": "共通",
     "skills": [
-      "aggressive-dodger",
-      "attack-boost",
-      "defense-boost",
-      "health-boost",
-      "fortify",
-      "guts",
-      "firm-foothold",
-      "last-stand",
-      "fire-resistance",
-      "water-resistance",
-      "thunder-resistance",
-      "ice-resistance",
-      "poison-resistance",
-      "paralysis-resistance",
-      "sleep-resistance",
-      "bleeding-resistance"
+      { "id": "attack-boost" },
+      { "id": "defense-boost" },
+      { "id": "health-boost" },
+      { "id": "last-stand" },
+      { "id": "guts" },
+      { "id": "fortify" },
+      { "id": "artful-dodger" },
+      { "id": "shared-sword" },
+      { "id": "shared-shield" },
+      { "id": "fire-resistance" },
+      { "id": "water-resistance" },
+      { "id": "thunder-resistance" },
+      { "id": "ice-resistance" },
+      { "id": "dragon-resistance" },
+      { "id": "poison-resistance" },
+      { "id": "paralysis-resistance" },
+      { "id": "sleep-resistance" },
+      { "id": "bleeding-resistance" },
+      { "id": "blast-resistance" }
     ]
   }
 }

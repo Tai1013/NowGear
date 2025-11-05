@@ -17,8 +17,9 @@ onMounted(() => {
   <div v-loading.fullscreen.lock="isLoadingMonsters">
     <header class="layout-header">
       <nav class="nav-links">
-        <router-link to="/" class="nav-link">配裝列表</router-link>
-        <router-link to="/monster" class="nav-link">魔物列表</router-link>
+        <router-link to="/" class="nav-link">配裝</router-link>
+        <router-link to="/monster" class="nav-link">魔物</router-link>
+        <router-link to="/smelt" class="nav-link">煉成</router-link>
       </nav>
       <ElInput
         v-model="searchKeyword"

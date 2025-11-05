@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { SkillType } from '@/types'
 import { computed } from 'vue'
 import { ElDialog, ElTable, ElTableColumn } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 
 defineOptions({ name: 'SkillDescDialog' })
 const props = defineProps<{
-  modelValue: SkillType | undefined
+  modelValue: string
 }>()
 const emit = defineEmits(['update:modelValue'])
 

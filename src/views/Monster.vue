@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import type { NormalizedMonster, MonsterWeapon } from '@/types'
+import type { NormalizedMonster, MonsterWeapon, MonsterSkill } from '@/types'
 import { ref, watch, computed } from 'vue'
 import { ElRow, ElCol, ElCard, ElSpace, ElButton, ElImage, ElTable, ElTableColumn } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-interface SelectedWeapon {
+interface SelectedWeapon extends MonsterWeapon {
   checked: string
-  effect?: string
-  skills?: MonsterWeapon['skills']
 }
 
 const { isLoadingMonsters, monstersData, skillsData, searchKeyword } = storeToRefs(useBestiaryStore())
@@ -32,7 +30,7 @@ const filteredMonstersData = computed(() => {
     }
 
     // 搜尋技能名稱
-    const hasMatchingSkill = (skills?: MonsterWeapon['skills']) => {
+    const hasMatchingSkill = (skills?: MonsterSkill[]) => {
       if (!skills) return false
       return skills.some((skill) => {
         const skillName = skillsData.value[skill.id]?.name || ''

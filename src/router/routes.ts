@@ -7,7 +7,8 @@ export const routes: RouteRecordRaw[] = [
   //   meta: { requiresAuth: true },
     children: [
       { path: '/', name: 'build', component: () => import('@/views/Build.vue') },
-      { path: '/monster', name: 'monster', component: () => import('@/views/Monster.vue') }
+      { path: '/monster', name: 'monster', component: () => import('@/views/Monster.vue') },
+      { path: '/smelt', name: 'smelt', component: () => import('@/views/Smelt.vue') }
     ]
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }

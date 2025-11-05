@@ -5,7 +5,7 @@
     "default": {
       "effect": "thunder",
       "skills": [
-        { "id": "weapon-special", "level": 1 }
+        { "id": "weapon-special" }
       ]
     },
     "shield-sword": {

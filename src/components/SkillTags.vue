@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MonsterSkill, SkillType } from '@/types'
+import type { MonsterSkill } from '@/types'
 import { ElSpace, ElTag } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 
@@ -11,7 +11,7 @@ defineProps<{
 
 const { skillsData, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
 
-const setSkillTagType = (id: SkillType) => {
+const setSkillTagType = (id: string) => {
   if (id === 'weapon-special') return 'info'
 
   // 判斷技能是否匹配搜尋關鍵字
@@ -26,7 +26,7 @@ const setSkillTagType = (id: SkillType) => {
   return 'primary'
 }
 
-const openSkillDialog = (id: SkillType) => {
+const openSkillDialog = (id: string) => {
   if (id === 'weapon-special') return
   skillDialogId.value = id
 }
