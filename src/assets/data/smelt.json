@@ -15,7 +15,7 @@
   },
   "blue": {
     "name": "漂流石【藍】",
-    "monsters": ["g-jagr", "puke", "puke", "jyur", "rathi", "p-rathi", "g-rathi", "basa", "mizu", "g-wrog"],
+    "monsters": ["g-jagr", "puke", "c-puke", "jyur", "rathi", "p-rathi", "g-rathi", "basa", "mizu", "g-wrog"],
     "skills": [
       { "id": "water-attack", "rarity": true },
       { "id": "focus", "rarity": true },
@@ -29,7 +29,7 @@
   },
   "yellow": {
     "name": "漂流石【黃】",
-    "monsters": ["g-jagr", "tobi", "f-anja", "zino", "tzit", "khez", "raja", "volv", "bish"],
+    "monsters": ["g-girr", "tobi", "f-anja", "zino", "tzit", "khez", "raja", "volv", "bish"],
     "skills": [
       { "id": "thunder-attack", "rarity": true },
       { "id": "burst", "rarity": true },
@@ -43,7 +43,7 @@
   },
   "aqua-blue": {
     "name": "漂流石【水藍】",
-    "monsters": ["paol", "paol", "rado", "bari", "lago", "somn", "beot", "luna"],
+    "monsters": ["n-paol", "legi", "rado", "bari", "lago", "somn", "beot", "luna"],
     "skills": [
       { "id": "ice-attack", "rarity": true },
       { "id": "critical-eye", "rarity": true },
@@ -57,7 +57,7 @@
   },
   "black": {
     "name": "漂流石【黑】",
-    "monsters": ["b-diab", "chat", "odog", "devi", "b-tigr", "narg"],
+    "monsters": ["b-diab", "odog", "e-odog", "devi", "b-tigr", "narg"],
     "skills": [
       { "id": "dragon-attack", "rarity": true },
       { "id": "status-sneak-attack", "rarity": true },

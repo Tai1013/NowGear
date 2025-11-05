@@ -116,7 +116,7 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
       <ElCol
         v-for="monster in filteredMonstersData"
         :key="monster.id"
-        :xs="24" :md="12" :lg="8" :xl="6"
+        :xs="24" :sm="12" :lg="8" :xl="6"
       >
         <ElCard>
           <template #header>

@@ -13,14 +13,16 @@ export interface Skill {
 }
 export type SkillData = Record<string, Skill>
 
+// 練成持有的技能
+export interface SmeltSkill {
+  id: string
+  rarity?: boolean
+}
 // 練成資料
 export interface Smelt {
   name: string
   monsters?: string[]
-  skills: {
-    id: string
-    rarity?: boolean
-  }[]
+  skills: SmeltSkill[]
 }
 export type SmeltData = Record<string, Smelt>
 
