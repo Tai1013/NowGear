@@ -62,3 +62,6 @@ export interface Monster {
 export interface NormalizedMonster extends Monster {
   sortWeapons?: Weapon[]
 }
+
+// 配裝彈窗模式
+export type BuildDialogMode = 'add' | 'edit'
