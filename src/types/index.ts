@@ -68,3 +68,18 @@ export interface NormalizedMonster extends Monster {
 
 // 配裝彈窗模式
 export type BuildDialogMode = 'add' | 'edit'
+// 配裝數據
+export type BuildArmorRow = {
+  monster: string
+  skills: MonsterSkill[]
+  slots: ArmorSlot[]
+}
+export type BuildWeaponRow = {
+  monster: string
+  skills: MonsterSkill[]
+  effect: string
+}
+export interface BuildData extends Partial<Record<ArmorType, BuildArmorRow>> {
+  category: string
+  weapon?: BuildWeaponRow
+}

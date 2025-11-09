@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { Weapon, ArmorType, MonsterSkill } from '@/types'
-import type { WeaponRowResult } from './WeaponSelect.vue'
-import type { ArmorRowResult } from './ArmorSelect.vue'
+import type { Weapon, ArmorType, MonsterSkill, BuildData } from '@/types'
+import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElSpace, ElButton, ElImage } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
@@ -12,17 +11,16 @@ import WeaponSelect from './WeaponSelect.vue'
 import ArmorSelect from './ArmorSelect.vue'
 import { SkillSummary } from '@/components'
 
-interface BuildData extends Partial<Record<ArmorType, ArmorRowResult>> {
-  category: string
-  weapon?: WeaponRowResult
-}
-
 defineOptions({ name: 'BuildDialog' })
+const props = defineProps<{
+  data?: BuildData
+}>()
+const emit = defineEmits(['update'])
 
-const { isBuildDialogVisible, buildDialogMode, monstersData, weaponsData } = storeToRefs(useBestiaryStore())
+const { isBuildDialogVisible, monstersData, weaponsData } = storeToRefs(useBestiaryStore())
 
-// 配裝數據
-const buildData = ref<BuildData>({
+// 預設配裝數據
+const defaultBuildData: BuildData = {
   category: '',
   weapon: undefined,
   helm: undefined,
@@ -30,10 +28,17 @@ const buildData = ref<BuildData>({
   gloves: undefined,
   belt: undefined,
   greaves: undefined
+}
+
+const buildData = ref<BuildData>(defaultBuildData)
+
+const { isChanged, reset } = useStoreRef(buildData)
+
+// 當前魔物武器分類
+const currentWeaponCategory = computed((): string => {
+  if (buildData.value.category) return buildData.value.category
+  return 'weapon'
 })
-
-const { isChanged, reset, update } = useStoreRef(buildData)
-
 // 配裝項目: 武器分類、魔物武器、裝備頭、裝備身、裝備手、裝備腰、裝備腳
 const buildItems = computed(() => [
   { label: '武器分類', key: 'weapon' },
@@ -44,11 +49,6 @@ const buildItems = computed(() => [
   { label: '裝備腰', key: 'belt' },
   { label: '裝備腳', key: 'greaves' }
 ])
-// 當前魔物武器分類
-const currentWeaponCategory = computed((): string => {
-  if (buildData.value.category) return buildData.value.category
-  return 'weapon'
-})
 // 取得配裝數據所有技能
 const buildSkills = computed(() => {
   const skills: MonsterSkill[] = []
@@ -74,10 +74,12 @@ const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
   if (rowIndex === 0) return 'weapons-row'
   return ''
 }
+// 設定武器按鈕類型
 const setWeaponType = (weapon: Weapon) => {
   if (buildData.value.category === weapon.id) return 'primary'
   return ''
 }
+// 設定武器按鈕禁用
 const setWeaponDisabled = (id: string) => {
   if (!buildData.value.weapon) return false
   // 判斷當前 buildData.weapon 的龍 是否有該武器
@@ -94,28 +96,37 @@ const changeWeaponCategory = (category: string) => {
   if (buildData.value.category === category) changeCategory = ''
   buildData.value.category = changeCategory
 }
+// 儲存配裝數據
+const saveBuildHandler = () => {
+  emit('update', {
+    type: props.data ? 'edit' : 'add',
+    data: buildData.value
+  })
+  isBuildDialogVisible.value = false
+}
 
 watch(() => isBuildDialogVisible.value, (visible) => {
-  if (visible) update(buildData)
-})
+  if (visible && props.data) buildData.value = cloneDeep(props.data)
+})  
 </script>
 
 <template>
   <ElDialog
     v-model="isBuildDialogVisible"
-    :title="buildDialogMode === 'add' ? '新增配裝' : '編輯配裝'"
+    :title="data ? '編輯配裝' : '新增配裝'"
     width="95%"
     center
     append-to-body
     :show-close="false"
     class="build-dialog"
+    @close="reset"
     >
       <template #header>
         <div class="build-dialog-header">
           <!-- 重置按鈕 -->
           <ElButton
             class="reset-button"
-            type="warning"
+            :type="isChanged ? 'warning' : 'info'"
             :icon="Refresh"
             size="small"
             circle
@@ -123,7 +134,7 @@ watch(() => isBuildDialogVisible.value, (visible) => {
             @click="reset"
           />
           <div class="el-dialog__title">
-            {{ buildDialogMode === 'add' ? '新增配裝' : '編輯配裝' }}
+            {{ data ? '編輯配裝' : '新增配裝' }}
           </div>
         </div>
       </template>
@@ -190,7 +201,13 @@ watch(() => isBuildDialogVisible.value, (visible) => {
       </template>
       <template #footer>
         <div>
-          <ElButton type="primary" :disabled="!isChanged">新增</ElButton>
+          <ElButton
+            type="primary"
+            :disabled="!isChanged"
+            @click="saveBuildHandler"
+          >
+            {{ data ? '更新' : '新增' }}
+          </ElButton>
         </div>
       </template>
   </ElDialog>

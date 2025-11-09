@@ -3,9 +3,9 @@ import { onMounted } from 'vue'
 import { ElInput } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
-import { SkillDescDialog, BuildDialog } from '@/components'
+import { SkillDescDialog } from '@/components'
 
-const { isLoadingMonsters, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
+const { isLoadingMonsters, searchKeyword } = storeToRefs(useBestiaryStore())
 const { initMonstersData } = useBestiaryStore()
 
 onMounted(() => {
@@ -39,7 +39,6 @@ onMounted(() => {
       <router-view />
     </main>
     <SkillDescDialog />
-    <BuildDialog />
   </div>
 </template>
 

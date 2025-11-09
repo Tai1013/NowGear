@@ -25,18 +25,20 @@ const { smeltData } = storeToRefs(useBestiaryStore())
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
 
+// 內部煉成數據
 const innerSlotData = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 })
+// 練成列表
 const smeltsList = computed(() => {
   const normalized: SmeltSelectRow[] = []
   Object.keys(smeltData.value).forEach((smeltId) => {
     normalized.push({
       key: `${smeltId}-category`,
       id: smeltId,
+      isCategory: true,
       name: smeltData.value[smeltId].name,
-      isCategory: true
     })
     smeltData.value[smeltId].skills.forEach((skill) => {
       normalized.push({
@@ -50,6 +52,7 @@ const smeltsList = computed(() => {
       })
     })
   })
+  // 設定初始選中行
   setTimeout(() => {
     const { smelt, id } = innerSlotData.value
     if (smelt && id) {
@@ -59,15 +62,17 @@ const smeltsList = computed(() => {
   }, 100)
   return normalized
 })
-
+// 表格行類別
 const tableRowClassName = ({ row }: { row: SmeltSelectRow }) => {
   if (row.isCategory) return 'smelt-category-row'
   return 'smelt-skill-row'
 }
+// 開啟彈窗
 const openDialogHandler = () => {
   isDialogVisible.value = true
   emit('open')
 }
+// 選擇煉成，如果 row 與 modelValue 相同，則清空選擇，否則設定新的選擇
 const handleCurrentChange = (row: SmeltSelectRow) => {
   const rowId = row.key
   const dataId = `${innerSlotData.value.smelt}-${innerSlotData.value.id}`
@@ -137,6 +142,10 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
 </template>
 
 <style lang="scss" scoped>
+.smelt-select-container {
+  display: flex;
+  align-items: center;
+}
 .armor-slot {
   display: inline-block;
   width: 12px;

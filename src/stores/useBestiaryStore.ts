@@ -1,4 +1,4 @@
-import type { Monster, NormalizedMonster, SkillData, WeaponData, SmeltData, BuildDialogMode } from '@/types'
+import type { Monster, NormalizedMonster, SkillData, WeaponData, SmeltData, BuildData } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
@@ -16,9 +16,9 @@ export const useBestiaryStore = defineStore('bestiaryStore',
     const smeltData = ref<SmeltData>(smelt)
 
     const monstersData = ref<NormalizedMonster[]>([])
-    // 配裝彈窗狀態/配裝彈窗模式
+    // 配裝彈窗是否顯示/配裝數據列表
     const isBuildDialogVisible = ref(false)
-    const buildDialogMode = ref<BuildDialogMode>('add')
+    const buildDataList = ref<BuildData[]>([])
 
     // 技能視窗ID
     const skillDialogId = ref<string>('')
@@ -94,11 +94,11 @@ export const useBestiaryStore = defineStore('bestiaryStore',
     return {
       isLoadingMonsters: isLoading,
       monstersData,
+      isBuildDialogVisible,
+      buildDataList,
       weaponsData,
       skillsData,
       smeltData,
-      isBuildDialogVisible,
-      buildDialogMode,
       skillDialogId,
       skillDialogLevel,
       searchKeyword,
@@ -108,7 +108,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
   },
   {
     persistedState: {
-      includePaths: ['monstersData']
+      includePaths: ['monstersData', 'buildDataList']
     }
   }
 )

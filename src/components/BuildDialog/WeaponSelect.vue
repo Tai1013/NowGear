@@ -1,30 +1,29 @@
 <script setup lang="ts">
-import type { MonsterWeapon } from '@/types'
-import { isEqual } from 'radashi'
+import type { BuildWeaponRow, MonsterSkill } from '@/types'
 import { ref, computed } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElImage } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-export interface WeaponRowResult extends MonsterWeapon {
-  monster: string
-}
-
 defineOptions({ name: 'WeaponSelect' })
 const props = defineProps<{
-  modelValue: WeaponRowResult | undefined
+  modelValue: BuildWeaponRow | undefined
   category?: string
 }>()
 const emit = defineEmits(['update:modelValue'])
 
 const { monstersData } = storeToRefs(useBestiaryStore())
 
-const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
 
+// 內部武器數據
+const innerWeaponData = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
 // 武器列表：根據 category 過濾龍並返回對應的技能和屬性
-const weaponsList = computed((): WeaponRowResult[] => {
+const weaponsList = computed((): BuildWeaponRow[] => {
   return monstersData.value
     .filter((monster) => {
       if (!monster.weapon) return false
@@ -39,22 +38,22 @@ const weaponsList = computed((): WeaponRowResult[] => {
     })
     .map((monster) => {
       // 決定使用哪個技能和屬性數據
-      let skills = []
-      let effect = undefined
+      let skills: MonsterSkill[] = []
+      let effect: string = ''
 
       if (!props.category) {
         // category 為空：使用 default 技能和屬性
         skills = monster.weapon!.default?.skills || []
-        effect = monster.weapon!.default?.effect
+        effect = monster.weapon!.default?.effect || ''
       } else {
         // category 有值：優先使用該武器的技能和屬性，否則使用 default
         const categoryWeapon = monster.weapon![props.category]
         if (categoryWeapon?.skills && categoryWeapon.skills.length > 0) {
           skills = categoryWeapon.skills
-          effect = categoryWeapon.effect || monster.weapon!.default?.effect
+          effect = categoryWeapon.effect || monster.weapon!.default?.effect || ''
         } else {
           skills = monster.weapon!.default?.skills || []
-          effect = monster.weapon!.default?.effect
+          effect = monster.weapon!.default?.effect || ''
         }
       }
 
@@ -65,15 +64,16 @@ const weaponsList = computed((): WeaponRowResult[] => {
       }
     })
 })
-
+// 開啟彈窗
 const openDialogHandler = () => {
   isDialogVisible.value = true
 }
-const handleCurrentChange = (row: WeaponRowResult) => {
-  if (isEqual(row, props.modelValue)) {
-    emit('update:modelValue', null)
+// 選擇武器，如果 row 與 modelValue 相同，則清空選擇，否則設定新的選擇
+const handleCurrentChange = (row: BuildWeaponRow) => {
+  if (row.monster === innerWeaponData.value?.monster) {
+    innerWeaponData.value = undefined
   } else {
-    emit('update:modelValue', row)
+    innerWeaponData.value = row
   }
   isDialogVisible.value = false
 }
@@ -84,22 +84,22 @@ const handleCurrentChange = (row: WeaponRowResult) => {
     class="weapon-select-container"
     @click="openDialogHandler"
   >
-    <template v-if="modelValue">
+    <template v-if="innerWeaponData">
       <div class="weapon-select-item">
         <div class="monster-image-container">
           <ElImage
             class="monster-image"
-            :src="convertFilePath(`@/assets/images/monster/${modelValue.monster}.png`)"
+            :src="convertFilePath(`@/assets/images/monster/${innerWeaponData.monster}.png`)"
             fit="contain"
           />
           <ElImage
-            v-if="modelValue.effect"
+            v-if="innerWeaponData.effect"
             class="monster-effect"
-            :src="convertFilePath(`@/assets/images/eff/${modelValue.effect}.png`)"
+            :src="convertFilePath(`@/assets/images/eff/${innerWeaponData.effect}.png`)"
             fit="contain"
           />
         </div>
-        <SkillTags :skills="modelValue.skills" disabled />
+        <SkillTags :skills="innerWeaponData.skills" disabled />
       </div>
     </template>
     <template v-else>
@@ -118,7 +118,6 @@ const handleCurrentChange = (row: WeaponRowResult) => {
       class="build-dialog"
     >
       <ElTable
-        ref="singleTableRef"
         :data="weaponsList"
         :show-header="false"
         height="500px"

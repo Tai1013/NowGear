@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MonsterArmor, ArmorType, ArmorSlot } from '@/types'
+import type { MonsterArmor, BuildArmorRow, ArmorType } from '@/types'
 import { ref, computed } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElImage, ElSpace } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
@@ -10,14 +10,10 @@ import SmeltSelect from './SmeltSelect.vue'
 interface ArmorSelectRow extends MonsterArmor {
   monster: string
 }
-export interface ArmorRowResult extends Omit<MonsterArmor, 'slots'> {
-  monster: string
-  slots: ArmorSlot[]
-}
 
 defineOptions({ name: 'ArmorSelect' })
 const props = defineProps<{
-  modelValue: ArmorRowResult | undefined
+  modelValue: BuildArmorRow | undefined
   armor: ArmorType  // 防具部位
 }>()
 const emit = defineEmits(['update:modelValue'])
@@ -27,10 +23,12 @@ const { monstersData } = storeToRefs(useBestiaryStore())
 const isDialogVisible = ref(false)
 const isSlotsClicked = ref(false)
 
+// 內部防具數據
 const innterArmorData = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 })
+// 防具列表
 const armorsList = computed((): ArmorSelectRow[] => {
   return monstersData.value
     .filter((monster) => {
@@ -52,23 +50,24 @@ const armorsList = computed((): ArmorSelectRow[] => {
       }
     })
 })
-
+// 打開彈窗，如果點擊煉成，則不打開彈窗
 const openDialogHandler = () => {
   if (isSlotsClicked.value) return
   isDialogVisible.value = true
 }
+// 打開煉成彈窗，設定開關避免觸發防具彈窗
 const openSlotsDialogHandler = () => {
   isSlotsClicked.value = true
   setTimeout(() => {
     isSlotsClicked.value = false
   }, 300)
 }
+// 選擇防具，如果 row 與 modelValue 相同，則清空選擇，否則設定新的選擇
 const handleCurrentChange = (row: ArmorSelectRow) => {
   // 如果選擇的魔物相同，則清空選擇
   if (row.monster === props.modelValue?.monster) {
     innterArmorData.value = undefined
-  }
-  else {
+  } else {
     // 否則設定新的選擇
     const { monster, skills, slots } = row
     innterArmorData.value = {
