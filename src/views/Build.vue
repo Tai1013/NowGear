@@ -34,7 +34,7 @@ const deleteDataHandler = (index: number) => {
       <ElButton @click="openBuildDialogHandler()">測試打開</ElButton>
       <div>
         <div
-          v-for="(buildData, index) in buildDataList"
+          v-for="(_, index) in buildDataList"
           :key="index"
         >
           <ElButton @click="openBuildDialogHandler(index)">
