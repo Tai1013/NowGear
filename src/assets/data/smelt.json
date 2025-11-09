@@ -41,7 +41,7 @@
       { "id": "evade-extender" }
     ]
   },
-  "aqua-blue": {
+  "skyblue": {
     "name": "漂流石【水藍】",
     "monsters": ["n-paol", "legi", "rado", "bari", "lago", "somn", "beot", "luna"],
     "skills": [
@@ -83,7 +83,7 @@
       { "id": "special-insurance" }
     ]
   },
-  "common": {
+  "green": {
     "name": "共通",
     "skills": [
       { "id": "attack-boost" },

@@ -4,20 +4,23 @@ import { ElDialog, ElTable, ElTableColumn } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 
 defineOptions({ name: 'SkillDescDialog' })
-const props = defineProps<{
-  modelValue: string
-}>()
+// const props = defineProps<{
+//   modelValue: string
+// }>()
 const emit = defineEmits(['update:modelValue'])
 
-const { skillsData } = storeToRefs(useBestiaryStore())
+const { skillDialogId, skillDialogLevel, skillsData } = storeToRefs(useBestiaryStore())
 
 const visible = computed({
-  get: () => !!props.modelValue,
-  set: () => emit('update:modelValue', undefined)
+  get: () => !!skillDialogId.value,
+  set: () => {
+    skillDialogId.value = ''
+    skillDialogLevel.value = undefined
+  }
 })
 const currentSkill = computed(() => {
-  if (!props.modelValue) return undefined
-  const skill = skillsData.value[props.modelValue]
+  if (!skillDialogId.value) return undefined
+  const skill = skillsData.value[skillDialogId.value]
   return skill
 })
 const skillDescList = computed(() => {
@@ -28,6 +31,11 @@ const skillRemarkList = computed(() => {
   if (!currentSkill.value || !currentSkill.value.remark) return []
   return currentSkill.value.remark.map((remark, index) => ({ index: index + 1, remark }))
 })
+const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
+  console.log(rowIndex)
+  if (skillDialogLevel.value && rowIndex <= skillDialogLevel.value - 1) return 'active-row'
+  return ''
+}
 </script>
 
 <template>
@@ -42,7 +50,11 @@ const skillRemarkList = computed(() => {
     :show-close="false"
     class="skill-desc-dialog"
   >
-    <ElTable :data="skillDescList" :show-header="false">
+    <ElTable
+      :data="skillDescList"
+      :show-header="false"
+      :row-class-name="tableRowClassName"
+    >
       <ElTableColumn prop="index" width="40" align="center" />
       <ElTableColumn prop="desc" />
     </ElTable>
@@ -66,5 +78,8 @@ const skillRemarkList = computed(() => {
 <style lang="scss" scoped>
 :deep(.remark-cell) {
   color: var(--el-color-primary);
+}
+:deep(.active-row) {
+  color: var(--el-color-warning);
 }
 </style>

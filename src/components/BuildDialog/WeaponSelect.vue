@@ -1,22 +1,30 @@
 <script setup lang="ts">
+import type { MonsterWeapon } from '@/types'
+import { isEqual } from 'radashi'
 import { ref, computed } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElImage } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-defineOptions({ name: 'WeaponSelect' })
+export interface WeaponRowResult extends MonsterWeapon {
+  monster: string
+}
 
+defineOptions({ name: 'WeaponSelect' })
 const props = defineProps<{
+  modelValue: WeaponRowResult | undefined
   category?: string
 }>()
+const emit = defineEmits(['update:modelValue'])
 
 const { monstersData } = storeToRefs(useBestiaryStore())
 
+const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
 
 // 武器列表：根據 category 過濾龍並返回對應的技能和屬性
-const weaponsList = computed(() => {
+const weaponsList = computed((): WeaponRowResult[] => {
   return monstersData.value
     .filter((monster) => {
       if (!monster.weapon) return false
@@ -57,8 +65,17 @@ const weaponsList = computed(() => {
       }
     })
 })
+
 const openDialogHandler = () => {
   isDialogVisible.value = true
+}
+const handleCurrentChange = (row: WeaponRowResult) => {
+  if (isEqual(row, props.modelValue)) {
+    emit('update:modelValue', null)
+  } else {
+    emit('update:modelValue', row)
+  }
+  isDialogVisible.value = false
 }
 </script>
 
@@ -67,6 +84,29 @@ const openDialogHandler = () => {
     class="weapon-select-container"
     @click="openDialogHandler"
   >
+    <template v-if="modelValue">
+      <div class="weapon-select-item">
+        <div class="monster-image-container">
+          <ElImage
+            class="monster-image"
+            :src="convertFilePath(`@/assets/images/monster/${modelValue.monster}.png`)"
+            fit="contain"
+          />
+          <ElImage
+            v-if="modelValue.effect"
+            class="monster-effect"
+            :src="convertFilePath(`@/assets/images/eff/${modelValue.effect}.png`)"
+            fit="contain"
+          />
+        </div>
+        <SkillTags :skills="modelValue.skills" disabled />
+      </div>
+    </template>
+    <template v-else>
+      <div class="weapon-select-placeholder">
+        選擇武器
+      </div>
+    </template>
     <ElDialog
       v-model="isDialogVisible"
       title="選擇武器"
@@ -78,9 +118,13 @@ const openDialogHandler = () => {
       class="build-dialog"
     >
       <ElTable
+        ref="singleTableRef"
         :data="weaponsList"
         :show-header="false"
         height="500px"
+        highlight-current-row
+        :row-key="row => row.monster"
+        @row-click="handleCurrentChange"
       >
         <ElTableColumn prop="monster" width="60">
           <template #default="scope">
@@ -101,7 +145,7 @@ const openDialogHandler = () => {
         </ElTableColumn>
         <ElTableColumn prop="skills">
           <template #default="scope">
-            <SkillTags :skills="scope.row.skills" />
+            <SkillTags :skills="scope.row.skills" disabled />
           </template>
         </ElTableColumn>
       </ElTable>
@@ -110,21 +154,34 @@ const openDialogHandler = () => {
 </template>
 
 <style lang="scss" scoped>
+:deep(.el-table__row) {
+  cursor: pointer;
+}
 .weapon-select-container {
   width: 100%;
   min-height: var(--build-select-height);
+  cursor: pointer;
 
-  .weapon-select {
+  .weapon-select-placeholder {
     display: flex;
     align-items: center;
+    color: var(--el-text-color-placeholder);
     width: 100%;
     height: var(--build-select-height);
   }
 }
 
+.weapon-select-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
 .monster-image-container {
   position: relative;
   display: inline-flex;
+  flex-shrink: 0;
 
   .monster-image {
     width: var(--build-select-height);

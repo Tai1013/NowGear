@@ -51,12 +51,15 @@ export interface Monster {
     [key: string]: MonsterWeapon | undefined
   }
   armor?: {
-    helm?: MonsterArmor
-    mail?: MonsterArmor
-    gloves?: MonsterArmor
-    belt?: MonsterArmor
-    greaves?: MonsterArmor
+    [key in ArmorType]?: MonsterArmor
   }
+}
+// 防具部位
+export type ArmorType = 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
+export type ArmorSlot = {
+  id: string
+  smelt: string
+  level?: number
 }
 // 標準化後的魔物資料
 export interface NormalizedMonster extends Monster {

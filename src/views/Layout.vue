@@ -38,7 +38,7 @@ onMounted(() => {
     <main>
       <router-view />
     </main>
-    <SkillDescDialog v-model="skillDialogId" />
+    <SkillDescDialog />
     <BuildDialog />
   </div>
 </template>

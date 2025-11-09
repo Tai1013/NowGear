@@ -22,6 +22,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
 
     // 技能視窗ID
     const skillDialogId = ref<string>('')
+    const skillDialogLevel = ref<number>()
     // 搜尋關鍵字
     const searchKeyword = ref('')
 
@@ -99,6 +100,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
       isBuildDialogVisible,
       buildDialogMode,
       skillDialogId,
+      skillDialogLevel,
       searchKeyword,
       initMonstersData,
       refreshMonstersData

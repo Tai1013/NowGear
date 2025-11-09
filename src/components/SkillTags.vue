@@ -5,9 +5,10 @@ import { ElSpace, ElTag } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 
 defineOptions({ name: 'SkillTags' })
-defineProps<{
+const props = defineProps<{
   skills?: (MonsterSkill | SmeltSkill)[]
   size?: number
+  disabled?: boolean
 }>()
 
 const { skillsData, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
@@ -30,7 +31,7 @@ const setSkillTagType = (skill: MonsterSkill | SmeltSkill) => {
 }
 
 const openSkillDialog = (id: string) => {
-  if (id === 'weapon-special') return
+  if (id === 'weapon-special' || props.disabled) return
   skillDialogId.value = id
 }
 </script>
@@ -40,7 +41,7 @@ const openSkillDialog = (id: string) => {
     <ElTag
       v-for="skill in skills"
       :key="skill.id"
-      :class="{ 'cursor': skill.id !== 'weapon-special' }"
+      :class="{ 'cursor': skill.id !== 'weapon-special', disabled }"
       :type="setSkillTagType(skill)"
       disable-transitions
       @click="openSkillDialog(skill.id)"
@@ -52,7 +53,7 @@ const openSkillDialog = (id: string) => {
 </template>
 
 <style lang="scss" scoped>
-.cursor {
+.cursor:not(.disabled) {
   cursor: pointer;
 }
 </style>
