@@ -35,6 +35,13 @@ const buildData = ref<BuildData>(defaultBuildData)
 
 const { isChanged, reset } = useStoreRef(buildData)
 
+// 檢測是否為編輯模式
+const buildMode = computed(() => {
+  console.log(props.data)
+  if (props.data === undefined) return 'add'
+  if (isEditMode.value) return 'edit'
+  return 'preview'
+})
 // 當前魔物武器分類
 const currentWeaponCategory = computed((): string => {
   if (buildData.value.category) return buildData.value.category
@@ -100,7 +107,7 @@ const changeWeaponCategory = (category: string) => {
 // 儲存配裝數據
 const saveBuildHandler = () => {
   emit('update', {
-    type: props.data ? 'edit' : 'add',
+    type: buildMode.value,
     data: buildData.value
   })
   isBuildDialogVisible.value = false
@@ -125,7 +132,7 @@ watch(() => isBuildDialogVisible.value, (visible) => {
         <div class="build-dialog-header">
           <!-- 重置按鈕 -->
           <ElButton
-            v-if="isEditMode"
+            v-if="buildMode !== 'preview'"
             class="reset-button"
             :type="isChanged ? 'warning' : 'info'"
             :icon="Refresh"
@@ -135,29 +142,29 @@ watch(() => isBuildDialogVisible.value, (visible) => {
             @click="reset"
           />
           <div class="el-dialog__title">
-            <span v-if="isEditMode">{{ data ? '編輯配裝' : '新增配裝' }}</span>
-            <span v-else>檢視配裝</span>
+            <span v-if="buildMode === 'preview'">檢視配裝</span>
+            <span v-else>{{ buildMode === 'edit' ? '編輯配裝' : '新增配裝' }}</span>
           </div>
           <ElButton
-            v-if="isEditMode"
+            v-if="buildMode !== 'preview'"
             type="primary"
             class="save-button"
             size="small"
             :disabled="!isChanged"
             @click="saveBuildHandler"
           >
-            {{ data ? '更新' : '新增' }}
+            {{ buildMode === 'edit' ? '更新' : '新增' }}
           </ElButton>
         </div>
       </template>
       <template #default>
-        <ElInput v-model="buildData.name" placeholder="自訂名稱" :disabled="!isEditMode" />
+        <ElInput v-model="buildData.name" placeholder="自訂名稱" :disabled="buildMode === 'preview'" />
         <!-- 配裝表格 -->
         <ElTable
           :data="buildItems"
           :show-header="false"
           :row-class-name="tableRowClassName"
-          :class="{ 'view-mode': !isEditMode }"
+          :class="{ 'view-mode': buildMode === 'preview' }"
         >
           <ElTableColumn #default="scope" width="42">
             <div class="build-item-image">
