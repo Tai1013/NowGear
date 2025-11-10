@@ -2,7 +2,6 @@
 import type { BuildDialogMode, BuildData, MonsterSkill, ArmorType, ArmorSlot } from '@/types'
 import { ref } from 'vue'
 import { ElRow, ElCol, ElCard, ElButton, ElImage, ElSwitch, ElDivider } from 'element-plus'
-import { View, Edit, Delete } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { BuildDialog, SkillSummary, SkillTags } from '@/components'
@@ -136,9 +135,9 @@ const deleteDataHandler = (index: number) => {
                 </div>
               </div>
               <div>
-                <ElButton v-if="!isEditMode" :icon="View" type="primary" circle size="small" @click="openBuildDialogHandler(index)" />
-                <ElButton v-if="isEditMode" :icon="Edit" type="primary" circle size="small" @click="openBuildDialogHandler(index)" />
-                <ElButton v-if="isEditMode" :icon="Delete" type="danger" circle size="small" @click="deleteDataHandler(index)" />
+                <ElButton v-if="!isEditMode" type="primary" size="small" @click="openBuildDialogHandler(index)">檢視</ElButton>
+                <ElButton v-if="isEditMode" type="primary" size="small" @click="openBuildDialogHandler(index)">編輯</ElButton>
+                <ElButton v-if="isEditMode" type="danger" size="small" @click="deleteDataHandler(index)">刪除</ElButton>
               </div>
             </div>
             <div class="smelt-slots">
