@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MonsterArmor, BuildArmorRow, ArmorType } from '@/types'
 import { ref, computed } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElImage, ElSpace } from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElImage, ElSpace, ElInput } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
@@ -18,10 +18,12 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['update:modelValue'])
 
-const { monstersData } = storeToRefs(useBestiaryStore())
+const { monstersData, skillsData } = storeToRefs(useBestiaryStore())
 
+const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
 const isSlotsClicked = ref(false)
+const searchWeaponKeyword = ref('')
 
 // 內部防具數據
 const innterArmorData = computed({
@@ -29,8 +31,8 @@ const innterArmorData = computed({
   set: (value) => emit('update:modelValue', value)
 })
 // 防具列表
-const armorsList = computed((): ArmorSelectRow[] => {
-  return monstersData.value
+const armorsList = computed(() => {
+  const normalized: ArmorSelectRow[] = monstersData.value
     .filter((monster) => {
       // 確保魔物有防具數據
       if (!monster.armor) return false
@@ -45,10 +47,24 @@ const armorsList = computed((): ArmorSelectRow[] => {
 
       return {
         monster: monster.id,
+        monsterName: monster.name,
         skills: armorPiece?.skills || [],
         slots: armorPiece?.slots || 0
       }
     })
+    .filter((armor) => {
+      if (!searchWeaponKeyword.value || searchWeaponKeyword.value.trim() === '') return true
+      const keyword = searchWeaponKeyword.value.toLowerCase().trim()
+      // 搜尋魔物名稱
+      if (armor.monsterName.toLowerCase().includes(keyword)) return true
+      // 搜尋技能名稱
+      if (armor.skills.some((skill) => {
+        const skillName = skillsData.value[skill.id]?.name || ''
+        return skillName.toLowerCase().includes(keyword)
+      })) return true
+      return false
+    })
+  return normalized
 })
 // 打開彈窗，如果點擊煉成，則不打開彈窗
 const openDialogHandler = () => {
@@ -121,7 +137,9 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
       append-to-body
       :show-close="false"
     >
+      <ElInput v-model="searchWeaponKeyword" placeholder="搜尋魔物、技能" clearable />
       <ElTable
+        ref="singleTableRef"
         :data="armorsList"
         :show-header="false"
         height="500px"

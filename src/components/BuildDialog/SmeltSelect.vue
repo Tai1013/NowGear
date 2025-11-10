@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ArmorSlot, MonsterSkill } from '@/types'
 import { ref, computed } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElImage } from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElImage, ElInput } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
@@ -20,10 +20,11 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['update:modelValue', 'open'])
 
-const { smeltData } = storeToRefs(useBestiaryStore())
+const { smeltData, skillsData } = storeToRefs(useBestiaryStore())
 
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
+const searchWeaponKeyword = ref('')
 
 // 內部煉成數據
 const innerSlotData = computed({
@@ -52,6 +53,16 @@ const smeltsList = computed(() => {
       })
     })
   })
+  const filterNormalized = normalized.filter((row) => {
+    if (!searchWeaponKeyword.value || searchWeaponKeyword.value.trim() === '') return true
+    const keyword = searchWeaponKeyword.value.toLowerCase().trim()
+    // 搜尋技能名稱
+    if (row.skill) {
+      const skillName = skillsData.value[row.skill.id]?.name || ''
+      if (skillName.toLowerCase().includes(keyword)) return true
+    }
+    return false
+  })
   // 設定初始選中行
   setTimeout(() => {
     const { smelt, id } = innerSlotData.value
@@ -60,7 +71,7 @@ const smeltsList = computed(() => {
       singleTableRef.value?.setCurrentRow(smeltsList.value.find((row) => row.key === rowId))
     }
   }, 100)
-  return normalized
+  return filterNormalized
 })
 // 表格行類別
 const tableRowClassName = ({ row }: { row: SmeltSelectRow }) => {
@@ -109,6 +120,7 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
       append-to-body
       :show-close="false"
     >
+      <ElInput v-model="searchWeaponKeyword" placeholder="搜尋技能" clearable />
       <ElTable
         ref="singleTableRef"
         :data="smeltsList"

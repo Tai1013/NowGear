@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BuildWeaponRow, MonsterSkill } from '@/types'
 import { ref, computed } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElImage } from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElImage, ElInput } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
@@ -13,9 +13,11 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['update:modelValue'])
 
-const { monstersData } = storeToRefs(useBestiaryStore())
+const { monstersData, skillsData } = storeToRefs(useBestiaryStore())
 
+const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
+const searchWeaponKeyword = ref('')
 
 // 內部武器數據
 const innerWeaponData = computed({
@@ -23,8 +25,8 @@ const innerWeaponData = computed({
   set: (value) => emit('update:modelValue', value)
 })
 // 武器列表：根據 category 過濾龍並返回對應的技能和屬性
-const weaponsList = computed((): BuildWeaponRow[] => {
-  return monstersData.value
+const weaponsList = computed(() => {
+  const normalized: BuildWeaponRow[] = monstersData.value
     .filter((monster) => {
       if (!monster.weapon) return false
 
@@ -59,10 +61,30 @@ const weaponsList = computed((): BuildWeaponRow[] => {
 
       return {
         monster: monster.id,  // 參考項目格式：使用 monster id
+        monsterName: monster.name,  // 顯示名稱
         skills,
         effect  // 屬性
       }
     })
+    .filter((weapon) => {
+      if (!searchWeaponKeyword.value || searchWeaponKeyword.value.trim() === '') return true
+      const keyword = searchWeaponKeyword.value.toLowerCase().trim()
+      // 搜尋魔物名稱
+      if (weapon.monsterName.toLowerCase().includes(keyword)) return true
+      // 搜尋技能名稱
+      if (weapon.skills.some((skill) => {
+        const skillName = skillsData.value[skill.id]?.name || ''
+        return skillName.toLowerCase().includes(keyword)
+      })) return true
+      return false
+    })
+  // 設定初始選中行
+  setTimeout(() => {
+    if (innerWeaponData.value) {
+      singleTableRef.value?.setCurrentRow(weaponsList.value.find((row) => row.monster === innerWeaponData.value?.monster))
+    }
+  }, 100)
+  return normalized
 })
 // 開啟彈窗
 const openDialogHandler = () => {
@@ -116,7 +138,9 @@ const handleCurrentChange = (row: BuildWeaponRow) => {
       append-to-body
       :show-close="false"
     >
+      <ElInput v-model="searchWeaponKeyword" placeholder="搜尋魔物、技能" clearable />
       <ElTable
+        ref="singleTableRef"
         :data="weaponsList"
         :show-header="false"
         height="500px"

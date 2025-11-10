@@ -71,11 +71,13 @@ export type BuildDialogMode = 'add' | 'edit'
 // 配裝數據
 export type BuildArmorRow = {
   monster: string
+  monsterName: string
   skills: MonsterSkill[]
   slots: ArmorSlot[]
 }
 export type BuildWeaponRow = {
   monster: string
+  monsterName: string
   skills: MonsterSkill[]
   effect: string
 }
