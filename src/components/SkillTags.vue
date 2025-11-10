@@ -21,10 +21,12 @@ const setSkillTagType = (skill: MonsterSkill | SmeltSkill | SkillLevel) => {
   if (skill.id === 'weapon-special') tagType = 'info'
   // 判斷技能是否為稀有技能
   if ((skill as SmeltSkill).rarity) tagType = 'danger'
-  // 判斷是否滿格
-  if ((skill as SkillLevel).level === (skill as SkillLevel).maxLevel) tagType = 'success'
-  // 判斷是否滿格以上
-  if ((skill as SkillLevel).level > (skill as SkillLevel).maxLevel) tagType = 'danger'
+  if (props.hasLevel) {
+    // 判斷是否滿格
+    if ((skill as SkillLevel).level === (skill as SkillLevel).maxLevel) tagType = 'success'
+    // 判斷是否滿格以上
+    if ((skill as SkillLevel).level > (skill as SkillLevel).maxLevel) tagType = 'danger'
+  }
   // 判斷技能是否匹配搜尋關鍵字
   if (searchKeyword.value && searchKeyword.value.trim() !== '') {
     const keyword = searchKeyword.value.toLowerCase().trim()
@@ -54,7 +56,14 @@ const openSkillDialog = (skill: MonsterSkill | SmeltSkill | SkillLevel) => {
       @click="openSkillDialog(skill)"
     >
       <span>{{ skillsData[skill.id].name }}</span>
-      <span v-if="(skill as MonsterSkill).level">{{ (skill as MonsterSkill).level }}</span>
+      <span v-if="(skill as MonsterSkill).level">
+        <template v-if="'maxLevel' in skill && (skill as SkillLevel).level > (skill as SkillLevel).maxLevel">
+          {{ (skill as SkillLevel).maxLevel }}
+        </template>
+        <template v-else>
+          {{ (skill as MonsterSkill).level }}
+        </template>
+      </span>
     </ElTag>
   </ElSpace>
 </template>
