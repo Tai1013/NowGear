@@ -9,6 +9,7 @@ import SmeltSelect from './SmeltSelect.vue'
 
 interface ArmorSelectRow extends MonsterArmor {
   monster: string
+  monsterName: string
 }
 
 defineOptions({ name: 'ArmorSelect' })
@@ -85,9 +86,10 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
     innterArmorData.value = undefined
   } else {
     // 否則設定新的選擇
-    const { monster, skills, slots } = row
+    const { monster, monsterName, skills, slots } = row
     innterArmorData.value = {
       monster,
+      monsterName,
       skills,
       slots: Array.from({ length: slots }, () => ({ id: '', smelt: '' }))
     }
