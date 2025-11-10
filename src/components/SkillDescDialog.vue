@@ -32,7 +32,6 @@ const skillRemarkList = computed(() => {
   return currentSkill.value.remark.map((remark, index) => ({ index: index + 1, remark }))
 })
 const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
-  console.log(rowIndex)
   if (skillDialogLevel.value && rowIndex <= skillDialogLevel.value - 1) return 'active-row'
   return ''
 }

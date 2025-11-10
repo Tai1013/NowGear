@@ -37,7 +37,6 @@ const { isChanged, reset } = useStoreRef(buildData)
 
 // 檢測是否為編輯模式
 const buildMode = computed(() => {
-  console.log(props.data)
   if (props.data === undefined) return 'add'
   if (isEditMode.value) return 'edit'
   return 'preview'

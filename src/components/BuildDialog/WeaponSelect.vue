@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { BuildWeaponRow, MonsterSkill } from '@/types'
-import { ref, computed } from 'vue'
+import { isEqual } from 'radashi'
+import { ref, computed, watch } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElImage, ElInput } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
@@ -18,6 +19,7 @@ const { monstersData, skillsData } = storeToRefs(useBestiaryStore())
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
 const searchWeaponKeyword = ref('')
+const weaponsList = ref<BuildWeaponRow[]>([])
 
 // 內部武器數據
 const innerWeaponData = computed({
@@ -25,7 +27,7 @@ const innerWeaponData = computed({
   set: (value) => emit('update:modelValue', value)
 })
 // 武器列表：根據 category 過濾龍並返回對應的技能和屬性
-const weaponsList = computed(() => {
+const setNormalized = () => {
   const normalized: BuildWeaponRow[] = monstersData.value
     .filter((monster) => {
       if (!monster.weapon) return false
@@ -42,7 +44,6 @@ const weaponsList = computed(() => {
       // 決定使用哪個技能和屬性數據
       let skills: MonsterSkill[] = []
       let effect: string = ''
-
       if (!props.category) {
         // category 為空：使用 default 技能和屬性
         skills = monster.weapon!.default?.skills || []
@@ -50,13 +51,10 @@ const weaponsList = computed(() => {
       } else {
         // category 有值：優先使用該武器的技能和屬性，否則使用 default
         const categoryWeapon = monster.weapon![props.category]
-        if (categoryWeapon?.skills && categoryWeapon.skills.length > 0) {
-          skills = categoryWeapon.skills
-          effect = categoryWeapon.effect || monster.weapon!.default?.effect || ''
-        } else {
-          skills = monster.weapon!.default?.skills || []
-          effect = monster.weapon!.default?.effect || ''
-        }
+        if (categoryWeapon?.skills && categoryWeapon.skills.length > 0) skills = categoryWeapon.skills
+        else skills = monster.weapon!.default?.skills || []
+        if (categoryWeapon?.effect) effect = categoryWeapon.effect
+        else effect = monster.weapon!.default?.effect || ''      
       }
 
       return {
@@ -81,11 +79,13 @@ const weaponsList = computed(() => {
   // 設定初始選中行
   setTimeout(() => {
     if (innerWeaponData.value) {
-      singleTableRef.value?.setCurrentRow(weaponsList.value.find((row) => row.monster === innerWeaponData.value?.monster))
+      const row = weaponsList.value.find((row) => row.monster === innerWeaponData.value?.monster)
+      if (!isEqual(row, innerWeaponData.value)) innerWeaponData.value = row
+      singleTableRef.value?.setCurrentRow(row)
     }
   }, 100)
   return normalized
-})
+}
 // 開啟彈窗
 const openDialogHandler = () => {
   isDialogVisible.value = true
@@ -99,6 +99,10 @@ const handleCurrentChange = (row: BuildWeaponRow) => {
   }
   isDialogVisible.value = false
 }
+
+watch([() => props.category, () => searchWeaponKeyword.value], () => {
+  weaponsList.value = setNormalized()
+}, { immediate: true })
 </script>
 
 <template>
