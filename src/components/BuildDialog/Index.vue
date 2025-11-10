@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['update'])
 
-const { isBuildDialogVisible, monstersData, weaponsData } = storeToRefs(useBestiaryStore())
+const { isBuildDialogVisible, isEditMode, monstersData, weaponsData } = storeToRefs(useBestiaryStore())
 
 // 預設配裝數據
 const defaultBuildData: BuildData = {
@@ -114,7 +114,6 @@ watch(() => isBuildDialogVisible.value, (visible) => {
 <template>
   <ElDialog
     v-model="isBuildDialogVisible"
-    :title="data ? '編輯配裝' : '新增配裝'"
     width="95%"
     center
     append-to-body
@@ -126,6 +125,7 @@ watch(() => isBuildDialogVisible.value, (visible) => {
         <div class="build-dialog-header">
           <!-- 重置按鈕 -->
           <ElButton
+            v-if="isEditMode"
             class="reset-button"
             :type="isChanged ? 'warning' : 'info'"
             :icon="Refresh"
@@ -135,9 +135,11 @@ watch(() => isBuildDialogVisible.value, (visible) => {
             @click="reset"
           />
           <div class="el-dialog__title">
-            {{ data ? '編輯配裝' : '新增配裝' }}
+            <span v-if="isEditMode">{{ data ? '編輯配裝' : '新增配裝' }}</span>
+            <span v-else>檢視配裝</span>
           </div>
           <ElButton
+            v-if="isEditMode"
             type="primary"
             class="save-button"
             size="small"
@@ -149,12 +151,13 @@ watch(() => isBuildDialogVisible.value, (visible) => {
         </div>
       </template>
       <template #default>
-        <ElInput v-model="buildData.name" placeholder="自訂名稱" />
+        <ElInput v-model="buildData.name" placeholder="自訂名稱" :disabled="!isEditMode" />
         <!-- 配裝表格 -->
         <ElTable
           :data="buildItems"
           :show-header="false"
           :row-class-name="tableRowClassName"
+          :class="{ 'view-mode': !isEditMode }"
         >
           <ElTableColumn #default="scope" width="42">
             <div class="build-item-image">
@@ -240,6 +243,10 @@ watch(() => isBuildDialogVisible.value, (visible) => {
 }
 .el-table :deep(.weapons-row) > td.el-table__cell {
   background-color: var(--el-color-primary-light-9) !important;
+}
+
+.view-mode {
+  pointer-events: none !important;
 }
 
 .weapon-image {

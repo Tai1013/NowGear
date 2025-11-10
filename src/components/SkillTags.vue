@@ -11,6 +11,7 @@ const props = defineProps<{
   size?: number
   disabled?: boolean
   hasLevel?: boolean
+  noCount?: boolean
 }>()
 
 const { skillsData, skillDialogId, skillDialogLevel, searchKeyword } = storeToRefs(useBestiaryStore())
@@ -56,7 +57,7 @@ const openSkillDialog = (skill: MonsterSkill | SmeltSkill | SkillLevel) => {
       @click="openSkillDialog(skill)"
     >
       <span>{{ skillsData[skill.id].name }}</span>
-      <span v-if="(skill as MonsterSkill).level">
+      <span v-if="(skill as MonsterSkill).level && !noCount">
         <template v-if="'maxLevel' in skill && (skill as SkillLevel).level > (skill as SkillLevel).maxLevel">
           {{ (skill as SkillLevel).maxLevel }}
         </template>
