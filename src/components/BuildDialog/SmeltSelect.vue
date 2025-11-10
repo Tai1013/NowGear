@@ -126,7 +126,7 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
         :data="smeltsList"
         :show-header="false"
         :row-class-name="tableRowClassName"
-        height="500px"
+        height="450px"
         highlight-current-row
         :row-key="row => row.key"
         @row-click="handleCurrentChange"

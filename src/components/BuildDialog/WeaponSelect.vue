@@ -143,7 +143,7 @@ const handleCurrentChange = (row: BuildWeaponRow) => {
         ref="singleTableRef"
         :data="weaponsList"
         :show-header="false"
-        height="500px"
+        height="450px"
         highlight-current-row
         :row-key="row => row.monster"
         @row-click="handleCurrentChange"

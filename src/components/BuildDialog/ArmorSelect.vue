@@ -144,7 +144,7 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
         ref="singleTableRef"
         :data="armorsList"
         :show-header="false"
-        height="500px"
+        height="450px"
         highlight-current-row
         :row-key="row => row.monster"
         @row-click="handleCurrentChange"
