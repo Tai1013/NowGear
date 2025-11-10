@@ -77,9 +77,9 @@ const deleteDataHandler = (index: number) => {
 
 <template>
   <div class="build-container">
-    <div class="build-search">
+    <!-- <div class="build-search">
       搜尋區塊
-    </div>
+    </div> -->
     <ElRow :gutter="8">
       <ElCol :span="24">
         <div class="build-header">
