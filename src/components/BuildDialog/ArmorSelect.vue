@@ -115,12 +115,11 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
     <ElDialog
       v-model="isDialogVisible"
       title="選擇防具"
-      width="95%"
+      width="350px"
       center
       align-center
       append-to-body
       :show-close="false"
-      class="build-dialog"
     >
       <ElTable
         :data="armorsList"
@@ -157,7 +156,7 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
 
 .armor-select-container {
   width: 100%;
-  min-height: calc(var(--build-select-height) - 5px);
+  min-height: var(--build-select-height);
   cursor: pointer;
 
   .armor-selectt-placeholder {
@@ -165,7 +164,7 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
     align-items: center;
     color: var(--el-text-color-placeholder);
     width: 100%;
-    height: calc(var(--build-select-height) - 5px);
+    height: var(--build-select-height);
   }
 }
 
@@ -188,7 +187,7 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
 
 .monster-image {
   flex-shrink: 0;
-  width: calc(var(--build-select-height) - 5px);
-  height: calc(var(--build-select-height) - 5px);
+  width: var(--build-select-height);
+  height: var(--build-select-height);
 }
 </style>

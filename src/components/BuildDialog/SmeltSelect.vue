@@ -103,12 +103,11 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
     <ElDialog
       v-model="isDialogVisible"
       title="選擇煉成"
-      width="95%"
+      width="350px"
       center
       align-center
       append-to-body
       :show-close="false"
-      class="build-dialog"
     >
       <ElTable
         ref="singleTableRef"

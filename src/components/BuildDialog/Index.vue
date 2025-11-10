@@ -2,7 +2,7 @@
 import type { Weapon, ArmorType, MonsterSkill, BuildData } from '@/types'
 import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElSpace, ElButton, ElImage } from 'element-plus'
+import { ElDialog, ElInput, ElTable, ElTableColumn, ElSpace, ElButton, ElImage } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
@@ -21,6 +21,7 @@ const { isBuildDialogVisible, monstersData, weaponsData } = storeToRefs(useBesti
 
 // 預設配裝數據
 const defaultBuildData: BuildData = {
+  name: '',
   category: '',
   weapon: undefined,
   helm: undefined,
@@ -136,9 +137,19 @@ watch(() => isBuildDialogVisible.value, (visible) => {
           <div class="el-dialog__title">
             {{ data ? '編輯配裝' : '新增配裝' }}
           </div>
+          <ElButton
+            type="primary"
+            class="save-button"
+            :disabled="!isChanged"
+            @click="saveBuildHandler"
+          >
+            {{ data ? '更新' : '新增' }}
+          </ElButton>
         </div>
       </template>
       <template #default>
+        <ElInput v-model="buildData.name" placeholder="自訂名稱" />
+        <!-- 配裝表格 -->
         <ElTable
           :data="buildItems"
           :show-header="false"
@@ -199,7 +210,7 @@ watch(() => isBuildDialogVisible.value, (visible) => {
           <SkillSummary :skills="buildSkills" />
         </div>
       </template>
-      <template #footer>
+      <!-- <template #footer>
         <div>
           <ElButton
             type="primary"
@@ -209,13 +220,13 @@ watch(() => isBuildDialogVisible.value, (visible) => {
             {{ data ? '更新' : '新增' }}
           </ElButton>
         </div>
-      </template>
+      </template> -->
   </ElDialog>
 </template>
 
 <style lang="scss">
 :root {
-  --build-select-height: 30px;
+  --build-select-height: 25px;
 }
 .build-dialog {
   max-width: 390px;
@@ -226,8 +237,8 @@ watch(() => isBuildDialogVisible.value, (visible) => {
 .el-table :deep(.cell) {
   padding: 0 6px;
 }
-.el-table :deep(.weapons-row) {
-  --el-table-tr-bg-color: var(--el-color-primary-light-9)
+.el-table :deep(.weapons-row) > td.el-table__cell {
+  background-color: var(--el-color-primary-light-9) !important;
 }
 
 .weapon-image {
@@ -240,8 +251,8 @@ watch(() => isBuildDialogVisible.value, (visible) => {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: var(--build-select-height);
-  height: var(--build-select-height);
+  width: calc(var(--build-select-height) + 5px);
+  height: calc(var(--build-select-height) + 5px);
 }
 
 .build-weapon-button:disabled {
@@ -253,7 +264,16 @@ watch(() => isBuildDialogVisible.value, (visible) => {
 
   .reset-button {
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     left: 0;
+  }
+
+  .save-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
   }
 }
 

@@ -110,12 +110,11 @@ const handleCurrentChange = (row: BuildWeaponRow) => {
     <ElDialog
       v-model="isDialogVisible"
       title="選擇武器"
-      width="95%"
+      width="350px"
       center
       align-center
       append-to-body
       :show-close="false"
-      class="build-dialog"
     >
       <ElTable
         :data="weaponsList"

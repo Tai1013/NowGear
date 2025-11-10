@@ -80,6 +80,7 @@ export type BuildWeaponRow = {
   effect: string
 }
 export interface BuildData extends Partial<Record<ArmorType, BuildArmorRow>> {
+  name: string
   category: string
   weapon?: BuildWeaponRow
 }

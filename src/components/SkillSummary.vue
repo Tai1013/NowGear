@@ -88,7 +88,7 @@ const openSkillDialog = (skill: SkillLevel) => {
 
   .skill-level-item {
     display: inline-block;
-    width: 20px;
+    width: 22px;
     height: 8px;
     background-color: #ccc;
     transform: skew(-30deg);
