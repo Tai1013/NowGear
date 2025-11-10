@@ -25,6 +25,10 @@ export const useBestiaryStore = defineStore('bestiaryStore',
     const skillDialogLevel = ref<number>()
     // 搜尋關鍵字
     const searchKeyword = ref('')
+    // 編輯模式
+    const isEditMode = ref(false)
+    // 技能模式
+    const isSkillMode = ref<'tag' | 'level'>('tag')
 
     // 載入所有龍的資料
     const loadMonsters = async (modules: Record<string, () => Promise<any>>) => {
@@ -95,6 +99,8 @@ export const useBestiaryStore = defineStore('bestiaryStore',
       isLoadingMonsters: isLoading,
       monstersData,
       isBuildDialogVisible,
+      isEditMode,
+      isSkillMode,
       buildDataList,
       weaponsData,
       skillsData,
@@ -108,7 +114,7 @@ export const useBestiaryStore = defineStore('bestiaryStore',
   },
   {
     persistedState: {
-      includePaths: ['monstersData', 'buildDataList']
+      includePaths: ['monstersData', 'buildDataList', 'isSkillMode']
     }
   }
 )

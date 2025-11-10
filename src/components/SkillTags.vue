@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { SkillLevel } from './SkillSummary.vue'
 import type { TagProps } from 'element-plus'
 import type { MonsterSkill, SmeltSkill } from '@/types'
 import { ElSpace, ElTag } from 'element-plus'
@@ -6,19 +7,24 @@ import { useBestiaryStore, storeToRefs } from '@/stores'
 
 defineOptions({ name: 'SkillTags' })
 const props = defineProps<{
-  skills?: (MonsterSkill | SmeltSkill)[]
+  skills?: (MonsterSkill | SmeltSkill | SkillLevel)[]
   size?: number
   disabled?: boolean
+  hasLevel?: boolean
 }>()
 
-const { skillsData, skillDialogId, searchKeyword } = storeToRefs(useBestiaryStore())
+const { skillsData, skillDialogId, skillDialogLevel, searchKeyword } = storeToRefs(useBestiaryStore())
 
-const setSkillTagType = (skill: MonsterSkill | SmeltSkill) => {
+const setSkillTagType = (skill: MonsterSkill | SmeltSkill | SkillLevel) => {
   let tagType: TagProps['type'] = 'primary'
   // 判斷是否為視武器而不同
   if (skill.id === 'weapon-special') tagType = 'info'
   // 判斷技能是否為稀有技能
   if ((skill as SmeltSkill).rarity) tagType = 'danger'
+  // 判斷是否滿格
+  if ((skill as SkillLevel).level === (skill as SkillLevel).maxLevel) tagType = 'success'
+  // 判斷是否滿格以上
+  if ((skill as SkillLevel).level > (skill as SkillLevel).maxLevel) tagType = 'danger'
   // 判斷技能是否匹配搜尋關鍵字
   if (searchKeyword.value && searchKeyword.value.trim() !== '') {
     const keyword = searchKeyword.value.toLowerCase().trim()
@@ -30,9 +36,10 @@ const setSkillTagType = (skill: MonsterSkill | SmeltSkill) => {
   return tagType
 }
 
-const openSkillDialog = (id: string) => {
-  if (id === 'weapon-special' || props.disabled) return
-  skillDialogId.value = id
+const openSkillDialog = (skill: MonsterSkill | SmeltSkill | SkillLevel) => {
+  if (skill.id === 'weapon-special' || props.disabled) return
+  skillDialogId.value = skill.id
+  if (props.hasLevel && 'level' in skill) skillDialogLevel.value = skill.level
 }
 </script>
 
@@ -44,7 +51,7 @@ const openSkillDialog = (id: string) => {
       :class="{ 'cursor': skill.id !== 'weapon-special', disabled }"
       :type="setSkillTagType(skill)"
       disable-transitions
-      @click="openSkillDialog(skill.id)"
+      @click="openSkillDialog(skill)"
     >
       <span>{{ skillsData[skill.id].name }}</span>
       <span v-if="(skill as MonsterSkill).level">{{ (skill as MonsterSkill).level }}</span>

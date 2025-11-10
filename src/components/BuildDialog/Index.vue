@@ -140,6 +140,7 @@ watch(() => isBuildDialogVisible.value, (visible) => {
           <ElButton
             type="primary"
             class="save-button"
+            size="small"
             :disabled="!isChanged"
             @click="saveBuildHandler"
           >
@@ -278,6 +279,6 @@ watch(() => isBuildDialogVisible.value, (visible) => {
 }
 
 .build-data {
-  margin-top: 16px;
+  margin-top: 8px;
 }
 </style>

@@ -3,8 +3,9 @@ import type { MonsterSkill } from '@/types'
 import { computed } from 'vue'
 import { ElRow, ElCol } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
+import { SkillTags } from '@/components'
 
-interface SkillLevel extends MonsterSkill {
+export interface SkillLevel extends MonsterSkill {
   name: string
   maxLevel: number
 }
@@ -12,6 +13,8 @@ interface SkillLevel extends MonsterSkill {
 defineOptions({ name: 'SkillSummary' })
 const props = defineProps<{
   skills?: MonsterSkill[]
+  // 階級模式 或者 標籤模式
+  mode?: 'level' | 'tag'
 }>()
 
 const { skillsData, skillDialogId, skillDialogLevel } = storeToRefs(useBestiaryStore())
@@ -46,28 +49,33 @@ const openSkillDialog = (skill: SkillLevel) => {
 </script>
 
 <template>
-  <ElRow :gutter="8">
-    <ElCol
-      v-for="skill in skillLevels"
-      :key="skill.id"
-      :span="12"
-      @click="openSkillDialog(skill)"
-    >
-      <div class="skill-name">{{ skill.name }}</div>
-      <div class="skill-level">
-        <span
-          v-for="levelIndex in skill.maxLevel"
-          :key="levelIndex"
-          class="skill-level-item"
-          :class="{
-            'active': levelIndex <= skill.level,
-            'full': skill.level === skill.maxLevel, // 滿格
-            'over': skill.level > skill.maxLevel    // 滿格以上
-          }"
-        />
-      </div>
-    </ElCol>
-  </ElRow>
+  <template v-if="mode === 'tag'">
+    <SkillTags :skills="skillLevels" :size="6" has-level />
+  </template>
+  <template v-else>
+    <ElRow :gutter="8">
+      <ElCol
+        v-for="skill in skillLevels"
+        :key="skill.id"
+        :span="12"
+        @click="openSkillDialog(skill)"
+      >
+        <div class="skill-name">{{ skill.name }}</div>
+        <div class="skill-level">
+          <span
+            v-for="levelIndex in skill.maxLevel"
+            :key="levelIndex"
+            class="skill-level-item"
+            :class="{
+              'active': levelIndex <= skill.level,
+              'full': skill.level === skill.maxLevel, // 滿格
+              'over': skill.level > skill.maxLevel    // 滿格以上
+            }"
+          />
+        </div>
+      </ElCol>
+    </ElRow>
+  </template>
 </template>
 
 <style lang="scss" scoped>
@@ -79,6 +87,7 @@ const openSkillDialog = (skill: SkillLevel) => {
 .skill-name {
   font-weight: bold;
   margin-bottom: 4px;
+  font-size: 12px;
 }
 
 .skill-level {
