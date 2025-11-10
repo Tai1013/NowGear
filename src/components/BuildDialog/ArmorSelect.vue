@@ -92,16 +92,18 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
           :src="convertFilePath(`@/assets/images/monster/${innterArmorData.monster}.png`)"
           fit="contain"
         />
-        <SkillTags :skills="innterArmorData.skills" disabled />
-        <ElSpace class="armor-slots" :size="4">
-          <!-- 煉成彈窗 -->
-          <SmeltSelect
-            v-for="(slot, index) in innterArmorData.slots"
-            :key="slot.id"
-            v-model="innterArmorData.slots[index]"
-            @open="openSlotsDialogHandler()"
-          />
-        </ElSpace>
+        <div class="armor-content">
+          <SkillTags :skills="innterArmorData.skills" disabled />
+          <ElSpace :size="4" wrap>
+            <!-- 煉成彈窗 -->
+            <SmeltSelect
+              v-for="(slot, index) in innterArmorData.slots"
+              :key="slot.id"
+              v-model="innterArmorData.slots[index]"
+              @open="openSlotsDialogHandler()"
+            />
+          </ElSpace>
+        </div>
       </div>
     </template>
     <template v-else>
@@ -155,7 +157,7 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
 
 .armor-select-container {
   width: 100%;
-  min-height: var(--build-select-height);
+  min-height: calc(var(--build-select-height) - 5px);
   cursor: pointer;
 
   .armor-selectt-placeholder {
@@ -163,7 +165,7 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
     align-items: center;
     color: var(--el-text-color-placeholder);
     width: 100%;
-    height: var(--build-select-height);
+    height: calc(var(--build-select-height) - 5px);
   }
 }
 
@@ -173,14 +175,20 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
   gap: 12px;
   width: 100%;
 
-  > .el-space:not(.armor-slots) {
+  > .el-space {
     flex: auto;
+  }
+
+  .armor-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
 .monster-image {
   flex-shrink: 0;
-  width: var(--build-select-height);
-  height: var(--build-select-height);
+  width: calc(var(--build-select-height) - 5px);
+  height: calc(var(--build-select-height) - 5px);
 }
 </style>

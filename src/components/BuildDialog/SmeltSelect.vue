@@ -90,12 +90,16 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
 </script>
 
 <template>
-  <div class="smelt-select-container">
+  <div
+    class="smelt-select-container"
+    @click="openDialogHandler"
+  >
     <i
       :style="{ '--smelt-color': innerSlotData.smelt }"
       class="armor-slot"
-      @click="openDialogHandler"
     />
+    <SkillTags v-if="innerSlotData.id" :skills="[innerSlotData]" disabled />
+    <span v-else class="smelt-placeholder">選擇煉成</span>
     <ElDialog
       v-model="isDialogVisible"
       title="選擇煉成"
@@ -145,6 +149,9 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
 .smelt-select-container {
   display: flex;
   align-items: center;
+  gap: 4px;
+  line-height: 1;
+  cursor: pointer;
 }
 .armor-slot {
   display: inline-block;
@@ -179,7 +186,8 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
     height: 25px;
   }
 }
-.el-space {
-  margin-left: 25px;
+
+.smelt-placeholder {
+  color: var(--el-text-color-placeholder);
 }
 </style>

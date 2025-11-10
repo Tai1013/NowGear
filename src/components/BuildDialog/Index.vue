@@ -218,7 +218,7 @@ watch(() => isBuildDialogVisible.value, (visible) => {
   --build-select-height: 30px;
 }
 .build-dialog {
-  max-width: 360px;
+  max-width: 390px;
 }
 
 </style>
