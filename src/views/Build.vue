@@ -6,10 +6,12 @@ import { View, Edit, Delete } from '@element-plus/icons-vue'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { BuildDialog, SkillSummary, SkillTags } from '@/components'
+import { useMessage } from '@/composables'
 
 type BuildType = 'weapon' | 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
 
 const { isBuildDialogVisible, buildDataList, isEditMode, isSkillMode } = storeToRefs(useBestiaryStore())
+const { $messageBox } = useMessage()
 
 // 裝備順序
 const buildOrder: BuildType[] = ['weapon', 'helm', 'mail', 'gloves', 'belt', 'greaves']
@@ -71,7 +73,16 @@ const updateDataHandler = ({ type, data }: { type: BuildDialogMode, data: BuildD
   }
 }
 const deleteDataHandler = (index: number) => {
-  buildDataList.value.splice(index, 1)
+  $messageBox.confirm('確定要刪除嗎？', '提示', {
+    confirmButtonText: '確定',
+    cancelButtonText: '取消',
+    type: 'warning',
+    center: true,
+  })
+    .then(() => {
+      buildDataList.value.splice(index, 1)
+    })
+    .catch(() => {})
 }
 </script>
 
@@ -136,12 +147,12 @@ const deleteDataHandler = (index: number) => {
                 :key="smeltSlot.id"
                 class="smelt-slot"
               >
-                <SkillTags v-if="smeltSlot.id" :skills="[smeltSlot]" no-count />
                 <i
                   v-for="levelIndex in smeltSlot.level"
                   :key="levelIndex"
                   :style="{ '--smelt-color': smeltSlot.smelt }" class="armor-slot"
                 />
+                <SkillTags v-if="smeltSlot.id" :skills="[smeltSlot]" no-count />
               </div>
             </div>
           </template>
