@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import type { BuildDialogMode, BuildData, MonsterSkill, ArmorType, ArmorSlot } from '@/types'
 import { ref } from 'vue'
-import { ElRow, ElCol, ElCard, ElButton, ElImage, ElSwitch, ElDivider } from 'element-plus'
+import { ElRow, ElCol, ElCard, ElButton, ElImage, ElSwitch, ElDivider, ElUpload } from 'element-plus'
 import { useBestiaryStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { BuildDialog, SkillSummary, SkillTags } from '@/components'
-import { useMessage } from '@/composables'
+import { useMessage, useUserData } from '@/composables'
 
 type BuildType = 'weapon' | 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
 
 const { isBuildDialogVisible, buildDataList, isEditMode, isSkillMode } = storeToRefs(useBestiaryStore())
 const { $messageBox } = useMessage()
+const { downloadBuildDataList, importBuildDataList } = useUserData()
 
 // 裝備順序
 const buildOrder: BuildType[] = ['weapon', 'helm', 'mail', 'gloves', 'belt', 'greaves']
@@ -94,11 +95,27 @@ const deleteDataHandler = (index: number) => {
       <ElCol :span="24">
         <div class="build-header">
           <ElButton type="primary" @click="openBuildDialogHandler()">新增配裝</ElButton>
-          <div class="build-header-switch">
-            <ElSwitch v-model="isSkillMode" inactive-value="tag" active-value="level" inactive-text="標籤" active-text="階級" size="small" />
-            <ElDivider direction="vertical" />
-            <ElSwitch v-model="isEditMode" inactive-text="檢視" active-text="編輯" size="small" />
+          <div class="build-header-update">
+            <ElButton
+              type="primary"
+              :disabled="buildDataList.length === 0"
+              @click="downloadBuildDataList"
+            >
+              匯出
+            </ElButton>
+            <ElUpload
+              :show-file-list="false"
+              :before-upload="importBuildDataList"
+              accept=".json"
+            >
+              <ElButton type="success">匯入</ElButton>
+            </ElUpload>
           </div>
+        </div>
+        <div class="build-header-switch">
+          <ElSwitch v-model="isSkillMode" inactive-value="tag" active-value="level" inactive-text="標籤" active-text="階級" size="small" />
+          <ElDivider direction="vertical" />
+          <ElSwitch v-model="isEditMode" inactive-text="檢視" active-text="編輯" size="small" />
         </div>
       </ElCol>
       <ElCol
@@ -181,12 +198,16 @@ const deleteDataHandler = (index: number) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
 
-  .build-header-switch {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+.build-header-switch {
+  margin-top: 8px;
+}
+
+.build-header-update {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .build-card {
