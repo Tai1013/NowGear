@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import type { Weapon, ArmorType, MonsterSkill, BuildData } from '@/types'
+defineOptions({ name: 'BuildDialog' })
+import type { BuildData, Weapon, ArmorType, MonsterSkill } from '@/types'
 import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
 import { ElDialog, ElInput, ElTable, ElTableColumn, ElSpace, ElButton, ElImage } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+import { useDataStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { useStoreRef } from '@/composables'
 import WeaponSelect from './WeaponSelect.vue'
 import ArmorSelect from './ArmorSelect.vue'
 import { SkillSummary } from '@/components'
 
-defineOptions({ name: 'BuildDialog' })
-const props = defineProps<{
-  data?: BuildData
-}>()
 const emit = defineEmits(['update'])
 
-const { isBuildDialogVisible, isEditMode, monstersData, weaponsData } = storeToRefs(useBestiaryStore())
+const { weaponsData, monstersData } = storeToRefs(useDataStore())
+const { buildDialog } = storeToRefs(useOperationStore())
 
 // 預設配裝數據
 const defaultBuildData: BuildData = {
@@ -30,26 +28,22 @@ const defaultBuildData: BuildData = {
   belt: undefined,
   greaves: undefined
 }
-
+// 配裝數據
 const buildData = ref<BuildData>(defaultBuildData)
 
 const { isChanged, reset } = useStoreRef(buildData)
 
-// 檢測是否為編輯模式
-const buildMode = computed(() => {
-  if (props.data === undefined) return 'add'
-  if (isEditMode.value) return 'edit'
-  return 'preview'
-})
-// 當前魔物武器分類
-const currentWeaponCategory = computed((): string => {
-  if (buildData.value.category) return buildData.value.category
-  return 'weapon'
+// 配裝模式標題
+const buildDialogTitle = computed(() => {
+  const mode = buildDialog.value.mode
+  if (mode === 'add') return '新增配裝'
+  if (mode === 'edit') return '編輯配裝'
+  return '檢視配裝'
 })
 // 配裝項目: 武器分類、魔物武器、裝備頭、裝備身、裝備手、裝備腰、裝備腳
-const buildItems = computed(() => [
+const buildColumns = computed(() => [
   { label: '武器分類', key: 'weapon' },
-  { label: '魔物武器', key: currentWeaponCategory.value },
+  { label: '魔物武器', key: buildData.value.category || 'weapon' },
   { label: '裝備頭', key: 'helm' },
   { label: '裝備身', key: 'mail' },
   { label: '裝備手', key: 'gloves' },
@@ -71,15 +65,20 @@ const buildSkills = computed(() => {
       const armorSkills = buildData.value[key as ArmorType]?.skills
       const armorSlots = buildData.value[key as ArmorType]?.slots
       if (armorSkills) skills.push(...armorSkills)
-      if (armorSlots) skills.push(...armorSlots.map((slot) => ({ id: slot.id, level: 1 })))
+      if (armorSlots) skills.push(...armorSlots)
     }
   })
   return skills.filter((slot) => slot.id && slot.level)
 })
+
 // 表格行類別
 const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
   if (rowIndex === 0) return 'weapons-row'
   return ''
+}
+// 合併儲存格
+const objectSpanMethod = ({ rowIndex }: { rowIndex: number }) => {
+  if (rowIndex === 0) return [1, 2]
 }
 // 設定武器按鈕類型
 const setWeaponType = (weapon: Weapon) => {
@@ -87,190 +86,158 @@ const setWeaponType = (weapon: Weapon) => {
   return ''
 }
 // 設定武器按鈕禁用
-const setWeaponDisabled = (id: string) => {
+const setWeaponDisabled = (weapon: Weapon) => {
   if (!buildData.value.weapon) return false
-  // 判斷當前 buildData.weapon 的龍 是否有該武器
+  // 判斷當前 buildData.weapon 的龍，是否有該武器
   const findMonster = monstersData.value.find((monsterData) => buildData.value.weapon && monsterData.id === buildData.value.weapon.monster)
   if (findMonster && findMonster.weapon) {
-    if (id in findMonster.weapon) return false
+    if (weapon.id in findMonster.weapon) return false
     return true
   }
   return false
 }
 // 切換武器分類
-const changeWeaponCategory = (category: string) => {
-  let changeCategory = category
-  if (buildData.value.category === category) changeCategory = ''
+const changeWeaponCategory = (weapon: Weapon) => {
+  let changeCategory = weapon.id
+  if (buildData.value.category === weapon.id) changeCategory = ''
   buildData.value.category = changeCategory
 }
 // 儲存配裝數據
 const saveBuildHandler = () => {
   emit('update', {
-    type: buildMode.value,
+    mode: buildDialog.value.mode,
     data: buildData.value
   })
-  isBuildDialogVisible.value = false
+  buildDialog.value.visible = false
 }
 
-watch(() => isBuildDialogVisible.value, (visible) => {
-  if (visible && props.data) buildData.value = cloneDeep(props.data)
+watch(() => buildDialog.value.visible, (visible) => {
+  if (visible) {
+    buildData.value = cloneDeep(buildDialog.value.data || defaultBuildData)
+  }
 })  
 </script>
 
 <template>
   <ElDialog
-    v-model="isBuildDialogVisible"
+    v-model="buildDialog.visible"
     width="95%"
     center
     append-to-body
     :show-close="false"
     class="build-dialog"
-    @close="reset"
-    >
-      <template #header>
-        <div class="build-dialog-header">
-          <!-- 重置按鈕 -->
-          <ElButton
-            v-if="buildMode !== 'preview'"
-            class="reset-button"
-            :type="isChanged ? 'warning' : 'info'"
-            :icon="Refresh"
-            size="small"
-            circle
-            :disabled="!isChanged"
-            @click="reset"
-          />
-          <div class="el-dialog__title">
-            <span v-if="buildMode === 'preview'">檢視配裝</span>
-            <span v-else>{{ buildMode === 'edit' ? '編輯配裝' : '新增配裝' }}</span>
-          </div>
-          <ElButton
-            v-if="buildMode !== 'preview'"
-            type="primary"
-            class="save-button"
-            size="small"
-            :disabled="!isChanged"
-            @click="saveBuildHandler"
-          >
-            {{ buildMode === 'edit' ? '更新' : '新增' }}
-          </ElButton>
+  >
+    <template #header>
+      <div class="build-dialog-header">
+        <!-- 重置按鈕 -->
+        <ElButton
+          v-if="buildDialog.mode !== 'preview'"
+          class="reset-button"
+          :icon="Refresh"
+          :type="isChanged ? 'warning' : 'info'"
+          size="small"
+          circle
+          :disabled="!isChanged"
+          @click="reset"
+        />
+        <div class="el-dialog__title">
+          <span>{{ buildDialogTitle }}</span>
         </div>
-      </template>
-      <template #default>
-        <ElInput v-model="buildData.name" placeholder="自訂名稱" :disabled="buildMode === 'preview'" />
-        <!-- 配裝表格 -->
-        <ElTable
-          :data="buildItems"
-          :show-header="false"
-          :row-class-name="tableRowClassName"
-          :class="{ 'view-mode': buildMode === 'preview' }"
+        <ElButton
+          v-if="buildDialog.mode !== 'preview'"
+          type="primary"
+          class="save-button"
+          size="small"
+          :disabled="!isChanged"
+          @click="saveBuildHandler"
         >
-          <ElTableColumn #default="scope" width="42">
-            <div class="build-item-image">
+          {{ buildDialog.mode === 'edit' ? '更新' : '新增' }}
+        </ElButton>
+      </div>
+    </template>
+    <template #default>
+      <ElInput
+        v-model="buildData.name"
+        placeholder="自訂名稱"
+        :disabled="buildDialog.mode === 'preview'"
+        clearable
+      />
+      <ElTable
+        :data="buildColumns"
+        :show-header="false"
+        :row-class-name="tableRowClassName"
+        :span-method="objectSpanMethod"
+      >
+        <ElTableColumn #default="scope" width="52">
+          <template v-if="scope.$index === 0">
+            <ElSpace wrap :size="8" class="build-weapon-container">
+              <ElButton
+                v-for="weapon in weaponsData"
+                :key="weapon.id"
+                class="build-weapon-button"
+                circle
+                :type="setWeaponType(weapon)"
+                :disabled="setWeaponDisabled(weapon)"
+                @click="changeWeaponCategory(weapon)"
+              >
+                <ElImage
+                  class="weapon-image"
+                  :src="convertFilePath(`@/assets/images/part/${weapon.id}.png`)"
+                  :alt="weapon.name"
+                  :title="weapon.name"
+                  fit="contain"
+                />
+              </ElButton>
+            </ElSpace>
+          </template>
+          <template v-else>
+            <div class="column-image">
               <ElImage
-                v-if="scope.row.key !== 'monsterWeapon'"
+                :class="{ 'weapon-image': scope.row.key === 'weapon' }"
                 :src="convertFilePath(`@/assets/images/part/${scope.row.key}.png`)"
                 :alt="scope.row.label"
                 :title="scope.row.label"
                 fit="contain"
               />
             </div>
-          </ElTableColumn>
-          <ElTableColumn>
-            <template #default="scope">
-              <div class="build-cell">
-                <template v-if="scope.$index === 0">
-                  <ElSpace wrap :size="6">
-                    <ElButton
-                      v-for="weapon in weaponsData"
-                      :key="weapon.id"
-                      class="build-weapon-button"
-                      :type="setWeaponType(weapon)"
-                      circle
-                      :disabled="setWeaponDisabled(weapon.id)"
-                      @click="changeWeaponCategory(weapon.id)"
-                    >
-                      <ElImage
-                        class="weapon-image"
-                        :src="convertFilePath(`@/assets/images/part/${weapon.id}.png`)"
-                        :alt="weapon.name"
-                        :title="weapon.name"
-                        fit="contain"
-                      />
-                    </ElButton>
-                  </ElSpace>
-                </template>
-                <template v-else-if="scope.$index === 1">
-                  <WeaponSelect
-                    v-model="buildData.weapon"
-                    :category="buildData.category"
-                  />
-                </template>
-                <template v-else>
-                  <ArmorSelect
-                    v-model="buildData[scope.row.key as ArmorType]"
-                    :armor="scope.row.key"
-                  />
-                </template>
-              </div>
+          </template>
+        </ElTableColumn>
+        <ElTableColumn #default="scope">
+          <div class="build-cell">
+            <template v-if="scope.$index === 1">
+              <WeaponSelect
+                v-model="buildData.weapon"
+                :category="buildData.category"
+                :disabled="buildDialog.mode === 'preview'"
+              />
             </template>
-          </ElTableColumn>
-        </ElTable>
-        <div class="build-data">
-          <SkillSummary :skills="buildSkills" />
-        </div>
-      </template>
-      <!-- <template #footer>
-        <div>
-          <ElButton
-            type="primary"
-            :disabled="!isChanged"
-            @click="saveBuildHandler"
-          >
-            {{ data ? '更新' : '新增' }}
-          </ElButton>
-        </div>
-      </template> -->
+            <template v-if="scope.$index > 1">
+              <ArmorSelect
+                v-model="buildData[scope.row.key as ArmorType]"
+                :armor="scope.row.key"
+                :disabled="buildDialog.mode === 'preview'"
+              />
+            </template>
+          </div>
+        </ElTableColumn>
+      </ElTable>
+      <SkillSummary :skills="buildSkills" level-mode />
+    </template>
   </ElDialog>
 </template>
 
 <style lang="scss">
-:root {
-  --build-select-height: 25px;
-}
 .build-dialog {
-  max-width: 390px;
+  max-width: 360px;
 }
-
 </style>
 <style lang="scss" scoped>
-.el-table :deep(.cell) {
-  padding: 0 6px;
-}
 .el-table :deep(.weapons-row) > td.el-table__cell {
   background-color: var(--el-color-primary-light-9) !important;
-}
 
-.view-mode {
-  pointer-events: none !important;
-}
-
-.weapon-image {
-  width: 25px;
-  height: 25px;
-}
-
-
-.build-item-image {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: calc(var(--build-select-height) + 5px);
-  height: calc(var(--build-select-height) + 5px);
-}
-
-.build-weapon-button:disabled {
-  opacity: 0.2;
+  .cell {
+    text-align: center;
+  }
 }
 
 .build-dialog-header {
@@ -291,7 +258,29 @@ watch(() => isBuildDialogVisible.value, (visible) => {
   }
 }
 
-.build-data {
-  margin-top: 8px;
+.build-weapon-container {
+  justify-content: center;
+
+  .build-weapon-button {
+    .weapon-image {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
+
+.column-image {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+
+  .weapon-image {
+    transform: scale(1.2);
+  }
+}
+
+.skill-summary-container {
+  margin-top: 12px;
 }
 </style>

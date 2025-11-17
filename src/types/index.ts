@@ -2,6 +2,10 @@
 export interface Weapon {
   id: string
   name: string
+  rarity?: {
+    id: string
+    name: string
+  }[]
 }
 export type WeaponData = Weapon[]
 
@@ -21,25 +25,35 @@ export interface SmeltSkill {
 // 練成資料
 export interface Smelt {
   name: string
-  monsters?: string[]
   skills: SmeltSkill[]
+  monsters?: string[]
 }
 export type SmeltData = Record<string, Smelt>
 
+// 屬性
+export type EffectType = 'blast' | 'dragon' | 'fire' | 'ice' | 'paralysis' | 'poison' | 'riftborne' | 'sleep' | 'thunder' | 'water'
+export interface Effect {
+  id: string
+  name: string
+}
+export type EffectData = Effect[]
+
+// 防具部位
+export type ArmorType = 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
 // 魔物持有的技能
 export interface MonsterSkill {
   id: string
-  level: number
+  level?: number
 }
 // 魔物持有的武器
 export interface MonsterWeapon {
-  effect?: string
-  skills?: MonsterSkill[]
+  skills: MonsterSkill[]
+  effect?: EffectType
 }
 // 魔物持有的防具
 export interface MonsterArmor {
-  slots: number
   skills: MonsterSkill[]
+  slots: number
 }
 // 魔物資料
 export interface Monster {
@@ -54,35 +68,36 @@ export interface Monster {
     [key in ArmorType]?: MonsterArmor
   }
 }
-// 防具部位
-export type ArmorType = 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
-export type ArmorSlot = {
-  id: string
-  smelt: string
-  level?: number
-}
 // 標準化後的魔物資料
 export interface NormalizedMonster extends Monster {
   sortWeapons?: Weapon[]
 }
 
-// 配裝彈窗模式
-export type BuildDialogMode = 'add' | 'edit'
+// 配裝資料
+export interface BuildData extends Partial<Record<ArmorType, BuildArmorRow>> {
+  name: string
+  category: string
+  weapon?: BuildWeaponRow
+}
+// 風格強化 rarity
+export type RarityType = 'atk' | 'ele' | 'crit'
+export interface RarityData {
+  skill: string
+  level: RarityType[]
+}
+// 配裝武器
+export type BuildWeaponRow = {
+  monster: string
+  monsterName: string
+  effect: string
+  skills: MonsterSkill[],
+  riftborne?: boolean
+  rarity?: RarityData
+}
 // 配裝數據
 export type BuildArmorRow = {
   monster: string
   monsterName: string
   skills: MonsterSkill[]
-  slots: ArmorSlot[]
-}
-export type BuildWeaponRow = {
-  monster: string
-  monsterName: string
-  skills: MonsterSkill[]
-  effect: string
-}
-export interface BuildData extends Partial<Record<ArmorType, BuildArmorRow>> {
-  name: string
-  category: string
-  weapon?: BuildWeaponRow
+  slots: MonsterSkill[]
 }

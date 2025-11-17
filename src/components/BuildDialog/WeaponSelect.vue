@@ -1,120 +1,161 @@
 <script setup lang="ts">
+defineOptions({ name: 'WeaponSelect' })
 import type { BuildWeaponRow, MonsterSkill } from '@/types'
-import { isEqual } from 'radashi'
+import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElImage, ElInput } from 'element-plus'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+import { useDataStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
+import RaritySelect from './RaritySelect.vue'
 
-defineOptions({ name: 'WeaponSelect' })
+interface WeaponOption {
+  monster: string
+  monsterName: string
+  riftborne: boolean
+  skills: MonsterSkill[]
+  effect: string
+}
+
 const props = defineProps<{
   modelValue: BuildWeaponRow | undefined
   category?: string
+  disabled?: boolean
 }>()
 const emit = defineEmits(['update:modelValue'])
 
-const { monstersData, skillsData } = storeToRefs(useBestiaryStore())
+const { monstersData } = storeToRefs(useDataStore())
+const { getSkillName } = useDataStore()
 
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
+const isStopClicked = ref(false)
 const searchWeaponKeyword = ref('')
-const weaponsList = ref<BuildWeaponRow[]>([])
 
 // 內部武器數據
 const innerWeaponData = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 })
-// 武器列表：根據 category 過濾龍並返回對應的技能和屬性
-const setNormalized = () => {
-  const normalized: BuildWeaponRow[] = monstersData.value
-    .filter((monster) => {
-      if (!monster.weapon) return false
-
+// 武器下拉選項
+const weaponOptions = computed((): WeaponOption[] => {
+  const normalized = cloneDeep(monstersData.value)
+    .filter((row) => {
+      if (!row.weapon) return false
       // category 為空：顯示所有有 weapon.default 技能的龍
-      if (!props.category) {
-        return monster.weapon.default?.skills && monster.weapon.default.skills.length > 0
-      }
-
+      if (!props.category) return row.weapon.default?.skills && row.weapon.default.skills.length > 0
       // category 有值：只顯示有該武器的龍
-      return props.category in monster.weapon
+      return props.category in row.weapon
     })
-    .map((monster) => {
+    .map((row) => {
       // 決定使用哪個技能和屬性數據
-      let skills: MonsterSkill[] = []
-      let effect: string = ''
-      if (!props.category) {
-        // category 為空：使用 default 技能和屬性
-        skills = monster.weapon!.default?.skills || []
-        effect = monster.weapon!.default?.effect || ''
-      } else {
-        // category 有值：優先使用該武器的技能和屬性，否則使用 default
-        const categoryWeapon = monster.weapon![props.category]
-        if (categoryWeapon?.skills && categoryWeapon.skills.length > 0) skills = categoryWeapon.skills
-        else skills = monster.weapon!.default?.skills || []
-        if (categoryWeapon?.effect) effect = categoryWeapon.effect
-        else effect = monster.weapon!.default?.effect || ''      
-      }
+      const categoryWeapon = row.weapon?.[props.category!]
+      const defaultSkills = row.weapon?.default?.skills || []
+      const defaultEffect = row.weapon?.default?.effect || ''
+      const skills = categoryWeapon?.skills || defaultSkills
+      const effect = categoryWeapon?.effect || defaultEffect
 
       return {
-        monster: monster.id,  // 參考項目格式：使用 monster id
-        monsterName: monster.name,  // 顯示名稱
+        monster: row.id,
+        monsterName: row.name,
+        riftborne: row.riftborne || false,
         skills,
-        effect  // 屬性
+        effect
       }
     })
-    .filter((weapon) => {
+    .filter((row) => {
       if (!searchWeaponKeyword.value || searchWeaponKeyword.value.trim() === '') return true
       const keyword = searchWeaponKeyword.value.toLowerCase().trim()
       // 搜尋魔物名稱
-      if (weapon.monsterName.toLowerCase().includes(keyword)) return true
+      if (row.monsterName.toLowerCase().includes(keyword)) return true
       // 搜尋技能名稱
-      if (weapon.skills.some((skill) => {
-        const skillName = skillsData.value[skill.id]?.name || ''
-        return skillName.toLowerCase().includes(keyword)
-      })) return true
-      return false
+      const someSkill = row.skills.some((skill) => getSkillName(skill.id).toLowerCase().includes(keyword))
+      return someSkill
     })
-  // 設定初始選中行
-  setTimeout(() => {
-    if (innerWeaponData.value) {
-      const row = weaponsList.value.find((row) => row.monster === innerWeaponData.value?.monster)
-      if (!isEqual(row, innerWeaponData.value)) innerWeaponData.value = row
-      singleTableRef.value?.setCurrentRow(row)
-    }
-  }, 100)
   return normalized
-}
+})
+// 更新武器數據，用於 category 改變時更新技能和屬性
+const updateWeaponData = computed(() => {
+  const findMonsterWeapon = monstersData.value.find((row) => row.id === innerWeaponData.value?.monster)?.weapon
+  if (!findMonsterWeapon) return undefined 
+  const defaultSkills = findMonsterWeapon.default?.skills || []
+  const defaultEffect = findMonsterWeapon.default?.effect || ''
+  const skills = findMonsterWeapon[props.category!]?.skills || defaultSkills
+  const effect = findMonsterWeapon[props.category!]?.effect || defaultEffect
+  return { skills, effect }
+})
+
 // 開啟彈窗
 const openDialogHandler = () => {
+  if (isStopClicked.value) return
   isDialogVisible.value = true
 }
+// 阻止彈窗打開
+const openClickStopHandler = () => {
+  isStopClicked.value = true
+  setTimeout(() => {
+    isStopClicked.value = false
+  }, 300)
+}
+// 表格行類別
+const tableRowClassName = () => {
+  if (!props.disabled) return 'cursor'
+  return ''
+}
 // 選擇武器，如果 row 與 modelValue 相同，則清空選擇，否則設定新的選擇
-const handleCurrentChange = (row: BuildWeaponRow) => {
+const handleCurrentChange = (row: WeaponOption) => {
   if (row.monster === innerWeaponData.value?.monster) {
     innerWeaponData.value = undefined
   } else {
-    innerWeaponData.value = row
+    const { riftborne } = row
+    const updateRow: BuildWeaponRow = row
+    if (riftborne) updateRow.rarity = { skill: '', level: [] }
+    innerWeaponData.value = updateRow
   }
   isDialogVisible.value = false
 }
 
-watch([() => props.category, () => searchWeaponKeyword.value], () => {
-  weaponsList.value = setNormalized()
-}, { immediate: true })
+watch(() => isDialogVisible.value, (visible) => {
+  if (!visible) searchWeaponKeyword.value = ''
+  else {
+    // 設定初始選中行
+    if (innerWeaponData.value) {
+      const row = weaponOptions.value.find((row) => row.monster === innerWeaponData.value?.monster)
+      singleTableRef.value?.setCurrentRow(row)
+    }
+  }
+})
+// category 改變時，更新武器數據
+watch(() => props.category, () => {
+  if (!innerWeaponData.value || !updateWeaponData.value) return
+  // 如果有 riftborne，清空風格強化
+  if (innerWeaponData.value.rarity) innerWeaponData.value.rarity.skill = ''
+  // 更新技能和屬性
+  innerWeaponData.value = {
+    ...innerWeaponData.value,
+    ...updateWeaponData.value
+  }
+})
 </script>
 
 <template>
   <div
-    class="weapon-select-container"
-    @click="openDialogHandler"
+    class="select-container"
+    :class="{ 'cursor': !disabled }"
+    @click="!disabled && openDialogHandler()"
   >
     <template v-if="innerWeaponData">
-      <div class="weapon-select-item">
-        <div class="monster-image-container">
+      <div class="select-item">
+        <div
+          :style="{
+            '--monster-image-size': '25px',
+            '--monster-image': `url('${convertFilePath(`@/assets/images/monster/${innerWeaponData.monster}.png`)}')`
+          }"
+          class="monster-image-container"
+        >
           <ElImage
             class="monster-image"
+            :class="{ 'riftborne': innerWeaponData.rarity }"
             :src="convertFilePath(`@/assets/images/monster/${innerWeaponData.monster}.png`)"
             fit="contain"
           />
@@ -125,11 +166,20 @@ watch([() => props.category, () => searchWeaponKeyword.value], () => {
             fit="contain"
           />
         </div>
-        <SkillTags :skills="innerWeaponData.skills" disabled />
+        <div>
+          <SkillTags :skills="innerWeaponData.skills" disabled />
+          <RaritySelect
+            v-if="innerWeaponData.rarity"
+            v-model="innerWeaponData.rarity"
+            :category="category"
+            :disabled="disabled"
+            @open="openClickStopHandler()"
+          />
+        </div>
       </div>
     </template>
     <template v-else>
-      <div class="weapon-select-placeholder">
+      <div class="select-placeholder">
         選擇武器
       </div>
     </template>
@@ -145,34 +195,37 @@ watch([() => props.category, () => searchWeaponKeyword.value], () => {
       <ElInput v-model="searchWeaponKeyword" placeholder="搜尋魔物、技能" clearable />
       <ElTable
         ref="singleTableRef"
-        :data="weaponsList"
+        :data="weaponOptions"
         :show-header="false"
         height="450px"
         highlight-current-row
-        :row-key="row => row.monster"
+        :row-class-name="tableRowClassName"
         @row-click="handleCurrentChange"
       >
-        <ElTableColumn prop="monster" width="60">
-          <template #default="scope">
-            <div class="monster-image-container">
-              <ElImage
-                class="monster-image"
-                :src="convertFilePath(`@/assets/images/monster/${scope.row.monster}.png`)"
-                fit="contain"
-              />
-              <ElImage
-                v-if="scope.row.effect"
-                class="monster-effect"
-                :src="convertFilePath(`@/assets/images/eff/${scope.row.effect}.png`)"
-                fit="contain"
-              />
-            </div>
-          </template>
+        <ElTableColumn #default="{ row } : { row: WeaponOption }" width="49">
+          <div
+            :style="{
+              '--monster-image-size': '25px',
+              '--monster-image': `url('${convertFilePath(`@/assets/images/monster/${row.monster}.png`)}')`
+            }"
+            class="monster-image-container"
+          >
+            <ElImage
+              class="monster-image"
+              :class="{ 'riftborne': row.riftborne }"
+              :src="convertFilePath(`@/assets/images/monster/${row.monster}.png`)"
+              fit="contain"
+            />
+            <ElImage
+              v-if="row.effect"
+              class="monster-effect"
+              :src="convertFilePath(`@/assets/images/eff/${row.effect}.png`)"
+              fit="contain"
+            />
+          </div>
         </ElTableColumn>
-        <ElTableColumn prop="skills">
-          <template #default="scope">
-            <SkillTags :skills="scope.row.skills" disabled />
-          </template>
+        <ElTableColumn #default="{ row } : { row: WeaponOption }">
+          <SkillTags :skills="row.skills" disabled />
         </ElTableColumn>
       </ElTable>
     </ElDialog>
@@ -180,47 +233,7 @@ watch([() => props.category, () => searchWeaponKeyword.value], () => {
 </template>
 
 <style lang="scss" scoped>
-:deep(.el-table__row) {
-  cursor: pointer;
-}
-.weapon-select-container {
-  width: 100%;
-  min-height: var(--build-select-height);
-  cursor: pointer;
-
-  .weapon-select-placeholder {
-    display: flex;
-    align-items: center;
-    color: var(--el-text-color-placeholder);
-    width: 100%;
-    height: var(--build-select-height);
-  }
-}
-
-.weapon-select-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-}
-
-.monster-image-container {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-
-  .monster-image {
-    width: var(--build-select-height);
-    height: var(--build-select-height);
-  }
-
-  .monster-effect {
-    position: absolute;
-    bottom: 0;
-    right: -5px;
-    width: calc(var(--build-select-height) / 2);
-    height: calc(var(--build-select-height) / 2);
-    filter: drop-shadow(0 0 .05em #e6e6e6);
-  }
+.rarity-select-container {
+  margin-top: 4px;
 }
 </style>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "fire",
+    "name": "火"
+  },
+  {
+    "id": "water",
+    "name": "水"
+  },
+  {
+    "id": "thunder",
+    "name": "雷"
+  },
+  {
+    "id": "ice",
+    "name": "冰"
+  },
+  {
+    "id": "dragon",
+    "name": "龍"
+  },
+  {
+    "id": "poison",
+    "name": "毒"
+  },
+  {
+    "id": "paralysis",
+    "name": "麻痺"
+  },
+  {
+    "id": "sleep",
+    "name": "睡眠"
+  },
+  {
+    "id": "blast",
+    "name": "爆破"
+  },
+  {
+    "id": "riftborne",
+    "name": "突變"
+  }
+]

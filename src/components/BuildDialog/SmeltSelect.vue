@@ -1,26 +1,27 @@
 <script setup lang="ts">
-import type { ArmorSlot, MonsterSkill } from '@/types'
-import { ref, computed } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElImage, ElInput } from 'element-plus'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+defineOptions({ name: 'SmeltSelect' })
+import type { MonsterSkill } from '@/types'
+import { ref, computed, watch } from 'vue'
+import { ElDialog, ElTable, ElTableColumn, ElButton, ElImage, ElInput } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+import { useDataStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-interface SmeltSelectRow {
-  key: string
+interface SmeltOption {
   id: string
   isCategory: boolean
-  name?: string
-  skill?: MonsterSkill
+  name: string
 }
 
-defineOptions({ name: 'SmeltSelect' })
 const props = defineProps<{
-  modelValue: ArmorSlot
+  modelValue: MonsterSkill
+  disabled?: boolean
 }>()
 const emit = defineEmits(['update:modelValue', 'open'])
 
-const { smeltData, skillsData } = storeToRefs(useBestiaryStore())
+const { smeltData } = storeToRefs(useDataStore())
+const { getSkillName } = useDataStore()
 
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
@@ -31,25 +32,20 @@ const innerSlotData = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 })
-// 練成列表
-const smeltsList = computed(() => {
-  const normalized: SmeltSelectRow[] = []
+// 煉成下拉選項
+const smeltsOptions = computed(() => {
+  const normalized: SmeltOption[] = []
   Object.keys(smeltData.value).forEach((smeltId) => {
     normalized.push({
-      key: `${smeltId}-category`,
       id: smeltId,
       isCategory: true,
       name: smeltData.value[smeltId].name,
     })
     smeltData.value[smeltId].skills.forEach((skill) => {
       normalized.push({
-        key: `${smeltId}-${skill.id}`,
-        id: smeltId,
+        id: skill.id,
         isCategory: false,
-        skill: {
-          id: skill.id,
-          level: 1
-        }
+        name: getSkillName(skill.id)
       })
     })
   })
@@ -57,26 +53,26 @@ const smeltsList = computed(() => {
     if (!searchWeaponKeyword.value || searchWeaponKeyword.value.trim() === '') return true
     const keyword = searchWeaponKeyword.value.toLowerCase().trim()
     // 搜尋技能名稱
-    if (row.skill) {
-      const skillName = skillsData.value[row.skill.id]?.name || ''
-      if (skillName.toLowerCase().includes(keyword)) return true
-    }
+    if (row.name?.toLowerCase().includes(keyword)) return true
     return false
   })
-  // 設定初始選中行
-  setTimeout(() => {
-    const { smelt, id } = innerSlotData.value
-    if (smelt && id) {
-      const rowId = `${smelt}-${id}`
-      singleTableRef.value?.setCurrentRow(smeltsList.value.find((row) => row.key === rowId))
-    }
-  }, 100)
   return filterNormalized
 })
+// 是否顯示漂流石按鈕
+const isShowButton = computed(() => {
+  return !innerSlotData.value.id
+})
+
+// 取得當前技能是哪個分類
+const getSmeltCategory = (id: string) => {
+  return Object.keys(smeltData.value).find((smeltId) => {
+    return smeltData.value[smeltId].skills.some((skill) => skill.id === id)
+  }) || ''
+}
 // 表格行類別
-const tableRowClassName = ({ row }: { row: SmeltSelectRow }) => {
+const tableRowClassName = ({ row }: { row: SmeltOption }) => {
   if (row.isCategory) return 'smelt-category-row'
-  return 'smelt-skill-row'
+  return 'cursor'
 }
 // 開啟彈窗
 const openDialogHandler = () => {
@@ -84,34 +80,55 @@ const openDialogHandler = () => {
   emit('open')
 }
 // 選擇煉成，如果 row 與 modelValue 相同，則清空選擇，否則設定新的選擇
-const handleCurrentChange = (row: SmeltSelectRow) => {
-  const rowId = row.key
-  const dataId = `${innerSlotData.value.smelt}-${innerSlotData.value.id}`
-  if (row.skill === undefined || rowId === dataId) {
-    innerSlotData.value = { id: '', smelt: '' }
+const handleCurrentChange = (row: SmeltOption) => {
+  if (row.isCategory) return
+  if (row.id === innerSlotData.value.id) {
+    innerSlotData.value = { id: '' }
   } else {
-    innerSlotData.value = {
-      id: row.skill.id,
-      smelt: row.id,
-      level: 1
-    }
+    innerSlotData.value = { id: row.id, level: 1 }
   }
   isDialogVisible.value = false
 }
+
+watch(() => isDialogVisible.value, (visible) => {
+  if (!visible) searchWeaponKeyword.value = ''
+  else {
+    // 設定初始選中行
+    setTimeout(() => {
+      if (innerSlotData.value.id) {
+        const row = smeltsOptions.value.find((row) => row.id === innerSlotData.value.id)
+        singleTableRef.value?.setCurrentRow(row)
+      }
+    }, 100)
+  }
+})
 </script>
 
 <template>
   <div
     class="smelt-select-container"
-    @click="openDialogHandler"
+    @click="!disabled && openDialogHandler()"
   >
-    <i
-      :style="{ '--smelt-color': innerSlotData.smelt }"
-      class="armor-slot"
-    />
-    <SkillTags v-if="innerSlotData.id" :skills="[innerSlotData]" disabled />
-    <span v-else class="smelt-placeholder">選擇煉成</span>
-    <ElDialog
+    <template v-if="isShowButton">
+      <ElButton
+        class="smelt-button"
+        size="small"
+        :icon="Plus"
+        type="info"
+        dark
+        plain 
+      >
+        煉成
+      </ElButton>
+    </template>
+    <template v-else>
+      <i
+        :style="{ '--smelt-color': getSmeltCategory(innerSlotData.id) }"
+        class="armor-slot"
+      />
+      <SkillTags :skills="[innerSlotData]" disabled />
+    </template>
+     <ElDialog
       v-model="isDialogVisible"
       title="選擇煉成"
       width="350px"
@@ -123,32 +140,26 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
       <ElInput v-model="searchWeaponKeyword" placeholder="搜尋技能" clearable />
       <ElTable
         ref="singleTableRef"
-        :data="smeltsList"
+        :data="smeltsOptions"
         :show-header="false"
-        :row-class-name="tableRowClassName"
         height="450px"
         highlight-current-row
-        :row-key="row => row.key"
+        :row-class-name="tableRowClassName"
         @row-click="handleCurrentChange"
       >
-        <ElTableColumn>
-          <template #default="scope">
-            <template v-if="scope.row.isCategory">
-              <div class="smelt-category">
-                <ElImage
-                  class="smelt-image"
-                  :src="convertFilePath(`@/assets/images/driftstone/${scope.row.id}.png`)"
-                  fit="contain"
-                />
-                {{ scope.row.name }}
-              </div>
-            </template>
-            <template v-else>
-              <SkillTags
-                :skills="[scope.row.skill]"
-                disabled
+        <ElTableColumn #default="{ row } : { row: SmeltOption }">
+          <template v-if="row.isCategory">
+            <div class="smelt-category">
+              <ElImage
+                class="smelt-image"
+                :src="convertFilePath(`@/assets/images/driftstone/${row.id}.png`)"
+                fit="contain"
               />
-            </template>
+              {{ row.name }}
+            </div>
+          </template>
+          <template v-else>
+            <SkillTags :skills="[row]" disabled />
           </template>
         </ElTableColumn>
       </ElTable>
@@ -164,10 +175,11 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
   line-height: 1;
   cursor: pointer;
 }
+
 .armor-slot {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: var(--el-border);
   /* fallback：原色 */
@@ -178,13 +190,14 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
   filter: saturate(60%);
 }
 
+.smelt-button {
+  --el-button-size: 22px;
+  padding: 0 4px;
+}
+
 .el-table :deep(.smelt-category-row) {
   --el-table-tr-bg-color: var(--el-color-info-light-9);
   pointer-events: none;
-}
-
-.el-table :deep(.smelt-skill-row) {
-  cursor: pointer;
 }
 
 .smelt-category {
@@ -196,9 +209,5 @@ const handleCurrentChange = (row: SmeltSelectRow) => {
     width: 25px;
     height: 25px;
   }
-}
-
-.smelt-placeholder {
-  color: var(--el-text-color-placeholder);
 }
 </style>

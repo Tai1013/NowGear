@@ -2,11 +2,19 @@
 import type { SmeltSkill } from '@/types'
 import { computed } from 'vue'
 import { ElRow, ElCol, ElCard, ElTable, ElTableColumn, ElImage } from 'element-plus'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+import { useDataStore, useOperationStore, useConfigStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 
-const { smeltData, monstersData, skillsData, searchKeyword } = storeToRefs(useBestiaryStore())
+type MonsterData = {
+  id: string
+  name: string
+}
+
+const { searchKeyword } = storeToRefs(useOperationStore())
+const { componentSize } = storeToRefs(useConfigStore())
+const { smeltData } = storeToRefs(useDataStore())
+const { getMonsterName, getSkillName } = useDataStore()
 
 const normalizedSmeltData = computed(() => {
   const normalized = Object.entries(smeltData.value).map(([id, data]) => {
@@ -17,11 +25,20 @@ const normalizedSmeltData = computed(() => {
       else normalSkills.push(skill)
     })
     const dataList = []
-    if (data.monsters) dataList.push({
-      type: 'monsters',
-      name: '持有魔物',
-      data: data.monsters
-    })
+    const monsters: MonsterData[] = []
+    if (data.monsters) {
+      data.monsters.forEach((monster) => {
+        monsters.push({
+          id: monster,
+          name: getMonsterName(monster)
+        })
+      })
+      dataList.push({
+        type: 'monsters',
+        name: '持有魔物',
+        data: monsters
+      })
+    }
     if (raritySkills.length) dataList.push({
       type: 'raritySkills',
       name: '稀有技能',
@@ -32,13 +49,11 @@ const normalizedSmeltData = computed(() => {
       name: id === 'common' ? '共通技能' : '特有技能',
       data: normalSkills
     })
-
     return {
+      ...data,
       id,
-      name: data.name,
-      dataList,
-      skills: data.skills,
-      monsters: data.monsters
+      monsters,
+      dataList
     }
   })
 
@@ -46,41 +61,23 @@ const normalizedSmeltData = computed(() => {
   if (!searchKeyword.value || searchKeyword.value.trim() === '') {
     return normalized
   }
-
   const keyword = searchKeyword.value.toLowerCase().trim()
-
   return normalized.filter((smelt) => {
-    // 搜尋煉成名稱
-    if (smelt.name.toLowerCase().includes(keyword)) {
-      return true
-    }
-
+    // 搜尋漂流石名稱
+    if (smelt.name.toLowerCase().includes(keyword)) return true
     // 搜尋魔物名稱
     if (smelt.monsters) {
-      const hasMatchingMonster = smelt.monsters.some((monsterId) => {
-        const monsterName = getMonsterName(monsterId)
-        return monsterName.toLowerCase().includes(keyword)
-      })
+      const hasMatchingMonster = smelt.monsters.some((monster) => monster.name.toLowerCase().includes(keyword))
       if (hasMatchingMonster) return true
     }
-
     // 搜尋技能名稱
     if (smelt.skills) {
-      const hasMatchingSkill = smelt.skills.some((skill) => {
-        const skillName = skillsData.value[skill.id]?.name || ''
-        return skillName.toLowerCase().includes(keyword)
-      })
+      const hasMatchingSkill = smelt.skills.some((skill) => getSkillName(skill.id).toLowerCase().includes(keyword))
       if (hasMatchingSkill) return true
     }
-
     return false
   })
 })
-
-// 取得龍的名字
-const getMonsterName = (id: string) => {
-  return monstersData.value.find((monster) => monster.id === id)?.name || id
-}
 </script>
 
 <template>
@@ -93,7 +90,14 @@ const getMonsterName = (id: string) => {
       >
         <ElCard align="center">
           <template #header>
-            {{ smelt.name }}
+            <div class="smelt-header">
+              <ElImage
+                :src="convertFilePath(`@/assets/images/driftstone/${smelt.id}.png`)"
+                fit="contain"
+                lazy
+              />
+              {{ smelt.name }}
+            </div>
           </template>
           <template #default>
             <ElTable
@@ -106,13 +110,15 @@ const getMonsterName = (id: string) => {
                   <template v-if="scope.row.type === 'monsters'">
                     <div class="smelt-monsters">
                       <ElImage
-                        v-for="monster in (scope.row.data as string[])"
-                        :key="monster"
+                        v-for="monster in (scope.row.data as MonsterData[])"
+                        :key="monster.id"
+                        :style="{ '--monster-image-size': componentSize === 'small' ? '25px' : '30px' }"
                         class="monster-image"
-                        :src="convertFilePath(`@/assets/images/monster/${monster}.png`)"
-                        :alt="getMonsterName(monster)"
-                        :title="getMonsterName(monster)"
+                        :src="convertFilePath(`@/assets/images/monster/${monster.id}.png`)"
+                        :alt="monster.name"
+                        :title="monster.name"
                         fit="contain"
+                        lazy
                       />
                     </div>
                   </template>
@@ -138,8 +144,16 @@ const getMonsterName = (id: string) => {
   padding: 4px;
 }
 
-.el-card {
-  --el-card-padding: 16px;
+.smelt-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  > .el-image {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .smelt-monsters {
@@ -147,10 +161,5 @@ const getMonsterName = (id: string) => {
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-
-  .monster-image {
-    width: 25px;
-    height: 25px;
-  }
 }
 </style>

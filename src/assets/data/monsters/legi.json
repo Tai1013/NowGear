@@ -1,6 +1,7 @@
 {
   "id": "legi",
   "name": "風漂龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "ice",

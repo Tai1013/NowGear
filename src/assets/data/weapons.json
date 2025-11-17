@@ -1,54 +1,86 @@
 [
   {
     "id": "shield-sword",
-    "name": "片手劍"
-  },
-  {
-    "id": "great-sword",
-    "name": "大劍"
-  },
-  {
-    "id": "hammer",
-    "name": "大錘"
-  },
-  {
-    "id": "long-sword",
-    "name": "太刀"
-  },
-  {
-    "id": "light-gun",
-    "name": "輕弩"
-  },
-  {
-    "id": "bow",
-    "name": "弓"
+    "name": "片手劍",
+    "rarity": [
+      { "id": "shield-sword-1", "name": "穿刺斬" },
+      { "id": "shield-sword-2", "name": "精準突擊" }
+    ]
   },
   {
     "id": "dual-blades",
-    "name": "雙劍"
+    "name": "雙劍",
+    "rarity": [
+      { "id": "dual-blades-1", "name": "鬼人化【獸】" },
+      { "id": "dual-blades-2", "name": "螺旋斬" }
+    ]
+  },
+  {
+    "id": "great-sword",
+    "name": "大劍",
+    "rarity": [
+      { "id": "great-sword-1", "name": "流水風格" },
+      { "id": "great-sword-2", "name": "激昂斬" }
+    ]
+  },
+  {
+    "id": "long-sword",
+    "name": "太刀",
+    "rarity": [
+      { "id": "long-sword-1", "name": "威合" },
+      { "id": "long-sword-2", "name": "氣刃無雙斬" }
+    ]
+  },
+  {
+    "id": "hammer",
+    "name": "大錘",
+    "rarity": [
+      { "id": "hammer-1", "name": "水面打擊" },
+      { "id": "hammer-2", "name": "流星穿地擊" }
+    ]
+  },
+  {
+    "id": "hunting-horn",
+    "name": "狩獵笛"
   },
   {
     "id": "lance",
     "name": "長槍"
   },
   {
-    "id": "charge-blade",
-    "name": "充能斧"
-  },
-  {
     "id": "gunlance",
-    "name": "銃槍"
-  },
-  {
-    "id": "heavy-gun",
-    "name": "重弩"
+    "name": "銃槍",
+    "rarity": [
+      { "id": "gunlance-1", "name": "暴風衝刺" },
+      { "id": "gunlance-2", "name": "防禦裝填" }
+    ]
   },
   {
     "id": "switch-axe",
     "name": "斬擊斧"
   },
   {
-    "id": "hunting-horn",
-    "name": "狩獵笛"
+    "id": "charge-blade",
+    "name": "充能斧"
+  },
+  {
+    "id": "light-gun",
+    "name": "輕弩",
+    "rarity": [
+      { "id": "light-gun-1", "name": "墊步射擊" },
+      { "id": "light-gun-2", "name": "滑步裝填" }
+    ]
+  },
+  {
+    "id": "heavy-gun",
+    "name": "重弩"
+  },
+  {
+    "id": "bow",
+    "name": "弓",
+    "rarity": [
+      { "id": "bow-1", "name": "躲避箭斬" },
+      { "id": "bow-2", "name": "剛連射" }
+    ]
   }
 ]

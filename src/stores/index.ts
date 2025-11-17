@@ -1,2 +1,4 @@
 export { storeToRefs } from 'pinia'
-export * from './useBestiaryStore'
+export * from './useDataStore'
+export * from './useOperationStore'
+export * from './useConfigStore'

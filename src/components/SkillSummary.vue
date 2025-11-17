@@ -1,87 +1,85 @@
 <script setup lang="ts">
+defineOptions({ name: 'SkillSummary' })
 import type { MonsterSkill } from '@/types'
+import type { SkillData } from '@/components/SkillTags.vue'
 import { computed } from 'vue'
 import { ElRow, ElCol } from 'element-plus'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+import { useConfigStore, useOperationStore, useDataStore, storeToRefs } from '@/stores'
 import { SkillTags } from '@/components'
 
-export interface SkillLevel extends MonsterSkill {
-  name: string
-  maxLevel: number
-}
+//將 SkillData 轉全必填
+type SkillSummaryData = Required<Omit<SkillData, 'rarity'>>
 
-defineOptions({ name: 'SkillSummary' })
 const props = defineProps<{
-  skills?: MonsterSkill[]
-  // 階級模式 或者 標籤模式
-  mode?: 'level' | 'tag'
+  skills: MonsterSkill[],
+  levelMode?: boolean
 }>()
 
-const { skillsData, skillDialogId, skillDialogLevel } = storeToRefs(useBestiaryStore())
+const { filterBuild } = storeToRefs(useConfigStore())
+const { skillDialog } = storeToRefs(useOperationStore())
+const { getSkillName, getSkillDesc } = useDataStore()
 
 // 計算技能等級及上限
 const skillLevels = computed(() => {
-  const data: SkillLevel[] = []
-  if (!props.skills) return data
+  const data: SkillSummaryData[] = []
   props.skills.forEach((skill) => {
     const index = data.findIndex((item) => item.id === skill.id)
-    const name = skillsData.value[skill.id].name
-    const desc = skillsData.value[skill.id].desc || []
+    const maxLevel = getSkillDesc(skill.id).length
     if (index === -1) {
       data.push({
         id: skill.id,
-        level: skill.level,
-        name,
-        maxLevel: desc.length
+        level: skill.level || 0,
+        maxLevel
       })
     } else {
-      data[index].level += skill.level
+      data[index].level += skill.level || 0
     }
   })
   // 排序(level高到低)
   data.sort((a, b) => b.level - a.level)
   return data
 })
-const openSkillDialog = (skill: SkillLevel) => {
-  skillDialogId.value = skill.id
-  skillDialogLevel.value = skill.level
+// 打開技能視窗
+const openSkillDialog = (skill: SkillData) => {
+  skillDialog.value = skill
 }
 </script>
 
 <template>
-  <template v-if="mode === 'tag'">
-    <SkillTags :skills="skillLevels" :size="6" has-level />
-  </template>
-  <template v-else>
-    <ElRow :gutter="8">
-      <ElCol
-        v-for="skill in skillLevels"
-        :key="skill.id"
-        :span="12"
-        @click="openSkillDialog(skill)"
-      >
-        <div class="skill-name">{{ skill.name }}</div>
-        <div class="skill-level">
-          <span
-            v-for="levelIndex in skill.maxLevel"
-            :key="levelIndex"
-            class="skill-level-item"
-            :class="{
-              'active': levelIndex <= skill.level,
-              'full': skill.level === skill.maxLevel, // 滿格
-              'over': skill.level > skill.maxLevel    // 滿格以上
-            }"
-          />
-        </div>
-      </ElCol>
-    </ElRow>
-  </template>
+  <div class="skill-summary-container">
+    <template v-if="levelMode || filterBuild.levelMode">
+      <ElRow :gutter="8">
+        <ElCol
+          v-for="skill in skillLevels"
+          :key="skill.id"
+          :span="12"
+          @click="openSkillDialog(skill)"
+        >
+          <div class="skill-name">{{ getSkillName(skill.id) }}</div>
+          <div class="skill-level">
+            <span
+              v-for="levelIndex in skill.maxLevel"
+              :key="levelIndex"
+              class="skill-level-item"
+              :class="{
+                'active': levelIndex <= skill.level,
+                'full': skill.level === skill.maxLevel, // 滿格
+                'over': skill.level > skill.maxLevel    // 滿格以上
+              }"
+            />
+          </div>
+        </ElCol>
+      </ElRow>
+    </template>
+    <template v-else>
+      <SkillTags :skills="skillLevels" />
+    </template>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .el-col {
   padding: 4px;
-  cursor: pointer;
 }
 
 .skill-name {

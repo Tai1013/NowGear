@@ -1,29 +1,34 @@
 <script setup lang="ts">
-import type { MonsterArmor, BuildArmorRow, ArmorType } from '@/types'
-import { ref, computed } from 'vue'
+defineOptions({ name: 'ArmorSelect' })
+import type { BuildArmorRow, ArmorType, MonsterSkill } from '@/types'
+import { cloneDeep } from 'radashi'
+import { ref, computed, watch } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElImage, ElSpace, ElInput } from 'element-plus'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+import { useDataStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { SkillTags } from '@/components'
 import SmeltSelect from './SmeltSelect.vue'
 
-interface ArmorSelectRow extends MonsterArmor {
+interface ArmorOption {
   monster: string
   monsterName: string
+  skills: MonsterSkill[]
+  slots: number
 }
 
-defineOptions({ name: 'ArmorSelect' })
 const props = defineProps<{
   modelValue: BuildArmorRow | undefined
   armor: ArmorType  // 防具部位
+  disabled?: boolean
 }>()
 const emit = defineEmits(['update:modelValue'])
 
-const { monstersData, skillsData } = storeToRefs(useBestiaryStore())
+const { monstersData } = storeToRefs(useDataStore())
+const { getSkillName } = useDataStore()
 
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
-const isSlotsClicked = ref(false)
+const isStopClicked = ref(false)
 const searchWeaponKeyword = ref('')
 
 // 內部防具數據
@@ -31,58 +36,61 @@ const innterArmorData = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 })
-// 防具列表
-const armorsList = computed(() => {
-  const normalized: ArmorSelectRow[] = monstersData.value
-    .filter((monster) => {
+// 防具下拉選項
+const armorOptions = computed((): ArmorOption[] => {
+  const normalized = cloneDeep(monstersData.value)
+    .filter((row) => {
       // 確保魔物有防具數據
-      if (!monster.armor) return false
+      if (!row.armor) return false
       // 檢查是否有指定的防具部位
-      const armorData = monster.armor
+      const armorData = row.armor
       return props.armor in armorData && armorData[props.armor] !== undefined
     })
-    .map((monster) => {
+    .map((row) => {
       // 取得指定部位的防具數據
-      const armorData = monster.armor
+      const armorData = row.armor
       const armorPiece = armorData?.[props.armor]
 
       return {
-        monster: monster.id,
-        monsterName: monster.name,
+        monster: row.id,
+        monsterName: row.name,
         skills: armorPiece?.skills || [],
         slots: armorPiece?.slots || 0
       }
     })
-    .filter((armor) => {
+    .filter((row) => {
       if (!searchWeaponKeyword.value || searchWeaponKeyword.value.trim() === '') return true
       const keyword = searchWeaponKeyword.value.toLowerCase().trim()
       // 搜尋魔物名稱
-      if (armor.monsterName.toLowerCase().includes(keyword)) return true
+      if (row.monsterName.toLowerCase().includes(keyword)) return true
       // 搜尋技能名稱
-      if (armor.skills.some((skill) => {
-        const skillName = skillsData.value[skill.id]?.name || ''
-        return skillName.toLowerCase().includes(keyword)
-      })) return true
-      return false
+      const someSkill = row.skills.some((skill) => getSkillName(skill.id).toLowerCase().includes(keyword))
+      return someSkill
     })
   return normalized
 })
-// 打開彈窗，如果點擊煉成，則不打開彈窗
+
+// 開啟彈窗
 const openDialogHandler = () => {
-  if (isSlotsClicked.value) return
+  if (isStopClicked.value) return
   isDialogVisible.value = true
 }
-// 打開煉成彈窗，設定開關避免觸發防具彈窗
-const openSlotsDialogHandler = () => {
-  isSlotsClicked.value = true
+// 阻止彈窗打開
+const openClickStopHandler = () => {
+  isStopClicked.value = true
   setTimeout(() => {
-    isSlotsClicked.value = false
+    isStopClicked.value = false
   }, 300)
 }
+// 表格行類別
+const tableRowClassName = () => {
+  if (!props.disabled) return 'cursor'
+  return ''
+}
 // 選擇防具，如果 row 與 modelValue 相同，則清空選擇，否則設定新的選擇
-const handleCurrentChange = (row: ArmorSelectRow) => {
+const handleCurrentChange = (row: ArmorOption) => {
   // 如果選擇的魔物相同，則清空選擇
-  if (row.monster === props.modelValue?.monster) {
+  if (row.monster === innterArmorData.value?.monster) {
     innterArmorData.value = undefined
   } else {
     // 否則設定新的選擇
@@ -91,45 +99,63 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
       monster,
       monsterName,
       skills,
-      slots: Array.from({ length: slots }, () => ({ id: '', smelt: '' }))
+      slots: Array.from({ length: slots }, () => ({ id: '' }))
     }
   }
   isDialogVisible.value = false
 }
+
+watch(() => isDialogVisible.value, (visible) => {
+  if (!visible) searchWeaponKeyword.value = ''
+  else {
+    // 設定初始選中行
+    if (innterArmorData.value) {
+      const row = armorOptions.value.find((row) => row.monster === innterArmorData.value?.monster)
+      singleTableRef.value?.setCurrentRow(row)
+    }
+  }
+})
 </script>
 
 <template>
   <div
-    class="armor-select-container"
-    @click="openDialogHandler"
+    class="select-container"
+    :class="{ 'cursor': !disabled }"
+    @click="!disabled && openDialogHandler()"
   >
     <template v-if="innterArmorData">
-      <div class="armor-select-item">
-        <ElImage
-          class="monster-image"
-          :src="convertFilePath(`@/assets/images/monster/${innterArmorData.monster}.png`)"
-          fit="contain"
-        />
-        <div class="armor-content">
+      <div class="select-item">
+        <div
+          :style="{ '--monster-image-size': '25px' }"
+          class="monster-image-container"
+        >
+          <ElImage
+            class="monster-image"
+            :src="convertFilePath(`@/assets/images/monster/${innterArmorData.monster}.png`)"
+            fit="contain"
+          />
+        </div>
+        <div>
           <SkillTags :skills="innterArmorData.skills" disabled />
-          <ElSpace :size="4" wrap>
-            <!-- 煉成彈窗 -->
-            <SmeltSelect
-              v-for="(slot, index) in innterArmorData.slots"
-              :key="slot.id"
-              v-model="innterArmorData.slots[index]"
-              @open="openSlotsDialogHandler()"
-            />
-          </ElSpace>
+          <div class="smelt-slots">
+            <ElSpace :size="4" wrap>
+              <SmeltSelect
+                v-for="(slot, index) in innterArmorData.slots"
+                :key="slot.id"
+                v-model="innterArmorData.slots[index]"
+                :disabled="disabled"
+                @open="openClickStopHandler()"
+              />
+            </ElSpace>
+          </div>
         </div>
       </div>
     </template>
     <template v-else>
-      <div class="armor-selectt-placeholder">
+      <div class="select-placeholder">
         選擇防具
       </div>
     </template>
-    <!-- 彈出視窗 -->
     <ElDialog
       v-model="isDialogVisible"
       title="選擇防具"
@@ -142,72 +168,76 @@ const handleCurrentChange = (row: ArmorSelectRow) => {
       <ElInput v-model="searchWeaponKeyword" placeholder="搜尋魔物、技能" clearable />
       <ElTable
         ref="singleTableRef"
-        :data="armorsList"
+        :data="armorOptions"
         :show-header="false"
         height="450px"
         highlight-current-row
-        :row-key="row => row.monster"
+        :row-class-name="tableRowClassName"
         @row-click="handleCurrentChange"
       >
-        <ElTableColumn prop="monster" width="54">
-          <template #default="scope">
+        <ElTableColumn #default="{ row } : { row: ArmorOption }" width="49">
+          <div
+            :style="{ '--monster-image-size': '25px' }"
+            class="monster-image-container"
+          >
             <ElImage
               class="monster-image"
-              :src="convertFilePath(`@/assets/images/monster/${scope.row.monster}.png`)"
+              :src="convertFilePath(`@/assets/images/monster/${row.monster}.png`)"
               fit="contain"
             />
-          </template>
+          </div>
         </ElTableColumn>
-        <ElTableColumn prop="skills">
-          <template #default="scope">
-            <SkillTags :skills="scope.row.skills" disabled />
-          </template>
+        <ElTableColumn #default="{ row } : { row: ArmorOption }">
+          <SkillTags :skills="row.skills" disabled />
         </ElTableColumn>
-        <ElTableColumn prop="slots" width="36" align="right" />
+        <ElTableColumn prop="slots" width="25" align="right" />
       </ElTable>
     </ElDialog>
   </div>
 </template>
 
 <style lang="scss" scoped>
-:deep(.el-table__row) {
-  cursor: pointer;
+.smelt-slots {
+  margin-top: 4px;
 }
+// :deep(.el-table__row) {
+//   cursor: pointer;
+// }
 
-.armor-select-container {
-  width: 100%;
-  min-height: var(--build-select-height);
-  cursor: pointer;
+// .armor-select-container {
+//   width: 100%;
+//   min-height: var(--build-select-height);
+//   cursor: pointer;
 
-  .armor-selectt-placeholder {
-    display: flex;
-    align-items: center;
-    color: var(--el-text-color-placeholder);
-    width: 100%;
-    height: var(--build-select-height);
-  }
-}
+//   .armor-selectt-placeholder {
+//     display: flex;
+//     align-items: center;
+//     color: var(--el-text-color-placeholder);
+//     width: 100%;
+//     height: var(--build-select-height);
+//   }
+// }
 
-.armor-select-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
+// .armor-select-item {
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   width: 100%;
 
-  > .el-space {
-    flex: auto;
-  }
+//   > .el-space {
+//     flex: auto;
+//   }
 
-  .armor-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-}
+//   .armor-content {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 8px;
+//   }
+// }
 
-.monster-image {
-  flex-shrink: 0;
-  width: var(--build-select-height);
-  height: var(--build-select-height);
-}
+// .monster-image {
+//   flex-shrink: 0;
+//   width: var(--build-select-height);
+//   height: var(--build-select-height);
+// }
 </style>

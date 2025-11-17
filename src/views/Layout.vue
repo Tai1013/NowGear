@@ -2,11 +2,12 @@
 import { onMounted } from 'vue'
 import { ElInput } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-import { useBestiaryStore, storeToRefs } from '@/stores'
-import { SkillDescDialog } from '@/components'
+import { useOperationStore, useDataStore, storeToRefs } from '@/stores'
+import { SkillDialog } from '@/components'
 
-const { isLoadingMonsters, searchKeyword } = storeToRefs(useBestiaryStore())
-const { initMonstersData } = useBestiaryStore()
+const { initMonstersData } = useDataStore()
+
+const { searchKeyword } = storeToRefs(useOperationStore())
 
 onMounted(() => {
   initMonstersData()
@@ -14,7 +15,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-loading.fullscreen.lock="isLoadingMonsters">
+  <div>
     <header class="layout-header">
       <nav class="nav-links">
         <router-link to="/" class="nav-link">配裝</router-link>
@@ -38,7 +39,7 @@ onMounted(() => {
     <main>
       <router-view />
     </main>
-    <SkillDescDialog />
+    <SkillDialog />
   </div>
 </template>
 

@@ -27,7 +27,7 @@
       "slots": 1,
       "skills": [
         { "id": "malzeno-crimsonblood", "level": 1 },
-        { "id": "pursuit", "level": 2 }
+        { "id": "vital-dragon", "level": 2 }
       ]
     },
     "mail": {
@@ -56,7 +56,7 @@
       "slots": 1,
       "skills": [
         { "id": "malzeno-crimsonblood", "level": 1 },
-        { "id": "vital-dragon", "level": 2 }
+        { "id": "pursuit", "level": 2 }
       ]
     }
   }
