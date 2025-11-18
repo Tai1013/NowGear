@@ -19,6 +19,7 @@ const { buildDialog } = storeToRefs(useOperationStore())
 
 // 預設配裝數據
 const defaultBuildData: BuildData = {
+  key: '',
   name: '',
   category: '',
   weapon: undefined,
@@ -106,7 +107,10 @@ const changeWeaponCategory = (weapon: Weapon) => {
 const saveBuildHandler = () => {
   emit('update', {
     mode: buildDialog.value.mode,
-    data: buildData.value
+    data: {
+      ...buildData.value,
+      key: buildData.value.key || crypto.randomUUID()
+    }
   })
   buildDialog.value.visible = false
 }
@@ -177,8 +181,8 @@ watch(() => buildDialog.value.visible, (visible) => {
                 class="build-weapon-button"
                 circle
                 :type="setWeaponType(weapon)"
-                :disabled="setWeaponDisabled(weapon)"
-                @click="changeWeaponCategory(weapon)"
+                :disabled="setWeaponDisabled(weapon) || buildDialog.mode === 'preview' && buildData.category !== weapon.id"
+                @click="buildDialog.mode !== 'preview' && changeWeaponCategory(weapon)"
               >
                 <ElImage
                   class="weapon-image"
@@ -186,6 +190,7 @@ watch(() => buildDialog.value.visible, (visible) => {
                   :alt="weapon.name"
                   :title="weapon.name"
                   fit="contain"
+                  lazy
                 />
               </ElButton>
             </ElSpace>
@@ -198,6 +203,7 @@ watch(() => buildDialog.value.visible, (visible) => {
                 :alt="scope.row.label"
                 :title="scope.row.label"
                 fit="contain"
+                lazy
               />
             </div>
           </template>

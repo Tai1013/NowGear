@@ -1,4 +1,5 @@
-import type { WeaponData, SkillData, SmeltData, EffectData, Monster, NormalizedMonster } from '@/types'
+import type { WeaponData, SkillData, SmeltData, EffectData, Monster, NormalizedMonster, MonsterSkill } from '@/types'
+import { cloneDeep } from 'radashi'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import dragonOrder from '@/assets/data/dragon-order.json'
@@ -16,7 +17,7 @@ export const useDataStore = defineStore('dataStore',
     // 最終初始化日期
     const initDate = ref<string>('')
     // 最終上線更新日期
-    const updateDate = ref<string>('2025-11-18')
+    const updateDate = ref<string>('2025-11-19')
 
     // 龍的資料
     const monstersData = ref<NormalizedMonster[]>([])
@@ -40,6 +41,27 @@ export const useDataStore = defineStore('dataStore',
     // 取得技能的描述
     const getSkillDesc = (id: string) => {
       return skillsData.value[id].desc || []
+    }
+    // 取得當前技能是哪個分類
+    const getSmeltCategory = (id: string) => {
+      return Object.keys(smeltData.value).find((smeltId) => {
+        return smeltData.value[smeltId].skills.some((skill) => skill.id === id)
+      }) || ''
+    }
+    // 計算技能等級及上限
+    const computedSkillLevel = (skills: MonsterSkill[]) => {
+      const computedSkills = cloneDeep(skills)
+      return computedSkills
+        .reduce((acc, skill) => {
+          const index = acc.findIndex((item) => item.id === skill.id)
+          if (index === -1) acc.push(skill)
+          else {
+            acc[index].level = acc[index].level || 0
+            acc[index].level += skill.level || 0
+          }
+          return acc
+        }, [] as MonsterSkill[])
+        .sort((a, b) => b.level! - a.level!) as Required<MonsterSkill>[]
     }
     // 標準化數據
     const normalizeMonstersData = () => {
@@ -117,6 +139,8 @@ export const useDataStore = defineStore('dataStore',
       getMonsterName,
       getSkillName,
       getSkillDesc,
+      getSmeltCategory,
+      computedSkillLevel,
       initMonstersData
     }
   },

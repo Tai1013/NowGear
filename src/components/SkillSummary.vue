@@ -7,9 +7,6 @@ import { ElRow, ElCol } from 'element-plus'
 import { useConfigStore, useOperationStore, useDataStore, storeToRefs } from '@/stores'
 import { SkillTags } from '@/components'
 
-//將 SkillData 轉全必填
-type SkillSummaryData = Required<Omit<SkillData, 'rarity'>>
-
 const props = defineProps<{
   skills: MonsterSkill[],
   levelMode?: boolean
@@ -17,27 +14,19 @@ const props = defineProps<{
 
 const { filterBuild } = storeToRefs(useConfigStore())
 const { skillDialog } = storeToRefs(useOperationStore())
-const { getSkillName, getSkillDesc } = useDataStore()
+const { getSkillName, getSkillDesc, computedSkillLevel } = useDataStore()
 
 // 計算技能等級及上限
 const skillLevels = computed(() => {
-  const data: SkillSummaryData[] = []
-  props.skills.forEach((skill) => {
-    const index = data.findIndex((item) => item.id === skill.id)
-    const maxLevel = getSkillDesc(skill.id).length
-    if (index === -1) {
-      data.push({
-        id: skill.id,
-        level: skill.level || 0,
+  const computedSkills = computedSkillLevel(props.skills)
+  return computedSkills
+    .map((skill) => {
+      const maxLevel = getSkillDesc(skill.id).length
+      return {
+        ...skill,
         maxLevel
-      })
-    } else {
-      data[index].level += skill.level || 0
-    }
-  })
-  // 排序(level高到低)
-  data.sort((a, b) => b.level - a.level)
-  return data
+      }
+    })
 })
 // 打開技能視窗
 const openSkillDialog = (skill: SkillData) => {

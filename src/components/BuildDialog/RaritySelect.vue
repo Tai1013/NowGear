@@ -27,7 +27,12 @@ const dialogData = ref<DialogRarityData>({
   skill: '',
   level: []
 })
-
+// 風格列表
+const rarityColumn = ref<{ id: RarityType, name: string }[]>([
+  { id: 'atk', name: '攻擊力' },
+  { id: 'ele', name: '屬性值' },
+  { id: 'crit', name: '會心率' }
+])
 // 內部風格強化數據
 const innerRarityData = computed({
   get: () => props.modelValue,
@@ -111,11 +116,12 @@ watch(() => isDialogVisible.value, (visible) => {
       </ElButton>
     </template>
     <template v-else>
-      <div class="rarity-name">
+      <ElSpace :size="6">
         <ElTag
           v-if="innerRarityData.skill"
           color="#626aef"
           effect="dark"
+          size="small"
         >
           {{ getRarityName(innerRarityData.skill) }}
         </ElTag>
@@ -126,9 +132,10 @@ watch(() => isDialogVisible.value, (visible) => {
             class="rarity-level-image"
             :src="convertFilePath(`@/assets/images/stat/${level}.png`)"
             fit="contain"
+            lazy
           />
         </ElSpace>
-      </div>
+      </ElSpace>
     </template>
     <ElDialog
       v-model="isDialogVisible"
@@ -155,48 +162,25 @@ watch(() => isDialogVisible.value, (visible) => {
             </ElButton>
           </div>
           <ElTable :data="rarityLevelList">
-            <ElTableColumn #default="scope" label="攻擊力" align="center">
+            <ElTableColumn
+              v-for="column in rarityColumn"
+              :key="column.id"
+              #default="scope"
+              :label="column.name"
+              align="center"
+            >
               <ElButton
                 color="#626aef"
                 dark
-                :plain="dialogData.level[scope.$index] !== 'atk'"
+                :plain="dialogData.level[scope.$index] !== column.id"
                 :disabled="dialogData.level[scope.$index - 1] === ''"
-                @click="changeRarityLevel('atk', scope.$index)"
+                @click="changeRarityLevel(column.id, scope.$index)"
               >
                 <ElImage
                   class="stat-image"
-                  :src="convertFilePath(`@/assets/images/stat/atk.png`)"
+                  :src="convertFilePath(`@/assets/images/stat/${column.id}.png`)"
                   fit="contain"
-                />
-              </ElButton>
-            </ElTableColumn>
-            <ElTableColumn #default="scope" label="屬性值" align="center">
-              <ElButton
-                color="#626aef"
-                dark
-                :plain="dialogData.level[scope.$index] !== 'ele'"
-                :disabled="dialogData.level[scope.$index - 1] === ''"
-                @click="changeRarityLevel('ele', scope.$index)"
-              >
-                <ElImage
-                  class="stat-image"
-                  :src="convertFilePath(`@/assets/images/stat/ele.png`)"
-                  fit="contain"
-                />
-              </ElButton>
-            </ElTableColumn>
-            <ElTableColumn #default="scope" label="會心率" align="center">
-              <ElButton
-                color="#626aef"
-                dark
-                :plain="dialogData.level[scope.$index] !== 'crit'"
-                :disabled="dialogData.level[scope.$index - 1] === ''"
-                @click="changeRarityLevel('crit', scope.$index)"
-              >
-                <ElImage
-                  class="stat-image"
-                  :src="convertFilePath(`@/assets/images/stat/atk.png`)"
-                  fit="contain"
+                  lazy
                 />
               </ElButton>
             </ElTableColumn>
@@ -223,18 +207,13 @@ watch(() => isDialogVisible.value, (visible) => {
 }
 
 .rarity-level-image {
+  margin: 2px 0;
   width: 18px;
   height: 18px;
 
   :deep(.el-image__inner) {
     filter: drop-shadow(0 0 1px #ae66d3) drop-shadow(0 0 1px #e0baf3);
   }
-}
-
-.rarity-name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .rarity-select-dialog {

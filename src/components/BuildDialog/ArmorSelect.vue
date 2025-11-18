@@ -133,6 +133,9 @@ watch(() => isDialogVisible.value, (visible) => {
             class="monster-image"
             :src="convertFilePath(`@/assets/images/monster/${innterArmorData.monster}.png`)"
             fit="contain"
+            :alt="innterArmorData.monsterName"
+            :title="innterArmorData.monsterName"
+            lazy
           />
         </div>
         <div>
@@ -184,6 +187,9 @@ watch(() => isDialogVisible.value, (visible) => {
               class="monster-image"
               :src="convertFilePath(`@/assets/images/monster/${row.monster}.png`)"
               fit="contain"
+              :alt="row.monsterName"
+              :title="row.monsterName"
+              lazy
             />
           </div>
         </ElTableColumn>

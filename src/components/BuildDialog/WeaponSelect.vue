@@ -164,6 +164,7 @@ watch(() => props.category, () => {
             class="monster-effect"
             :src="convertFilePath(`@/assets/images/eff/${innerWeaponData.effect}.png`)"
             fit="contain"
+            lazy
           />
         </div>
         <div>
@@ -215,12 +216,14 @@ watch(() => props.category, () => {
               :class="{ 'riftborne': row.riftborne }"
               :src="convertFilePath(`@/assets/images/monster/${row.monster}.png`)"
               fit="contain"
+              lazy
             />
             <ElImage
               v-if="row.effect"
               class="monster-effect"
               :src="convertFilePath(`@/assets/images/eff/${row.effect}.png`)"
               fit="contain"
+              lazy
             />
           </div>
         </ElTableColumn>

@@ -1,76 +1,93 @@
 <script setup lang="ts">
-import type { BuildDialogMode, BuildData, MonsterSkill, ArmorType, ArmorSlot } from '@/types'
-import { ref } from 'vue'
-import { ElRow, ElCol, ElCard, ElButton, ElImage, ElSwitch, ElDivider, ElUpload } from 'element-plus'
-import { useBestiaryStore, storeToRefs } from '@/stores'
+import type { BuildData, ArmorType, MonsterSkill } from '@/types'
+import { cloneDeep } from 'radashi'
+import { h, ref, computed } from 'vue'
+import { ElRow, ElCol, ElCheckboxGroup, ElCheckboxButton,  ElCard, ElButton, ElImage, ElSpace, ElSwitch, ElDivider, ElUpload } from 'element-plus'
+import { Filter } from '@element-plus/icons-vue'
+import { useDataStore, useConfigStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { BuildDialog, SkillSummary, SkillTags } from '@/components'
-import { useMessage, useUserData } from '@/composables'
+import RaritySelect from '@/components/BuildDialog/RaritySelect.vue'
+import { useMessage } from '@/composables'
 
-type BuildType = 'weapon' | 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
+type BuildOrder = 'category' | 'weapon' | ArmorType
+// type BuildType = 'weapon' | 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
 
-const { isBuildDialogVisible, buildDataList, isEditMode, isSkillMode } = storeToRefs(useBestiaryStore())
+const { filterBuild, componentSize } = storeToRefs(useConfigStore())
+const { weaponsData, monstersData, effectsData } = storeToRefs(useDataStore())
+const { buildDialog, buildDataList } = storeToRefs(useOperationStore())
+const { getSmeltCategory, computedSkillLevel } = useDataStore()
+const { downloadBuildDataList, importBuildDataList } = useOperationStore()
+
+const spacer = h(ElDivider, { direction: 'vertical' })
 const { $messageBox } = useMessage()
-const { downloadBuildDataList, importBuildDataList } = useUserData()
 
-// 裝備順序
-const buildOrder: BuildType[] = ['weapon', 'helm', 'mail', 'gloves', 'belt', 'greaves']
-const buildDialogIndex = ref<number>()
+// 裝備顯示順序
+const buildOrder: BuildOrder[] = ['category', 'weapon', 'helm', 'mail', 'gloves', 'belt', 'greaves']
+// 篩選器是否顯示
+const filterVisible = ref(false)
 
+// 篩選魔物清單
+const filterMonsters = computed(() => {
+  return monstersData.value
+    .filter((monster) => monster.weapon)
+    .map((monster) => ({ id: monster.id, name: monster.name }))
+})
+// 篩選屬性清單
+const filterEffects = computed(() => {
+  const noneEffect = { id: 'none', name: '無屬性' }
+  return [...effectsData.value, noneEffect]
+})
+
+// 新增配裝，開啟視窗
+const addBuildHandler = () => {
+  buildDialog.value = { visible: true, mode: 'add' }
+}
+// 更新配裝數據
+const updateDataHandler = ({ mode, data }: { mode: 'add' | 'edit' | 'preview', data: BuildData }) => {
+  if (mode === 'add') {
+    buildDataList.value.unshift(data)
+  }
+  if (mode === 'edit') {
+    const index = buildDataList.value.findIndex((item) => item.key === data.key)
+    buildDataList.value.splice(index, 1, data)
+  }
+}
 // 取得配裝數據所有技能
 const getBuildSkills = (buildData: BuildData) => {
   const skills: MonsterSkill[] = []
-  // 額外紀錄煉成的所有技能
-  const smeltSkills: ArmorSlot[] = []
-  Object.keys(buildData).forEach((key) => {
+  const smeltSkills: MonsterSkill[] = []
+  const innerBuildData = cloneDeep(buildData)
+  Object.keys(innerBuildData).forEach((key) => {
     if (key === 'category') return
     if (key === 'weapon') {
-      if (buildData.weapon?.skills) {
-        skills.push(...buildData.weapon.skills)
-      }
+      if (innerBuildData.weapon?.skills) skills.push(...innerBuildData.weapon.skills)
       return
     }
-    if (buildData[key as ArmorType]) {
-      const armorSkills = buildData[key as ArmorType]?.skills
-      const armorSlots = buildData[key as ArmorType]?.slots
-      if (armorSkills) skills.push(...armorSkills)
-      if (armorSlots) {
-        const slotSkills = armorSlots.map((slot) => ({ id: slot.id, level: 1 }))
-        const onlySmeltSkills = armorSlots.map((slot) => ({ id: slot.id, level: 1, smelt: slot.smelt }))
-        skills.push(...slotSkills)
-        smeltSkills.push(...onlySmeltSkills)
+    if (innerBuildData[key as ArmorType]) {
+      const armorData = innerBuildData[key as ArmorType]
+      if (!armorData) return
+      if (armorData.skills) skills.push(...armorData.skills)
+      if (armorData.slots) {
+        skills.push(...armorData.slots)
+        smeltSkills.push(...armorData.slots)
       }
     }
   })
 
   return {
-    skills: skills.filter((slot) => slot.id && slot.level),
-    smeltSkills: smeltSkills
-      .filter((slot) => slot.id && slot.level && slot.smelt)
-      .reduce((acc, slot) => {
-        const index = acc.findIndex((item) => item.id === slot.id)
-        if (index === -1) {
-          acc.push(slot)
-        } else {
-          if (acc[index].level) acc[index].level += slot.level || 0
-        }
-        return acc
-      }, [] as ArmorSlot[])
+    skills,
+    smeltSkills: computedSkillLevel(smeltSkills)
   }
 }
-
-const openBuildDialogHandler = (number?: number) => {
-  isBuildDialogVisible.value = true
-  buildDialogIndex.value = number
+const openBuildHandler = (buildData: BuildData, mode: 'edit' | 'preview') => {
+  buildDialog.value = { visible: true, mode, data: buildData }
 }
-const updateDataHandler = ({ type, data }: { type: BuildDialogMode, data: BuildData }) => {
-  if (type === 'add') {
-    buildDataList.value.push(data)
-  } else {
-    if (buildDialogIndex.value !== undefined) {
-      buildDataList.value[buildDialogIndex.value] = data
-    }
-  }
+const copyBuildHandler = (buildData: BuildData) => {
+  const cloneData = cloneDeep(buildData)
+  cloneData.key = crypto.randomUUID()
+  cloneData.name = cloneData.name + '(複製)'
+  buildDataList.value.unshift(cloneData)
 }
 const deleteDataHandler = (index: number) => {
   $messageBox.confirm('確定要刪除嗎？', '提示', {
@@ -88,100 +105,174 @@ const deleteDataHandler = (index: number) => {
 
 <template>
   <div class="build-container">
-    <!-- <div class="build-search">
-      搜尋區塊
-    </div> -->
     <ElRow :gutter="8">
+      <!-- 標頭 -->
       <ElCol :span="24">
         <div class="build-header">
-          <ElButton type="primary" @click="openBuildDialogHandler()">新增配裝</ElButton>
-          <div class="build-header-update">
-            <ElButton
-              type="primary"
-              :disabled="buildDataList.length === 0"
-              @click="downloadBuildDataList"
-            >
-              匯出
-            </ElButton>
-            <ElUpload
-              :show-file-list="false"
-              :before-upload="importBuildDataList"
-              accept=".json"
-            >
-              <ElButton type="success">匯入</ElButton>
-            </ElUpload>
-          </div>
+          <ElButton
+            class="build-filter-button"
+            :icon="Filter"
+            type="info"
+            :plain="!filterVisible"
+            @click="filterVisible = !filterVisible"
+          />
+          <ElButton class="w-100" type="primary" @click="addBuildHandler()">新增配裝</ElButton>
+          <ElButton v-if="buildDataList.length > 0" type="danger" @click="buildDataList = []">全部刪除</ElButton>
+          <ElUpload :show-file-list="false" accept=".json" :before-upload="importBuildDataList">
+            <ElButton type="success">匯入</ElButton>
+          </ElUpload>
+          <ElButton v-if="buildDataList.length > 0" type="warning" @click="downloadBuildDataList()">匯出</ElButton>
         </div>
-        <div class="build-header-switch">
-          <ElSwitch v-model="isSkillMode" inactive-value="tag" active-value="level" inactive-text="標籤" active-text="階級" size="small" />
-          <ElDivider direction="vertical" />
-          <ElSwitch v-model="isEditMode" inactive-text="檢視" active-text="編輯" size="small" />
+      </ElCol>
+      <!-- 篩選器 -->
+      <ElCol :span="24">
+        <ElSpace wrap :spacer="spacer" :size="0">
+          <ElSwitch v-model="filterBuild.editMode" inactive-text="檢視" active-text="編輯" :size="componentSize" />
+          <ElSwitch v-model="filterBuild.levelMode" inactive-text="標籤" active-text="階級" :size="componentSize" />
+        </ElSpace>
+      </ElCol>
+      <!-- 篩選器內容 -->
+      <ElCol v-show="filterVisible" :span="24">
+        <div class="build-filter">
+          <ElDivider content-position="left">武器</ElDivider>
+          <ElCheckboxGroup class="build-filter-container" v-model="filterBuild.weapons">
+            <ElCheckboxButton v-for="weapon in weaponsData" :key="weapon.id" :value="weapon.id" size="small">
+              <ElImage
+                class="filter-image"
+                :src="convertFilePath(`@/assets/images/part/${weapon.id}.png`)"
+                fit="contain"
+                lazy
+              />
+            </ElCheckboxButton>
+            <ElCheckboxButton v-for="monster in filterMonsters" :key="monster.id" :value="monster.id" size="small">
+              <ElImage
+                class="filter-image"
+                :src="convertFilePath(`@/assets/images/monster/${monster.id}.png`)"
+                fit="contain"
+                lazy
+              />
+            </ElCheckboxButton>
+          </ElCheckboxGroup>
+          <ElDivider content-position="left">屬性</ElDivider>
+          <ElCheckboxGroup class="build-filter-container" v-model="filterBuild.effects">
+            <ElCheckboxButton v-for="effect in filterEffects" :key="effect.id" :value="effect.id" size="small">
+              <span v-if="effect.id === 'none'">{{ effect.name }}</span>
+              <ElImage
+                v-else
+                class="filter-image"
+                :src="convertFilePath(`@/assets/images/eff/${effect.id}.png`)"
+                fit="contain"
+                lazy
+              />
+            </ElCheckboxButton>
+          </ElCheckboxGroup>
         </div>
       </ElCol>
       <ElCol
         v-for="(buildData, index) in buildDataList"
-        :key="`build-${index}`"
+        :key="buildData.key"
         :xs="24" :lg="12" :xl="8"
       >
         <ElCard class="build-card">
-          <template v-if="buildData.name" #header>
-            <div>{{ buildData.name }}</div>
+          <template #header>
+            <div class="build-card-header" @click="!filterBuild.editMode && openBuildHandler(buildData, 'preview')">
+              {{ buildData.name }}
+            </div>
           </template>
           <template #default>
-            <div class="build-content">
-              <div class="build-images">
-                <div class="build-image">
-                  <ElImage
-                    v-if="buildData.category"
-                    :src="convertFilePath(`@/assets/images/part/${buildData.category}.png`)"
-                    fit="contain"
-                  />
-                </div>
-                <div
-                  v-for="key in buildOrder"
-                  :key="key"
-                  class="build-image"
-                >
-                  <ElImage
-                    v-if="buildData[key]"
-                    :src="convertFilePath(`@/assets/images/monster/${buildData[key].monster}.png`)"
-                    fit="contain"
-                    :alt="buildData[key].monsterName"
-                    :title="buildData[key].monsterName"
-                  />
+            <div class="build-card-container" @click="!filterBuild.editMode && openBuildHandler(buildData, 'preview')">
+              <div class="build-content">
+                <ElSpace class="build-images" :size="6">
+                  <div
+                    v-for="order in buildOrder"
+                    :key="order"
+                    class="build-image"
+                  >
+                    <template v-if="order === 'category'">
+                      <ElImage
+                        v-if="buildData.category"
+                        :src="convertFilePath(`@/assets/images/part/${buildData.category}.png`)"
+                        fit="contain"
+                        lazy
+                      />
+                    </template>
+                    <template v-else-if="order === 'weapon'">
+                      <div
+                        v-if="buildData.weapon"
+                        :style="{
+                          '--monster-image-size': '25px',
+                          '--monster-image': `url('${convertFilePath(`@/assets/images/monster/${buildData.weapon.monster}.png`)}')`
+                        }"
+                        class="monster-image-container"
+                      >
+                        <ElImage
+                          class="monster-image"
+                          :class="{ 'riftborne': buildData.weapon.riftborne }"
+                          :src="convertFilePath(`@/assets/images/monster/${buildData.weapon.monster}.png`)"
+                          fit="contain"
+                          :alt="buildData.weapon.monsterName"
+                          :title="buildData.weapon.monsterName"
+                          lazy
+                        />
+                        <ElImage
+                          v-if="buildData.weapon.effect"
+                          class="monster-effect"
+                          :src="convertFilePath(`@/assets/images/eff/${buildData.weapon.effect}.png`)"
+                          fit="contain"
+                          lazy
+                        />
+                      </div>
+                    </template>
+                    <template v-else>
+                      <ElImage
+                        v-if="buildData[order]"
+                        :src="convertFilePath(`@/assets/images/monster/${buildData[order].monster}.png`)"
+                        fit="contain"
+                        :alt="buildData[order].monsterName"
+                        :title="buildData[order].monsterName"
+                        lazy
+                      />
+                    </template>
+                  </div>
+                </ElSpace>
+                <div v-if="filterBuild.editMode">
+                  <ElButton type="warning" size="small" @click="copyBuildHandler(buildData)">複製</ElButton>
+                  <ElButton type="primary" size="small" @click="openBuildHandler(buildData, 'edit')">編輯</ElButton>
+                  <ElButton type="danger" size="small" @click="deleteDataHandler(index)">刪除</ElButton>
                 </div>
               </div>
-              <div>
-                <ElButton v-if="!isEditMode" type="primary" size="small" @click="openBuildDialogHandler(index)">檢視</ElButton>
-                <ElButton v-if="isEditMode" type="primary" size="small" @click="openBuildDialogHandler(index)">編輯</ElButton>
-                <ElButton v-if="isEditMode" type="danger" size="small" @click="deleteDataHandler(index)">刪除</ElButton>
-              </div>
-            </div>
-            <div class="smelt-slots">
-              <div
-                v-for="smeltSlot in getBuildSkills(buildData).smeltSkills"
-                :key="smeltSlot.id"
-                class="smelt-slot"
-              >
-                <i
-                  v-for="levelIndex in smeltSlot.level"
-                  :key="levelIndex"
-                  :style="{ '--smelt-color': smeltSlot.smelt }" class="armor-slot"
+              <ElSpace :spacer="spacer" :size="0">
+                <RaritySelect
+                  v-if="buildData.weapon && buildData.weapon.rarity"
+                  v-model="buildData.weapon.rarity"
+                  :category="buildData.category"
+                  disabled
                 />
-                <SkillTags v-if="smeltSlot.id" :skills="[smeltSlot]" no-count />
-              </div>
+                <ElSpace :size="4" wrap>
+                  <ElSpace
+                    v-for="smeltSlot in getBuildSkills(buildData).smeltSkills"
+                    :key="smeltSlot.id"
+                    :size="4"
+                  >
+                    <i
+                      v-for="index in smeltSlot.level"
+                      :key="index"
+                      :style="{ '--smelt-color': getSmeltCategory(smeltSlot.id) }"
+                      class="armor-slot"
+                    />
+                    <SkillTags :skills="[{ id: smeltSlot.id }]" disabled />
+                  </ElSpace>
+                </ElSpace>
+              </ElSpace>
             </div>
           </template>
           <template #footer>
-            <SkillSummary :skills="getBuildSkills(buildData).skills" :mode="isSkillMode" />
+            <SkillSummary :skills="getBuildSkills(buildData).skills" />
           </template>
         </ElCard>
       </ElCol>
     </ElRow>
-    <BuildDialog
-      :data="buildDialogIndex !== undefined ? buildDataList[buildDialogIndex] : undefined"
-      @update="updateDataHandler"
-    />
+    <BuildDialog @update="updateDataHandler" />
   </div>
 </template>
 
@@ -198,73 +289,95 @@ const deleteDataHandler = (index: number) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.build-header-switch {
-  margin-top: 8px;
-}
-
-.build-header-update {
-  display: flex;
-  align-items: center;
   gap: 8px;
+
+  .el-button + .el-button {
+    margin-left: 0px;
+  }
+
+  .build-filter-button {
+    padding: 8px;
+  }
+}
+
+.build-filter {
+  padding: 8px;
+  width: calc(100% - 16px);
+  border: var(--el-border);
+  border-radius: var(--el-border-radius-base);
+
+  .el-divider--horizontal {
+    margin: 12px 0;
+  
+    &:first-child {
+      margin: 6px 0 12px;
+    }
+  }
+}
+
+.build-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+
+  :deep(.el-checkbox-button__inner) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    border: var(--el-border);
+    border-radius: var(--el-border-radius-base);
+    min-width: 32px;
+    height: 32px;
+  }
+
+  .filter-image {
+    width: 22px;
+    height: 22px;
+  }
 }
 
 .build-card {
   --el-card-padding: 8px;
 
-  :deep(.el-card__body) {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .build-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .el-button + .el-button {
-    margin-left: 8px;
-  }
-}
-
-.build-images {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
   .build-image {
     width: 25px;
     height: 25px;
   }
-}
 
-.smelt-slots {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-
-  .smelt-slot {
+  .build-card-container {
     display: flex;
-    align-items: center;
-    gap: 4px;
-  } 
-}
+    flex-direction: column;
+    gap: 8px;
 
-.armor-slot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: var(--el-border);
-  /* fallback：原色 */
-  background-color: var(--smelt-color, transparent);
-  /* 優先使用 color-mix 將顏色與白色混合以降低飽和度 / 鮮明度（調整 70%/30% 改變效果） */
-  background-color: color-mix(in srgb, var(--smelt-color) 70%, white 30%);
-  /* 若瀏覽器不支援 color-mix，使用 saturate 作額外退飽和處理（可調整百分比） */
-  filter: saturate(60%);
+    .build-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .el-button + .el-button {
+        margin-left: 4px;
+      }
+
+      .el-button--small {
+        --el-button-size: 22px;
+        padding: 0 6px;
+      }
+    }
+  }
+
+  .armor-slot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: var(--el-border);
+    /* fallback：原色 */
+    background-color: var(--smelt-color, transparent);
+    /* 優先使用 color-mix 將顏色與白色混合以降低飽和度 / 鮮明度（調整 70%/30% 改變效果） */
+    background-color: color-mix(in srgb, var(--smelt-color) 70%, white 30%);
+    /* 若瀏覽器不支援 color-mix，使用 saturate 作額外退飽和處理（可調整百分比） */
+    filter: saturate(60%);
+  }
 }
 </style>

@@ -21,7 +21,7 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue', 'open'])
 
 const { smeltData } = storeToRefs(useDataStore())
-const { getSkillName } = useDataStore()
+const { getSkillName, getSmeltCategory } = useDataStore()
 
 const singleTableRef = ref<InstanceType<typeof ElTable>>()
 const isDialogVisible = ref(false)
@@ -63,12 +63,6 @@ const isShowButton = computed(() => {
   return !innerSlotData.value.id
 })
 
-// 取得當前技能是哪個分類
-const getSmeltCategory = (id: string) => {
-  return Object.keys(smeltData.value).find((smeltId) => {
-    return smeltData.value[smeltId].skills.some((skill) => skill.id === id)
-  }) || ''
-}
 // 表格行類別
 const tableRowClassName = ({ row }: { row: SmeltOption }) => {
   if (row.isCategory) return 'smelt-category-row'
@@ -107,6 +101,7 @@ watch(() => isDialogVisible.value, (visible) => {
 <template>
   <div
     class="smelt-select-container"
+    :class="{ 'cursor': !disabled }"
     @click="!disabled && openDialogHandler()"
   >
     <template v-if="isShowButton">
@@ -154,6 +149,7 @@ watch(() => isDialogVisible.value, (visible) => {
                 class="smelt-image"
                 :src="convertFilePath(`@/assets/images/driftstone/${row.id}.png`)"
                 fit="contain"
+                lazy
               />
               {{ row.name }}
             </div>
@@ -173,13 +169,12 @@ watch(() => isDialogVisible.value, (visible) => {
   align-items: center;
   gap: 4px;
   line-height: 1;
-  cursor: pointer;
 }
 
 .armor-slot {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   border: var(--el-border);
   /* fallback：原色 */

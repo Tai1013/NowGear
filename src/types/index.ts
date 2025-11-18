@@ -75,6 +75,7 @@ export interface NormalizedMonster extends Monster {
 
 // 配裝資料
 export interface BuildData extends Partial<Record<ArmorType, BuildArmorRow>> {
+  key: string
   name: string
   category: string
   weapon?: BuildWeaponRow
