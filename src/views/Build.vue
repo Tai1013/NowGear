@@ -11,7 +11,6 @@ import RaritySelect from '@/components/BuildDialog/RaritySelect.vue'
 import { useMessage } from '@/composables'
 
 type BuildOrder = 'category' | 'weapon' | ArmorType
-// type BuildType = 'weapon' | 'helm' | 'mail' | 'gloves' | 'belt' | 'greaves'
 
 const { filterBuild, componentSize } = storeToRefs(useConfigStore())
 const { weaponsData, monstersData, effectsData } = storeToRefs(useDataStore())
@@ -37,6 +36,26 @@ const filterMonsters = computed(() => {
 const filterEffects = computed(() => {
   const noneEffect = { id: 'none', name: '無屬性' }
   return [...effectsData.value, noneEffect]
+})
+// 塞選後的配裝數據
+const filteredBuildDataList = computed(() => {
+  return buildDataList.value
+    .filter((buildData) => {
+      const { weapons, effects } = filterBuild.value
+      // 如果 filterBuild.value.weapons 和 filterBuild.value.effects 為空，則不過濾
+      if (weapons.length === 0 && effects.length === 0) return true
+      let filterStatus = false
+      if (weapons.length > 0) {
+        if (weapons.includes(buildData.weapon!.monster)) filterStatus = true
+        if (weapons.includes(buildData.category)) filterStatus = true
+      }
+      if (effects.length > 0) {
+        if (effects.includes(buildData.weapon!.effect)) filterStatus = true
+        if (effects.includes('none') && !buildData.weapon!.effect) filterStatus = true
+        if (effects.includes('riftborne') && buildData.weapon!.riftborne) filterStatus = true
+      }
+      return filterStatus
+    })
 })
 
 // 新增配裝，開啟視窗
@@ -90,13 +109,14 @@ const copyBuildHandler = (buildData: BuildData) => {
   buildDataList.value.unshift(cloneData)
 }
 const deleteDataHandler = (index: number) => {
-  $messageBox.confirm('確定要刪除嗎？', '提示', {
+  $messageBox.confirm('', '確定要刪除嗎？', {
     confirmButtonText: '確定',
     cancelButtonText: '取消',
     type: 'warning',
     center: true,
   })
     .then(() => {
+      if (index === -1) return buildDataList.value = []
       buildDataList.value.splice(index, 1)
     })
     .catch(() => {})
@@ -117,7 +137,7 @@ const deleteDataHandler = (index: number) => {
             @click="filterVisible = !filterVisible"
           />
           <ElButton class="w-100" type="primary" @click="addBuildHandler()">新增配裝</ElButton>
-          <ElButton v-if="buildDataList.length > 0" type="danger" @click="buildDataList = []">全部刪除</ElButton>
+          <ElButton v-if="buildDataList.length > 0" type="danger" @click="deleteDataHandler(-1)">全部刪除</ElButton>
           <ElUpload :show-file-list="false" accept=".json" :before-upload="importBuildDataList">
             <ElButton type="success">匯入</ElButton>
           </ElUpload>
@@ -126,14 +146,24 @@ const deleteDataHandler = (index: number) => {
       </ElCol>
       <!-- 篩選器 -->
       <ElCol :span="24">
-        <ElSpace wrap :spacer="spacer" :size="0">
-          <ElSwitch v-model="filterBuild.editMode" inactive-text="檢視" active-text="編輯" :size="componentSize" />
-          <ElSwitch v-model="filterBuild.levelMode" inactive-text="標籤" active-text="階級" :size="componentSize" />
-        </ElSpace>
+        <div>
+          <ElSpace wrap :spacer="spacer" :size="0">
+            <small>技能</small>
+            <ElSwitch v-model="filterBuild.showSkill" inactive-text="隱藏" active-text="顯示" :size="componentSize" />
+            <ElSwitch v-model="filterBuild.levelMode" inactive-text="標籤" active-text="階級" :size="componentSize" />
+          </ElSpace>
+        </div>
+        <div>
+          <ElSpace wrap :spacer="spacer" :size="0">
+            <small>操作</small>
+            <ElSwitch v-model="filterBuild.editMode" inactive-text="檢視" active-text="編輯" :size="componentSize" />
+          </ElSpace>
+        </div>
       </ElCol>
       <!-- 篩選器內容 -->
       <ElCol v-show="filterVisible" :span="24">
         <div class="build-filter">
+          <ElButton class="w-100" @click="filterBuild.weapons = []; filterBuild.effects = []">清除篩選</ElButton>
           <ElDivider content-position="left">武器</ElDivider>
           <ElCheckboxGroup class="build-filter-container" v-model="filterBuild.weapons">
             <ElCheckboxButton v-for="weapon in weaponsData" :key="weapon.id" :value="weapon.id" size="small">
@@ -169,12 +199,12 @@ const deleteDataHandler = (index: number) => {
         </div>
       </ElCol>
       <ElCol
-        v-for="(buildData, index) in buildDataList"
+        v-for="(buildData, index) in filteredBuildDataList"
         :key="buildData.key"
         :xs="24" :lg="12" :xl="8"
       >
         <ElCard class="build-card">
-          <template #header>
+          <template v-if="buildData.name" #header>
             <div class="build-card-header" @click="!filterBuild.editMode && openBuildHandler(buildData, 'preview')">
               {{ buildData.name }}
             </div>
@@ -266,7 +296,7 @@ const deleteDataHandler = (index: number) => {
               </ElSpace>
             </div>
           </template>
-          <template #footer>
+          <template v-if="filterBuild.showSkill" #footer>
             <SkillSummary :skills="getBuildSkills(buildData).skills" />
           </template>
         </ElCard>
@@ -308,10 +338,6 @@ const deleteDataHandler = (index: number) => {
 
   .el-divider--horizontal {
     margin: 12px 0;
-  
-    &:first-child {
-      margin: 6px 0 12px;
-    }
   }
 }
 

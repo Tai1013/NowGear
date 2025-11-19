@@ -8,8 +8,9 @@ export const useConfigStore = defineStore('configStore',
 
     // 篩選清單
     const filterBuild = ref({
-      weapons: [],
-      effects: [],
+      weapons: [] as string[],
+      effects: [] as string[],
+      showSkill: true,
       editMode: false,
       levelMode: false,
     })

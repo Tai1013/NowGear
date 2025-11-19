@@ -15,6 +15,7 @@ interface DialogRarityData extends Omit<RarityData, 'level'> {
 const props = defineProps<{
   modelValue: RarityData
   category: string | undefined
+  effect?: string
   disabled?: boolean
 }>()
 const emit = defineEmits(['update:modelValue', 'open'])
@@ -28,11 +29,17 @@ const dialogData = ref<DialogRarityData>({
   level: []
 })
 // 風格列表
-const rarityColumn = ref<{ id: RarityType, name: string }[]>([
-  { id: 'atk', name: '攻擊力' },
-  { id: 'ele', name: '屬性值' },
-  { id: 'crit', name: '會心率' }
-])
+const rarityColumn = computed((): { id: RarityType, name: string }[] => (
+  props.effect ?
+    [
+      { id: 'atk', name: '攻擊力' },
+      { id: 'ele', name: '屬性值' },
+      { id: 'crit', name: '會心率' }
+    ] : [
+      { id: 'atk', name: '攻擊力' },
+      { id: 'crit', name: '會心率' }
+    ]
+))
 // 內部風格強化數據
 const innerRarityData = computed({
   get: () => props.modelValue,

@@ -1,4 +1,11 @@
 {
+  "mediumpurple": {
+    "name": "漂流石【神秘】",
+    "skills": [
+      { "id": "resuscitate", "rarity": true },
+      { "id": "coalescence", "rarity": true }
+    ]
+  },
   "red": {
     "name": "漂流石【紅】",
     "monsters": ["anja", "ratha", "a-ratha", "s-ratha", "akno", "magn", "baze", "glav", "f-anja"],

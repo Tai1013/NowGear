@@ -43,23 +43,16 @@ export const useOperationStore = defineStore('operationStore',
       const reader = new FileReader()
       reader.onload = (event) => {
         const data = JSON.parse(event.target?.result as string)  
-        // 選擇取代或新增
-        $messageBox.confirm('', '請選擇匯入的方式', {
-          confirmButtonText: '取代',
-          cancelButtonText: '新增',
-          center: true,
-          showClose: false,
-          closeOnClickModal: false,
-          closeOnPressEscape: false,
-          closeOnHashChange: false
+        $messageBox.confirm('', '是否匯入配裝？', {
+          confirmButtonText: '新增',
+          cancelButtonText: '取消',
+          center: true
         })
           .then(() => {
-            buildDataList.value = data
-          })
-          .catch(() => {
             const cloneData = cloneDeep(buildDataList.value)
             buildDataList.value = [...data, ...cloneData]
           })
+          .catch(() => {})
       }
       reader.readAsText(file)
 

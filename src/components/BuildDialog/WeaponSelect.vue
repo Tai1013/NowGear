@@ -173,6 +173,7 @@ watch(() => props.category, () => {
             v-if="innerWeaponData.rarity"
             v-model="innerWeaponData.rarity"
             :category="category"
+            :effect="innerWeaponData.effect"
             :disabled="disabled"
             @open="openClickStopHandler()"
           />

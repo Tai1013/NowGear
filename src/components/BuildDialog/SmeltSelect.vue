@@ -178,6 +178,7 @@ watch(() => isDialogVisible.value, (visible) => {
   border-radius: 50%;
   border: var(--el-border);
   /* fallback：原色 */
+  // color:mediumpurple
   background-color: var(--smelt-color, transparent);
   /* 優先使用 color-mix 將顏色與白色混合以降低飽和度 / 鮮明度（調整 70%/30% 改變效果） */
   background-color: color-mix(in srgb, var(--smelt-color) 70%, white 30%);
