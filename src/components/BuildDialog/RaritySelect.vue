@@ -139,7 +139,6 @@ watch(() => isDialogVisible.value, (visible) => {
             class="rarity-level-image"
             :src="convertFilePath(`@/assets/images/stat/${level}.png`)"
             fit="contain"
-            lazy
           />
         </ElSpace>
       </ElSpace>
@@ -187,7 +186,6 @@ watch(() => isDialogVisible.value, (visible) => {
                   class="stat-image"
                   :src="convertFilePath(`@/assets/images/stat/${column.id}.png`)"
                   fit="contain"
-                  lazy
                 />
               </ElButton>
             </ElTableColumn>

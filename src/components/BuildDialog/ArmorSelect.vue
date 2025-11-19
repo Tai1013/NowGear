@@ -135,7 +135,6 @@ watch(() => isDialogVisible.value, (visible) => {
             fit="contain"
             :alt="innterArmorData.monsterName"
             :title="innterArmorData.monsterName"
-            lazy
           />
         </div>
         <div>
@@ -189,7 +188,6 @@ watch(() => isDialogVisible.value, (visible) => {
               fit="contain"
               :alt="row.monsterName"
               :title="row.monsterName"
-              lazy
             />
           </div>
         </ElTableColumn>

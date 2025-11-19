@@ -190,7 +190,6 @@ watch(() => buildDialog.value.visible, (visible) => {
                   :alt="weapon.name"
                   :title="weapon.name"
                   fit="contain"
-                  lazy
                 />
               </ElButton>
             </ElSpace>
@@ -203,7 +202,6 @@ watch(() => buildDialog.value.visible, (visible) => {
                 :alt="scope.row.label"
                 :title="scope.row.label"
                 fit="contain"
-                lazy
               />
             </div>
           </template>

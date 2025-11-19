@@ -149,7 +149,6 @@ watch(() => isDialogVisible.value, (visible) => {
                 class="smelt-image"
                 :src="convertFilePath(`@/assets/images/driftstone/${row.id}.png`)"
                 fit="contain"
-                lazy
               />
               {{ row.name }}
             </div>

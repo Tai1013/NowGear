@@ -94,7 +94,6 @@ const normalizedSmeltData = computed(() => {
               <ElImage
                 :src="convertFilePath(`@/assets/images/driftstone/${smelt.id}.png`)"
                 fit="contain"
-                lazy
               />
               {{ smelt.name }}
             </div>
@@ -118,7 +117,6 @@ const normalizedSmeltData = computed(() => {
                         :alt="monster.name"
                         :title="monster.name"
                         fit="contain"
-                        lazy
                       />
                     </div>
                   </template>

@@ -122,14 +122,12 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                   :alt="monster.name"
                   :title="monster.name"
                   fit="contain"
-                  lazy
                 />
                 <ElImage
                   v-if="selectedWeapons[monster.id]?.effect"
                   class="monster-effect"
                   :src="convertFilePath(`@/assets/images/eff/${selectedWeapons[monster.id].effect}.png`)"
                   fit="contain"
-                  lazy
                 />
               </div>
               <small
@@ -159,7 +157,6 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                     :alt="weapon.name"
                     :title="weapon.name"
                     fit="contain"
-                    lazy
                   />
                 </ElButton>
               </ElSpace>
@@ -178,7 +175,6 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                       class="armor-image"
                       :src="convertFilePath(`@/assets/images/part/${scope.row.id}.png`)"
                       fit="contain"
-                      lazy
                     />
                   </template>
                 </ElTableColumn>

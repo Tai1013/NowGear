@@ -171,7 +171,6 @@ const deleteDataHandler = (index: number) => {
                 class="filter-image"
                 :src="convertFilePath(`@/assets/images/part/${weapon.id}.png`)"
                 fit="contain"
-                lazy
               />
             </ElCheckboxButton>
             <ElCheckboxButton v-for="monster in filterMonsters" :key="monster.id" :value="monster.id" size="small">
@@ -179,7 +178,6 @@ const deleteDataHandler = (index: number) => {
                 class="filter-image"
                 :src="convertFilePath(`@/assets/images/monster/${monster.id}.png`)"
                 fit="contain"
-                lazy
               />
             </ElCheckboxButton>
           </ElCheckboxGroup>
@@ -192,7 +190,6 @@ const deleteDataHandler = (index: number) => {
                 class="filter-image"
                 :src="convertFilePath(`@/assets/images/eff/${effect.id}.png`)"
                 fit="contain"
-                lazy
               />
             </ElCheckboxButton>
           </ElCheckboxGroup>
@@ -223,7 +220,6 @@ const deleteDataHandler = (index: number) => {
                         v-if="buildData.category"
                         :src="convertFilePath(`@/assets/images/part/${buildData.category}.png`)"
                         fit="contain"
-                        lazy
                       />
                     </template>
                     <template v-else-if="order === 'weapon'">
@@ -242,14 +238,12 @@ const deleteDataHandler = (index: number) => {
                           fit="contain"
                           :alt="buildData.weapon.monsterName"
                           :title="buildData.weapon.monsterName"
-                          lazy
                         />
                         <ElImage
                           v-if="buildData.weapon.effect"
                           class="monster-effect"
                           :src="convertFilePath(`@/assets/images/eff/${buildData.weapon.effect}.png`)"
                           fit="contain"
-                          lazy
                         />
                       </div>
                     </template>
@@ -260,7 +254,6 @@ const deleteDataHandler = (index: number) => {
                         fit="contain"
                         :alt="buildData[order].monsterName"
                         :title="buildData[order].monsterName"
-                        lazy
                       />
                     </template>
                   </div>
