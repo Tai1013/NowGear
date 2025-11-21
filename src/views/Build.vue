@@ -32,6 +32,7 @@ const buildRowRef = ref<InstanceType<typeof ElRow>>()
 
 const { option } = useSortable(buildRowRef, buildDataList, {
   animation: 200,
+  handle: '.build-drag',
   disabled: !filterBuild.value.editMode
 })
 
@@ -455,7 +456,6 @@ watch(() => filterBuild.value.editMode, (editMode) => {
 
   &.edit {
     position: relative;
-    cursor: move;
 
     :deep(.el-card__header),
     :deep(.el-card__body),
@@ -474,6 +474,7 @@ watch(() => filterBuild.value.editMode, (editMode) => {
       height: 100%;
       background-color: var(--el-card-bg-color);
       border-right: var(--el-border);
+      cursor: move;
     }
   }
 }
