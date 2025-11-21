@@ -160,12 +160,23 @@ watch(() => buildDialog.value.visible, (visible) => {
       </div>
     </template>
     <template #default>
-      <ElInput
-        v-model="buildData.name"
-        placeholder="自訂名稱"
-        :disabled="buildDialog.mode === 'preview'"
-        clearable
-      />
+      <div class="input-container">
+        <ElInput
+          v-model="buildData.name"
+          class="w-100"
+          placeholder="自訂名稱"
+          :disabled="buildDialog.mode === 'preview'"
+          clearable
+        />
+        <ElInput
+          v-model.number="buildData.ideal"
+          type="number"
+          class="ideal-input"
+          placeholder="理想數值"
+          :disabled="buildDialog.mode === 'preview'"
+          clearable
+        />
+      </div>
       <ElTable
         :data="buildColumns"
         :show-header="false"
@@ -287,4 +298,15 @@ watch(() => buildDialog.value.visible, (visible) => {
 .skill-summary-container {
   margin-top: 12px;
 }
+
+.input-container {
+  display: flex;
+  align-items: center;
+
+  .ideal-input {
+    flex-shrink: 0;
+    width: 110px;
+  }
+}
+
 </style>

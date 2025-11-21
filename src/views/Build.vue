@@ -229,9 +229,12 @@ watch(() => filterBuild.value.editMode, (editMode) => {
         :xs="24" :lg="12" :xl="8"
       >
         <ElCard class="build-card" :class="{ edit: filterBuild.editMode }">
-          <template v-if="buildData.name" #header>
+          <template v-if="buildData.name || buildData.ideal" #header>
             <div class="build-card-header" @click="openBuildHandler(buildData, filterBuild.editMode ? 'edit' : 'preview')">
-              {{ buildData.name }}
+              <ElSpace :spacer="spacer" :size="0">
+                <span v-if="buildData.name">{{ buildData.name }}</span>
+                <span v-if="buildData.ideal" class="ideal-value">{{ buildData.ideal }}</span>
+              </ElSpace>
             </div>
           </template>
           <template #default>
@@ -329,6 +332,11 @@ watch(() => filterBuild.value.editMode, (editMode) => {
           </template>
         </ElCard>
       </ElCol>
+      <ElCol v-if="filteredBuildDataList.length === 0 && buildDataList.length > 0" :span="24">
+        <ElCard align="center" class="no-data-card">
+          無符合篩選條件的配裝
+        </ElCard>
+      </ElCol>
     </ElRow>
     <BuildDialog @update="updateDataHandler" />
   </div>
@@ -399,6 +407,12 @@ watch(() => filterBuild.value.editMode, (editMode) => {
     cursor: pointer;
   }
 
+  .build-card-header {
+    .ideal-value {
+      color: var(--el-text-color-placeholder);
+    }
+  }
+
   .build-image {
     width: 25px;
     height: 25px;
@@ -462,5 +476,9 @@ watch(() => filterBuild.value.editMode, (editMode) => {
       border-right: var(--el-border);
     }
   }
+}
+
+.no-data-card {
+  color: var(--el-color-warning);
 }
 </style>
