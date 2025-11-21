@@ -94,14 +94,14 @@ const getBuildSkills = (buildData: BuildData) => {
   const smeltSkills: MonsterSkill[] = []
   const innerBuildData = cloneDeep(buildData)
   Object.keys(innerBuildData).forEach((key) => {
-    if (key === 'category') return
+    if (['category', 'name', 'ideal', 'key'].includes(key)) return
     if (key === 'weapon') {
       if (innerBuildData.weapon?.skills) skills.push(...innerBuildData.weapon.skills)
       return
-    }
-    if (innerBuildData[key as ArmorType]) {
-      const armorData = innerBuildData[key as ArmorType]
-      if (!armorData) return
+  }
+  if (innerBuildData[key as ArmorType]) {
+    const armorData = innerBuildData[key as ArmorType]
+    if (!armorData) return
       if (armorData.skills) skills.push(...armorData.skills)
       if (armorData.slots) {
         skills.push(...armorData.slots)
@@ -111,8 +111,8 @@ const getBuildSkills = (buildData: BuildData) => {
   })
 
   return {
-    skills,
-    smeltSkills: computedSkillLevel(smeltSkills)
+    skills: skills.filter((skill) => skill.id && skill.level),
+    smeltSkills: computedSkillLevel(smeltSkills.filter((skill) => skill.id && skill.level))
   }
 }
 const openBuildHandler = (buildData: BuildData, mode: 'edit' | 'preview') => {
@@ -219,7 +219,6 @@ watch(() => filterBuild.value.editMode, (editMode) => {
         </div>
       </ElCol>
     </ElRow>
-    {{ filteredBuildDataList.length }} / {{ buildDataList.length }}
     <ElRow
       ref="buildRowRef"
       :gutter="8"
