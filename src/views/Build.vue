@@ -55,13 +55,13 @@ const filteredBuildDataList = computed(() => {
       if (weapons.length === 0 && effects.length === 0) return true
       let filterStatus = false
       if (weapons.length > 0) {
-        if (weapons.includes(buildData.weapon!.monster)) filterStatus = true
+        if (buildData.weapon && weapons.includes(buildData.weapon.monster)) filterStatus = true
         if (weapons.includes(buildData.category)) filterStatus = true
       }
-      if (effects.length > 0) {
-        if (effects.includes(buildData.weapon!.effect)) filterStatus = true
-        if (effects.includes('none') && !buildData.weapon!.effect) filterStatus = true
-        if (effects.includes('riftborne') && buildData.weapon!.riftborne) filterStatus = true
+      if (effects.length > 0 && buildData.weapon) {
+        if (effects.includes(buildData.weapon.effect)) filterStatus = true
+        if (effects.includes('none') && !buildData.weapon.effect) filterStatus = true
+        if (effects.includes('riftborne') && buildData.weapon.riftborne) filterStatus = true
       }
       return filterStatus
     })
