@@ -53,7 +53,9 @@ const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
       cell-class-name="remark-cell"
     >
       <ElTableColumn width="40" />
-      <ElTableColumn prop="remark" />
+      <ElTableColumn prop="remark" #default="{ row }">
+        <span>{{ row }}</span>
+      </ElTableColumn>
     </ElTable>
   </ElDialog>
 </template>
