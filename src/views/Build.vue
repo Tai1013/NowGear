@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { BuildData, ArmorType, MonsterSkill } from '@/types'
 import { cloneDeep } from 'radashi'
-import { h, ref, computed } from 'vue'
-import { ElRow, ElCol, ElCheckboxGroup, ElCheckboxButton,  ElCard, ElButton, ElImage, ElSpace, ElSwitch, ElDivider, ElUpload } from 'element-plus'
-import { Filter } from '@element-plus/icons-vue'
+import { h, ref, computed, watch } from 'vue'
+import { ElRow, ElCol, ElCheckboxGroup, ElCheckboxButton,  ElCard, ElButton, ElImage, ElSpace, ElSwitch, ElDivider, ElUpload, ElIcon } from 'element-plus'
+import { Filter, Sort } from '@element-plus/icons-vue'
+import { useSortable } from '@vueuse/integrations/useSortable'
 import { useDataStore, useConfigStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { BuildDialog, SkillSummary, SkillTags } from '@/components'
@@ -25,6 +26,14 @@ const { $messageBox } = useMessage()
 const buildOrder: BuildOrder[] = ['category', 'weapon', 'helm', 'mail', 'gloves', 'belt', 'greaves']
 // 篩選器是否顯示
 const filterVisible = ref(false)
+const isStopClicked = ref(false)
+
+const buildRowRef = ref<InstanceType<typeof ElRow>>()
+
+const { option } = useSortable(buildRowRef, buildDataList, {
+  animation: 200,
+  disabled: !filterBuild.value.editMode
+})
 
 // 篩選魔物清單
 const filterMonsters = computed(() => {
@@ -58,6 +67,13 @@ const filteredBuildDataList = computed(() => {
     })
 })
 
+// 阻止彈窗打開
+const openClickStopHandler = () => {
+  isStopClicked.value = true
+  setTimeout(() => {
+    isStopClicked.value = false
+  }, 300)
+}
 // 新增配裝，開啟視窗
 const addBuildHandler = () => {
   buildDialog.value = { visible: true, mode: 'add' }
@@ -100,15 +116,18 @@ const getBuildSkills = (buildData: BuildData) => {
   }
 }
 const openBuildHandler = (buildData: BuildData, mode: 'edit' | 'preview') => {
+  if (isStopClicked.value) return
   buildDialog.value = { visible: true, mode, data: buildData }
 }
 const copyBuildHandler = (buildData: BuildData) => {
+  openClickStopHandler()
   const cloneData = cloneDeep(buildData)
   cloneData.key = crypto.randomUUID()
   cloneData.name = cloneData.name + '(複製)'
   buildDataList.value.unshift(cloneData)
 }
 const deleteDataHandler = (index: number) => {
+  openClickStopHandler()
   $messageBox.confirm('', '確定要刪除嗎？', {
     confirmButtonText: '確定',
     cancelButtonText: '取消',
@@ -121,6 +140,10 @@ const deleteDataHandler = (index: number) => {
     })
     .catch(() => {})
 }
+
+watch(() => filterBuild.value.editMode, (editMode) => {
+  option('disabled', !editMode)
+})
 </script>
 
 <template>
@@ -195,19 +218,24 @@ const deleteDataHandler = (index: number) => {
           </ElCheckboxGroup>
         </div>
       </ElCol>
+    </ElRow>
+    <ElRow
+      ref="buildRowRef"
+      :gutter="8"
+    >
       <ElCol
         v-for="(buildData, index) in filteredBuildDataList"
         :key="buildData.key"
         :xs="24" :lg="12" :xl="8"
       >
-        <ElCard class="build-card">
+        <ElCard class="build-card" :class="{ edit: filterBuild.editMode }">
           <template v-if="buildData.name" #header>
-            <div class="build-card-header" @click="!filterBuild.editMode && openBuildHandler(buildData, 'preview')">
+            <div class="build-card-header" @click="openBuildHandler(buildData, filterBuild.editMode ? 'edit' : 'preview')">
               {{ buildData.name }}
             </div>
           </template>
           <template #default>
-            <div class="build-card-container" @click="!filterBuild.editMode && openBuildHandler(buildData, 'preview')">
+            <div class="build-card-container" @click="openBuildHandler(buildData, filterBuild.editMode ? 'edit' : 'preview')">
               <div class="build-content">
                 <ElSpace class="build-images" :size="6">
                   <div
@@ -260,7 +288,7 @@ const deleteDataHandler = (index: number) => {
                 </ElSpace>
                 <div v-if="filterBuild.editMode">
                   <ElButton type="warning" size="small" @click="copyBuildHandler(buildData)">複製</ElButton>
-                  <ElButton type="primary" size="small" @click="openBuildHandler(buildData, 'edit')">編輯</ElButton>
+                  <!-- <ElButton type="primary" size="small" @click="openBuildHandler(buildData, 'edit')">編輯</ElButton> -->
                   <ElButton type="danger" size="small" @click="deleteDataHandler(index)">刪除</ElButton>
                 </div>
               </div>
@@ -288,6 +316,13 @@ const deleteDataHandler = (index: number) => {
                 </ElSpace>
               </ElSpace>
             </div>
+            <template v-if="filterBuild.editMode">
+              <div class="build-drag">
+                <ElIcon :size="15">
+                  <Sort />
+                </ElIcon>
+              </div>
+            </template>
           </template>
           <template v-if="filterBuild.showSkill" #footer>
             <SkillSummary :skills="getBuildSkills(buildData).skills" />
@@ -359,6 +394,11 @@ const deleteDataHandler = (index: number) => {
 .build-card {
   --el-card-padding: 8px;
 
+  :deep(.el-card__header),
+  :deep(.el-card__body) {
+    cursor: pointer;
+  }
+
   .build-image {
     width: 25px;
     height: 25px;
@@ -397,6 +437,30 @@ const deleteDataHandler = (index: number) => {
     background-color: color-mix(in srgb, var(--smelt-color) 70%, white 30%);
     /* 若瀏覽器不支援 color-mix，使用 saturate 作額外退飽和處理（可調整百分比） */
     filter: saturate(60%);
+  }
+
+  &.edit {
+    position: relative;
+    cursor: move;
+
+    :deep(.el-card__header),
+    :deep(.el-card__body),
+    :deep(.el-card__footer) {
+      padding-left: 30px;
+    }
+
+    .build-drag {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 100%;
+      background-color: var(--el-card-bg-color);
+      border-right: var(--el-border);
+    }
   }
 }
 </style>

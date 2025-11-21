@@ -11,6 +11,9 @@ dependencies:
   '@vueuse/core':
     specifier: ^14.0.0
     version: 14.0.0(vue@3.5.22)
+  '@vueuse/integrations':
+    specifier: ^14.0.0
+    version: 14.0.0(sortablejs@1.15.6)(vue@3.5.22)
   dayjs:
     specifier: ^1.11.19
     version: 1.11.19
@@ -32,6 +35,9 @@ dependencies:
   sass:
     specifier: ^1.93.2
     version: 1.93.3
+  sortablejs:
+    specifier: ^1
+    version: 1.15.6
   vue:
     specifier: ^3.5.12
     version: 3.5.22(typescript@5.6.3)
@@ -828,6 +834,54 @@ packages:
       - vue
     dev: false
 
+  /@vueuse/integrations@14.0.0(sortablejs@1.15.6)(vue@3.5.22):
+    resolution: {integrity: sha512-5A0X7q9qyLtM3xyghq5nK/NEESf7cpcZlkQgXTMuW4JWiAMYxc1ImdhhGrk4negFBsq3ejvAlRmLdNrkcTzk1Q==}
+    peerDependencies:
+      async-validator: ^4
+      axios: ^1
+      change-case: ^5
+      drauu: ^0.4
+      focus-trap: ^7
+      fuse.js: ^7
+      idb-keyval: ^6
+      jwt-decode: ^4
+      nprogress: ^0.2
+      qrcode: ^1.5
+      sortablejs: ^1
+      universal-cookie: ^7 || ^8
+      vue: ^3.5.0
+    peerDependenciesMeta:
+      async-validator:
+        optional: true
+      axios:
+        optional: true
+      change-case:
+        optional: true
+      drauu:
+        optional: true
+      focus-trap:
+        optional: true
+      fuse.js:
+        optional: true
+      idb-keyval:
+        optional: true
+      jwt-decode:
+        optional: true
+      nprogress:
+        optional: true
+      qrcode:
+        optional: true
+      sortablejs:
+        optional: true
+      universal-cookie:
+        optional: true
+    dependencies:
+      '@vueuse/core': 14.0.0(vue@3.5.22)
+      '@vueuse/shared': 14.0.0(vue@3.5.22)
+      sortablejs: 1.15.6
+      vue: 3.5.22(typescript@5.6.3)
+    dev: false
+
   /@vueuse/metadata@14.0.0:
     resolution: {integrity: sha512-6yoGqbJcMldVCevkFiHDBTB1V5Hq+G/haPlGIuaFZHpXC0HADB0EN1ryQAAceiW+ryS3niUwvdFbGiqHqBrfVA==}
     dev: false
@@ -1206,6 +1260,10 @@ packages:
 
   /shvl@3.0.0:
     resolution: {integrity: sha512-5IomAM3ykE/g9K9L6lhODc+TpCuN03rrhlboegeKyyfh66DDdpRD5JN37DYhNHH+RaYjiIDx64K/Ms/xQYOR5w==}
+    dev: false
+
+  /sortablejs@1.15.6:
+    resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
     dev: false
 
   /source-map-js@1.2.1:
