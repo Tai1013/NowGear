@@ -219,6 +219,7 @@ watch(() => filterBuild.value.editMode, (editMode) => {
         </div>
       </ElCol>
     </ElRow>
+    {{ filteredBuildDataList.length }} / {{ buildDataList.length }}
     <ElRow
       ref="buildRowRef"
       :gutter="8"
