@@ -305,7 +305,7 @@ watch(() => buildDialog.value.visible, (visible) => {
 
   .ideal-input {
     flex-shrink: 0;
-    width: 110px;
+    width: 90px;
   }
 }
 
