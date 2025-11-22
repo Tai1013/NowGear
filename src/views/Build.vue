@@ -33,7 +33,7 @@ const buildRowRef = ref<InstanceType<typeof ElRow>>()
 const { option } = useSortable(buildRowRef, buildDataList, {
   animation: 200,
   handle: '.build-drag',
-  disabled: !filterBuild.value.editMode
+  disabled: !filterBuild.value.sortMode
 })
 
 // 篩選魔物清單
@@ -142,8 +142,8 @@ const deleteDataHandler = (index: number) => {
     .catch(() => {})
 }
 
-watch(() => filterBuild.value.editMode, (editMode) => {
-  option('disabled', !editMode)
+watch(() => filterBuild.value.sortMode, (sortMode) => {
+  option('disabled', !sortMode)
 })
 </script>
 
@@ -181,6 +181,7 @@ watch(() => filterBuild.value.editMode, (editMode) => {
           <ElSpace wrap :spacer="spacer" :size="0">
             <small>操作</small>
             <ElSwitch v-model="filterBuild.editMode" inactive-text="檢視" active-text="編輯" :size="componentSize" />
+            <ElSwitch v-model="filterBuild.sortMode" inactive-text="固定" active-text="拖曳" :size="componentSize" />
           </ElSpace>
         </div>
       </ElCol>
@@ -229,7 +230,7 @@ watch(() => filterBuild.value.editMode, (editMode) => {
         :key="buildData.key"
         :xs="24" :lg="12" :xl="8"
       >
-        <ElCard class="build-card" :class="{ edit: filterBuild.editMode }">
+        <ElCard class="build-card" :class="{ sort: filterBuild.sortMode }">
           <template v-if="buildData.name || buildData.ideal" #header>
             <div class="build-card-header" @click="openBuildHandler(buildData, filterBuild.editMode ? 'edit' : 'preview')">
               <ElSpace :spacer="spacer" :size="0">
@@ -320,7 +321,7 @@ watch(() => filterBuild.value.editMode, (editMode) => {
                 </ElSpace>
               </ElSpace>
             </div>
-            <template v-if="filterBuild.editMode">
+            <template v-if="filterBuild.sortMode">
               <div class="build-drag">
                 <ElIcon :size="15">
                   <Sort />
@@ -454,7 +455,7 @@ watch(() => filterBuild.value.editMode, (editMode) => {
     filter: saturate(60%);
   }
 
-  &.edit {
+  &.sort {
     position: relative;
 
     :deep(.el-card__header),

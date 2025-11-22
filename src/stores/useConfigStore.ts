@@ -13,6 +13,7 @@ export const useConfigStore = defineStore('configStore',
       showSkill: true,
       editMode: false,
       levelMode: false,
+      sortMode: true,
     })
 
     const componentSize = computed(() => width.value < 768 ? 'small' : '')
