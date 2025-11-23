@@ -106,6 +106,7 @@ const handleCurrentChange = (row: ArmorOption) => {
 }
 
 watch(() => isDialogVisible.value, (visible) => {
+  if (singleTableRef.value) singleTableRef.value.setCurrentRow({})
   if (!visible) searchWeaponKeyword.value = ''
   else {
     // 設定初始選中行
@@ -204,44 +205,4 @@ watch(() => isDialogVisible.value, (visible) => {
 .smelt-slots {
   margin-top: 4px;
 }
-// :deep(.el-table__row) {
-//   cursor: pointer;
-// }
-
-// .armor-select-container {
-//   width: 100%;
-//   min-height: var(--build-select-height);
-//   cursor: pointer;
-
-//   .armor-selectt-placeholder {
-//     display: flex;
-//     align-items: center;
-//     color: var(--el-text-color-placeholder);
-//     width: 100%;
-//     height: var(--build-select-height);
-//   }
-// }
-
-// .armor-select-item {
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-//   width: 100%;
-
-//   > .el-space {
-//     flex: auto;
-//   }
-
-//   .armor-content {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 8px;
-//   }
-// }
-
-// .monster-image {
-//   flex-shrink: 0;
-//   width: var(--build-select-height);
-//   height: var(--build-select-height);
-// }
 </style>

@@ -116,6 +116,7 @@ const handleCurrentChange = (row: WeaponOption) => {
 }
 
 watch(() => isDialogVisible.value, (visible) => {
+  if (singleTableRef.value) singleTableRef.value.setCurrentRow({})
   if (!visible) searchWeaponKeyword.value = ''
   else {
     // 設定初始選中行
