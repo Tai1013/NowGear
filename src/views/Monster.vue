@@ -14,39 +14,27 @@ const { searchKeyword } = storeToRefs(useOperationStore())
 const { isLoadingMonsters, monstersData } = storeToRefs(useDataStore())
 const { getSkillName } = useDataStore()
 
-// const { isLoadingMonsters, monstersData, skillsData, searchKeyword } = storeToRefs(useBestiaryStore())
-
 // 當前龍選擇的武器清單
 const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
 
 // 根據搜尋關鍵字過濾魔物列表
 const filteredMonstersData = computed(() => {
-  // 模糊查詢過濾
-  if (!searchKeyword.value || searchKeyword.value.trim() === '') {
-    return monstersData.value
-  }
-
   const keyword = searchKeyword.value.toLowerCase().trim()
+  // 模糊查詢過濾
+  if (!searchKeyword.value || keyword === '') return monstersData.value
+  // 搜尋技能名稱
+  const hasMatchingSkill = (skills?: MonsterSkill[]) => {
+    if (!skills) return false
+    return skills.some((skill) => getSkillName(skill.id).toLowerCase().includes(keyword))
+  }
+  // 搜尋魔物名稱、武器技能、防具技能
   return monstersData.value.filter((monster) => {
-    // 搜尋魔物名稱
-    if (monster.name.toLowerCase().includes(keyword)) return true
-    // 搜尋技能名稱
-    const hasMatchingSkill = (skills?: MonsterSkill[]) => {
-      if (!skills) return false
-      return skills.some((skill) => getSkillName(skill.id).toLowerCase().includes(keyword))
-    }
-    // 搜尋武器技能（搜尋所有武器）
-    if (monster.weapon) {
-      const weaponValues = Object.values(monster.weapon)
-      if (weaponValues.some((weapon) => hasMatchingSkill(weapon?.skills))) return true
-    }
-    // 搜尋防具技能
-    if (monster.armor) {
-      const armorPieces = Object.values(monster.armor)
-      if (armorPieces.some((armor) => hasMatchingSkill(armor?.skills))) return true
-    }
-
-    return false
+    const { name, weapon, armor } = monster
+    return (
+      name.toLowerCase().includes(keyword) ||
+      (weapon && Object.values(weapon).some((item) => hasMatchingSkill(item?.skills))) ||
+      (armor && Object.values(armor).some((item) => hasMatchingSkill(item?.skills)))
+    )
   })
 })
 
@@ -122,12 +110,14 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                   :alt="monster.name"
                   :title="monster.name"
                   fit="contain"
+                  lazy
                 />
                 <ElImage
                   v-if="selectedWeapons[monster.id]?.effect"
                   class="monster-effect"
                   :src="convertFilePath(`@/assets/images/eff/${selectedWeapons[monster.id].effect}.png`)"
                   fit="contain"
+                  lazy
                 />
               </div>
               <small
