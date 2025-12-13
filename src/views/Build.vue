@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BuildData, ArmorType, MonsterSkill } from '@/types'
+import type { BuildData, BuildWeaponRow, ArmorType, MonsterSkill } from '@/types'
 import { cloneDeep } from 'radashi'
 import { h, ref, computed, watch } from 'vue'
 import { ElRow, ElCol, ElCheckboxGroup, ElCheckboxButton,  ElCard, ElButton, ElImage, ElSpace, ElSwitch, ElDivider, ElUpload, ElIcon } from 'element-plus'
@@ -7,7 +7,7 @@ import { Filter, Sort } from '@element-plus/icons-vue'
 import { useSortable } from '@vueuse/integrations/useSortable'
 import { useDataStore, useConfigStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
-import { BuildDialog, SkillSummary, SkillTags } from '@/components'
+import { BuildDialog, SkillSummary, SkillTags, MonsterImage } from '@/components'
 import RaritySelect from '@/components/BuildDialog/RaritySelect.vue'
 import { useMessage } from '@/composables'
 
@@ -23,7 +23,7 @@ const spacer = h(ElDivider, { direction: 'vertical' })
 const { $messageBox } = useMessage()
 
 // 裝備顯示順序
-const buildOrder: BuildOrder[] = ['category', 'weapon', 'helm', 'mail', 'gloves', 'belt', 'greaves']
+const buildOrder: BuildOrder[] = ['weapon', 'category', 'helm', 'mail', 'gloves', 'belt', 'greaves']
 // 篩選器是否顯示
 const filterVisible = ref(false)
 const isStopClicked = ref(false)
@@ -114,6 +114,16 @@ const getBuildSkills = (buildData: BuildData) => {
   return {
     skills: skills.filter((skill) => skill.id && skill.level),
     smeltSkills: computedSkillLevel(smeltSkills.filter((skill) => skill.id && skill.level))
+  }
+}
+// 設置魔物圖片
+const setMonsterImage = (weapon: BuildWeaponRow) => {
+  console.log(weapon)
+  return {
+    id: weapon.monster,
+    name: weapon.monsterName,
+    effect: weapon.effect,
+    riftborne: weapon.riftborne
   }
 }
 const openBuildHandler = (buildData: BuildData, mode: 'edit' | 'preview') => {
@@ -256,7 +266,11 @@ watch(() => filterBuild.value.sortMode, (sortMode) => {
                       />
                     </template>
                     <template v-else-if="order === 'weapon'">
-                      <div
+                      <MonsterImage
+                        v-if="buildData.weapon"
+                        :monster="setMonsterImage(buildData.weapon)"
+                      />
+                      <!-- <div
                         v-if="buildData.weapon"
                         :style="{
                           '--monster-image-size': '25px',
@@ -278,7 +292,7 @@ watch(() => filterBuild.value.sortMode, (sortMode) => {
                           :src="convertFilePath(`@/assets/images/eff/${buildData.weapon.effect}.png`)"
                           fit="contain"
                         />
-                      </div>
+                      </div> -->
                     </template>
                     <template v-else>
                       <ElImage

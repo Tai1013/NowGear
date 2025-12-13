@@ -21,7 +21,7 @@ export const useDataStore = defineStore('dataStore',
     // 最終初始化日期
     const initDate = ref<string>('')
     // 最終上線更新日期
-    const updateDate = ref<string>('2025-11-19')
+    const updateDate = ref<string>('2025-12-14')
 
     // 龍的資料
     const monstersData = ref<NormalizedMonster[]>([])
