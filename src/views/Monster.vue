@@ -1,86 +1,72 @@
 <script setup lang="ts">
-import type { NormalizedMonster, MonsterWeapon, MonsterSkill } from '@/types'
+import type { NormalizedMonster, MonsterSkill } from '@/types'
 import { ref, watch, computed } from 'vue'
-import { ElRow, ElCol, ElCard, ElSpace, ElButton, ElImage, ElTable, ElTableColumn } from 'element-plus'
+import { ElRow, ElCol, ElCard, ElSpace, ElRadioGroup, ElRadioButton, ElButton, ElImage, ElTable, ElTableColumn } from 'element-plus'
 import { useDataStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
-import { SkillTags } from '@/components'
-
-interface SelectedWeapon extends MonsterWeapon {
-  checked: string
-}
+import { SkillTags, MonsterImage } from '@/components'
 
 const { searchKeyword } = storeToRefs(useOperationStore())
-const { isLoadingMonsters, monstersData } = storeToRefs(useDataStore())
-const { getSkillName } = useDataStore()
+const { isLoadingMonsters, monstersData, selectedWeapons } = storeToRefs(useDataStore())
+const { getSkillName, initSelectedWeapons, changeWeaponHandler } = useDataStore()
 
-// 當前龍選擇的武器清單
-const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
+// 魔物列表模式
+const monsterListMode = ref<'all' | 'weapon' | 'armor' | 'riftborne'>('all')
+const monsterListModeOptions = [
+  { label: '全部', value: 'all' },
+  { label: '武器', value: 'weapon' },
+  { label: '防具', value: 'armor' },
+  { label: '突變', value: 'riftborne' }
+]
 
 // 根據搜尋關鍵字過濾魔物列表
 const filteredMonstersData = computed(() => {
+  const filterMonsters = (monsters: NormalizedMonster[]) => {
+    return monsters.filter((monster) => {
+      if (monsterListMode.value === 'weapon') return !!monster.weapon
+      if (monsterListMode.value === 'armor') return !!monster.armor
+      if (monsterListMode.value === 'riftborne') return !!monster.riftborne
+      return true
+    })
+  }
+
   const keyword = searchKeyword.value.toLowerCase().trim()
   // 模糊查詢過濾
-  if (!searchKeyword.value || keyword === '') return monstersData.value
+  if (!searchKeyword.value || keyword === '') return filterMonsters(monstersData.value)
   // 搜尋技能名稱
   const hasMatchingSkill = (skills?: MonsterSkill[]) => {
     if (!skills) return false
     return skills.some((skill) => getSkillName(skill.id).toLowerCase().includes(keyword))
   }
   // 搜尋魔物名稱、武器技能、防具技能
-  return monstersData.value.filter((monster) => {
-    const { name, weapon, armor } = monster
-    return (
-      name.toLowerCase().includes(keyword) ||
-      (weapon && Object.values(weapon).some((item) => hasMatchingSkill(item?.skills))) ||
-      (armor && Object.values(armor).some((item) => hasMatchingSkill(item?.skills)))
-    )
-  })
+  return filterMonsters(monstersData.value
+    .filter((monster) => {
+      const { name, weapon, armor } = monster
+      return (
+        name.toLowerCase().includes(keyword) ||
+        (weapon && Object.values(weapon).some((item) => hasMatchingSkill(item?.skills))) ||
+        (armor && Object.values(armor).some((item) => hasMatchingSkill(item?.skills)))
+      )
+    }))
 })
 
-// 判斷魔物名稱是否匹配搜尋關鍵字
-const isMonsterNameMatched = (monsterName: string) => {
-  if (!searchKeyword.value || searchKeyword.value.trim() === '')  return false
-  const keyword = searchKeyword.value.toLowerCase().trim()
-  return monsterName.toLowerCase().includes(keyword)
-}
 // 轉換裝備清單
 const convertArmorList = (armor: NormalizedMonster['armor']) => {
   if (!armor) return []
   return Object.entries(armor).map(([id, data]) => ({ id, ...data }))
 }
-// 切換武器，並取得選擇武器的資訊
-const changeWeaponHandler = (monsterId: string, weaponId: string) => {
-  const monsterWeapon = monstersData.value.find((monster) => monster.id === monsterId)?.weapon
-  const defaultEffect = monsterWeapon?.default?.effect
-  const defaultSkills = monsterWeapon?.default?.skills || []
-  const effect = monsterWeapon?.[weaponId]?.effect || defaultEffect
-  const skills = monsterWeapon?.[weaponId]?.skills || defaultSkills
-  if (selectedWeapons.value[monsterId].checked === weaponId) {
-    selectedWeapons.value[monsterId] = { checked: 'default', skills: [] }
-    if (defaultEffect) selectedWeapons.value[monsterId].effect = defaultEffect
-    if (defaultSkills) selectedWeapons.value[monsterId].skills = defaultSkills
-    return
+// 設置魔物圖片
+const setMonsterImage = (monster: NormalizedMonster) => {
+  return {
+    id: monster.id,
+    name: monster.name,
+    effect: selectedWeapons.value[monster.id]?.effect || monster.weapon?.default?.effect,
+    riftborne: monster.riftborne
   }
-  selectedWeapons.value[monsterId].checked = weaponId
-  if (effect) selectedWeapons.value[monsterId].effect = effect
-  if (skills) selectedWeapons.value[monsterId].skills = skills
 }
-// 初始化選中的武器
-const initSelectedWeapons = () => {
-  // 如果 selectedWeapons 的數量等於 monstersData 的數量，就不需要初始化
-  if (Object.keys(selectedWeapons.value).length === monstersData.value.length) return
-  selectedWeapons.value = monstersData.value.reduce((acc, monsterData) => {
-    const reduceData: SelectedWeapon = { checked: 'default', skills: [] }
-    const defaultEffect = monsterData.weapon?.default?.effect
-    const defaultSkills = monsterData.weapon?.default?.skills
-    if (defaultEffect) reduceData.effect = defaultEffect
-    if (defaultSkills) reduceData.skills = defaultSkills
-    return {
-      ...acc,
-      [monsterData.id]: reduceData
-    }
-  }, {})
+// 設置魔物武器列表
+const setMonsterWeapons = (sortWeapons: NormalizedMonster['sortWeapons'] = []) => {
+  return sortWeapons.map((weapon) => ({ id: weapon.id, name: weapon.name }))
 }
 
 watch(() => isLoadingMonsters.value, (isLoading) => {
@@ -90,52 +76,36 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
 
 <template>
   <div class="monster-container">
+    <ElRadioGroup v-model="monsterListMode">
+      <ElRadioButton
+        v-for="item in monsterListModeOptions"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ElRadioButton>
+    </ElRadioGroup>
     <ElRow :gutter="8">
       <ElCol
         v-for="monster in filteredMonstersData"
         :key="monster.id"
         :xs="24" :sm="12" :lg="8" :xl="6"
       >
-        <ElCard align="center">
+        <ElCard
+          :header-class="setMonsterImage(monster).riftborne ? 'riftborne' : ''"
+          align="center"
+        >
           <template #header>
             <div class="monster-header">
-              <div
-                :style="{'--monster-image': `url('${convertFilePath(`@/assets/images/monster/${monster.id}.png`)}')`}"
-                class="monster-image-container"
-              >
-                <ElImage
-                  class="monster-image"
-                  :class="{ riftborne: monster.riftborne }"
-                  :src="convertFilePath(`@/assets/images/monster/${monster.id}.png`)"
-                  :alt="monster.name"
-                  :title="monster.name"
-                  fit="contain"
-                  lazy
-                />
-                <ElImage
-                  v-if="selectedWeapons[monster.id]?.effect"
-                  class="monster-effect"
-                  :src="convertFilePath(`@/assets/images/eff/${selectedWeapons[monster.id].effect}.png`)"
-                  fit="contain"
-                  lazy
-                />
-              </div>
-              <small
-                class="monster-name"
-                :class="{
-                  riftborne: monster.riftborne,
-                  'monster-name-matched': isMonsterNameMatched(monster.name)
-                }"
-              >
-                {{ monster.name }}
-              </small>
+              <MonsterImage :monster="setMonsterImage(monster)" :size="30" />
+              <small>{{ monster.name }}</small>
             </div>
           </template>
           <template #default>
             <div v-if="monster.sortWeapons" class="weapon-container">
               <ElSpace wrap>
                 <ElButton
-                  v-for="weapon in monster.sortWeapons"
+                  v-for="weapon in setMonsterWeapons(monster.sortWeapons)"
                   :key="weapon.id"
                   :type="selectedWeapons[monster.id]?.checked === weapon.id ? 'primary' : ''"
                   circle
@@ -150,8 +120,8 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                   />
                 </ElButton>
               </ElSpace>
-              <div class="weapon-skills">
-                <SkillTags :skills="selectedWeapons[monster.id]?.skills" />
+              <div v-if="selectedWeapons[monster.id]" class="weapon-skills">
+                <SkillTags :skills="selectedWeapons[monster.id].skills" />
               </div>
             </div>
             <div v-if="monster.armor" class="armor-container">
@@ -159,19 +129,15 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
                 :data="convertArmorList(monster.armor)"
                 :show-header="false"
               >
-                <ElTableColumn prop="id" width="54">
-                  <template #default="scope">
-                    <ElImage
-                      class="armor-image"
-                      :src="convertFilePath(`@/assets/images/part/${scope.row.id}.png`)"
-                      fit="contain"
-                    />
-                  </template>
+                <ElTableColumn prop="id" width="54" #default="scope">
+                  <ElImage
+                    class="armor-image"
+                    :src="convertFilePath(`@/assets/images/part/${scope.row.id}.png`)"
+                    fit="contain"
+                  />
                 </ElTableColumn>
-                <ElTableColumn prop="skills" show-overflow-tooltip>
-                  <template #default="scope">
-                    <SkillTags :skills="scope.row.skills" />
-                  </template>
+                <ElTableColumn prop="skills" show-overflow-tooltip #default="scope">
+                  <SkillTags :skills="scope.row.skills" />
                 </ElTableColumn>
                 <ElTableColumn prop="slots" align="right" width="40" />
               </ElTable>
@@ -192,6 +158,36 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
   padding: 4px;
 }
 
+.el-radio-group {
+  position: sticky;
+  top: 49px;
+  z-index: 100;
+  padding: 8px 8px 0;
+  display: flex;
+
+  > .el-radio-button {
+    flex: 1;
+    background-color: var(--el-bg-color);
+  }
+
+  :deep(.el-radio-button__inner) {
+    width: 100%;
+  }
+}
+
+:deep(.el-card__header).riftborne {
+  position: relative;
+  color: #e0baf3;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.125;
+    background: linear-gradient(0deg, #0000 0%, #0000 50%, #ae66d3 85%, #ae66d3 100%);
+  }
+}
+
 :deep(.el-card__body) {
   >*:not(:last-child) {
     margin-bottom: 12px;
@@ -205,28 +201,21 @@ watch(() => isLoadingMonsters.value, (isLoading) => {
   gap: 8px;
 }
 
-.monster-name {
-  &.riftborne {
-    color: #e0baf3;
-  }
-
-  &.monster-name-matched {
-    color: var(--el-color-warning);
-  }
-}
-
 .weapon-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
 
   .el-space {
+    margin: 0 auto;
+    max-width: 275px;
     justify-content: center;
   }
 
   .weapon-image {
     width: 25px;
     height: 25px;
+    opacity: 0.5;
   }
 
   .weapon-skills {

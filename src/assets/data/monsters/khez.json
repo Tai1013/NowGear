@@ -1,6 +1,7 @@
 {
   "id": "khez",
   "name": "奇怪龍",
+  "riftborne": true,
   "weapon": {
     "default": {
       "effect": "thunder",

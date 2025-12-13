@@ -35,7 +35,7 @@
     },
     "dual-blades": {
       "skills": [
-        { "id": "power-prolonger", "level": 5 }
+        { "id": "power-prolonger", "level": 3 }
       ]
     },
     "lance": {
@@ -65,7 +65,7 @@
     },
     "hunting-horn": {
       "skills": [
-        { "id": "power-prolonger", "level": 5 }
+        { "id": "power-prolonger", "level": 3 }
       ]
     }
   },

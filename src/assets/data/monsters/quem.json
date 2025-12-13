@@ -1,0 +1,56 @@
+{
+  "id": "quem",
+  "name": "炎尾龍",
+  "weapon": {
+    "default": {
+      "effect": "fire",
+      "skills": [
+        { "id": "valor", "level": 1 }
+      ]
+    },
+    "shield-sword": {},
+    "great-sword": {},
+    "long-sword": {},
+    "bow": {},
+    "dual-blades": {},
+    "lance": {},
+    "gunlance": {}
+  },
+  "armor": {
+    "helm": {
+      "slots": 1,
+      "skills": [
+        { "id": "artillery", "level": 2 },
+        { "id": "lock-on", "level": 1 }
+      ]
+    },
+    "mail": {
+      "slots": 1,
+      "skills": [
+        { "id": "normal-element-ammo-boost", "level": 2 },
+        { "id": "spare-shot", "level": 1 }
+      ]
+    },
+    "gloves": {
+      "slots": 1,
+      "skills": [
+        { "id": "spare-shot", "level": 1 },
+        { "id": "recoil-down", "level": 1 }
+      ]
+    },
+    "belt": {
+      "slots": 1,
+      "skills": [
+        { "id": "dauntless", "level": 2 },
+        { "id": "concentration", "level": 1 }
+
+      ]
+    },
+    "greaves": {
+      "slots": 1,
+      "skills": [
+        { "id": "attack-boost", "level": 3 }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "winter-25",
+  "name": "冬季25",
+  "weapon": {
+    "default": {
+      "skills": [
+        { "id": "weapon-special" }
+      ]
+    },
+    "bow": {
+      "effect": "thunder",
+      "skills": [
+        { "id": "ballistics", "level": 2 },
+        { "id": "solidarity-winter-hunt", "level": 1 }
+      ]
+    },
+    "dual-blades": {
+      "effect": "paralysis",
+      "skills": [
+        { "id": "evade-extender", "level": 3 },
+        { "id": "solidarity-winter-hunt", "level": 1 }
+      ]
+    }
+  }
+}

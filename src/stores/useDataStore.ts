@@ -1,4 +1,4 @@
-import type { WeaponData, SkillData, SmeltData, EffectData, Monster, NormalizedMonster, MonsterSkill } from '@/types'
+import type { WeaponData, SkillData, SmeltData, EffectData, Monster, NormalizedMonster, MonsterSkill, MonsterWeapon } from '@/types'
 import { cloneDeep } from 'radashi'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -8,6 +8,10 @@ import skills from '@/assets/data/skills.json'
 import smelt from '@/assets/data/smelt.json'
 import effects from '@/assets/data/effects.json'
 import { useMessage, useLoading } from '@/composables'
+
+interface SelectedWeapon extends MonsterWeapon {
+  checked: string
+}
 
 export const useDataStore = defineStore('dataStore',
   () => {
@@ -21,6 +25,8 @@ export const useDataStore = defineStore('dataStore',
 
     // 龍的資料
     const monstersData = ref<NormalizedMonster[]>([])
+    // 選擇的武器
+    const selectedWeapons = ref<Record<string, SelectedWeapon>>({})
     // 武器資料
     const weaponsData = ref<WeaponData>(weapons)
     // 技能資料
@@ -62,6 +68,25 @@ export const useDataStore = defineStore('dataStore',
           return acc
         }, [] as MonsterSkill[])
         .sort((a, b) => b.level! - a.level!) as Required<MonsterSkill>[]
+    }
+    // 切換武器，並取得選擇武器的資訊
+    const changeWeaponHandler = (monsterId: string, weaponId: string) => {
+      const monsterWeapon = monstersData.value.find((monster) => monster.id === monsterId)?.weapon
+      const defaultEffect = monsterWeapon?.default?.effect
+      const defaultSkills = monsterWeapon?.default?.skills || []
+      const effect = monsterWeapon?.[weaponId]?.effect || defaultEffect
+      const skills = monsterWeapon?.[weaponId]?.skills || defaultSkills
+      // 如果選擇的武器相同，則切換回預設武器
+      if (selectedWeapons.value[monsterId].checked === weaponId) {
+        selectedWeapons.value[monsterId] = { checked: 'default', skills: [] }
+        if (defaultEffect) selectedWeapons.value[monsterId].effect = defaultEffect
+        if (defaultSkills) selectedWeapons.value[monsterId].skills = defaultSkills
+        return
+      }
+      // 否則設定新的選擇
+      selectedWeapons.value[monsterId].checked = weaponId
+      if (effect) selectedWeapons.value[monsterId].effect = effect
+      if (skills) selectedWeapons.value[monsterId].skills = skills
     }
     // 標準化數據
     const normalizeMonstersData = () => {
@@ -126,6 +151,28 @@ export const useDataStore = defineStore('dataStore',
         unload()
       }
     }
+    // 初始化選中的武器
+    const initSelectedWeapons = () => {
+      if (monstersData.value.length === 0) return
+      // 如果 selectedWeapons 的數量等於 monstersData 的數量，就不需要初始化
+      if (Object.keys(selectedWeapons.value).length === monstersData.value.length) {
+        console.log('selectedWeapons 的數量等於 monstersData 的數量，跳過初始化')
+        return
+      }
+      console.log('開始初始化選中的武器')
+      selectedWeapons.value = monstersData.value.reduce((acc, monsterData) => {
+        const reduceData: SelectedWeapon = { checked: 'default', skills: [] }
+        const defaultEffect = monsterData.weapon?.default?.effect
+        const defaultSkills = monsterData.weapon?.default?.skills || []
+        if (defaultEffect) reduceData.effect = defaultEffect
+        if (defaultSkills) reduceData.skills = defaultSkills
+        return {
+          ...acc,
+          [monsterData.id]: reduceData
+        }
+      }, {})
+      console.log('完成初始化選中的武器')
+    }
 
     return {
       isLoadingMonsters: isLoading,
@@ -135,18 +182,21 @@ export const useDataStore = defineStore('dataStore',
       skillsData,
       smeltData,
       effectsData,
-
+      selectedWeapons,
+      
       getMonsterName,
       getSkillName,
       getSkillDesc,
       getSmeltCategory,
+      changeWeaponHandler,
       computedSkillLevel,
-      initMonstersData
+      initMonstersData,
+      initSelectedWeapons
     }
   },
   {
     persistedState: {
-      includePaths: ['initDate', 'monstersData']
+      includePaths: ['initDate', 'monstersData', 'selectedWeapons']
     }
   }
 )

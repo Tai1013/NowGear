@@ -1,14 +1,7 @@
 {
-  "mediumpurple": {
-    "name": "漂流石【神秘】",
-    "skills": [
-      { "id": "resuscitate", "rarity": true },
-      { "id": "coalescence", "rarity": true }
-    ]
-  },
   "red": {
     "name": "漂流石【紅】",
-    "monsters": ["anja", "ratha", "a-ratha", "s-ratha", "akno", "magn", "baze", "glav", "f-anja"],
+    "monsters": ["anja", "ratha", "a-ratha", "s-ratha", "akno", "magn", "baze", "glav", "f-anja", "quem"],
     "skills": [
       { "id": "fire-attack", "rarity": true },
       { "id": "headstrong", "rarity": true },
@@ -36,7 +29,7 @@
   },
   "yellow": {
     "name": "漂流石【黃】",
-    "monsters": ["g-girr", "tobi", "f-anja", "zino", "tzit", "khez", "raja", "volv", "bish"],
+    "monsters": ["g-girr", "tobi", "f-anja", "zino", "tzit", "khez", "raja", "volv", "bish", "asta"],
     "skills": [
       { "id": "thunder-attack", "rarity": true },
       { "id": "burst", "rarity": true },
@@ -50,7 +43,7 @@
   },
   "skyblue": {
     "name": "漂流石【水藍】",
-    "monsters": ["n-paol", "legi", "rado", "bari", "lago", "somn", "beot", "luna"],
+    "monsters": ["n-paol", "legi", "rado", "bari", "lago", "somn", "beot", "luna", "goss"],
     "skills": [
       { "id": "ice-attack", "rarity": true },
       { "id": "critical-eye", "rarity": true },
@@ -73,7 +66,7 @@
       { "id": "resentment" },
       { "id": "sneak-attack" },
       { "id": "rising-tide" },
-      { "id": "firm-foothold" }
+      { "id": "divine-blessing" }
     ]
   },
   "white": {
@@ -97,6 +90,7 @@
       { "id": "defense-boost" },
       { "id": "health-boost" },
       { "id": "last-stand" },
+      { "id": "firm-foothold" },
       { "id": "guts" },
       { "id": "fortify" },
       { "id": "artful-dodger" },
@@ -112,6 +106,13 @@
       { "id": "sleep-resistance" },
       { "id": "bleeding-resistance" },
       { "id": "blast-resistance" }
+    ]
+  },
+    "mediumpurple": {
+    "name": "漂流石【神秘】",
+    "skills": [
+      { "id": "resuscitate", "rarity": true },
+      { "id": "coalescence", "rarity": true }
     ]
   }
 }

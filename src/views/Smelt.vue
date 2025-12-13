@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { SmeltSkill } from '@/types'
 import { computed } from 'vue'
-import { ElRow, ElCol, ElCard, ElTable, ElTableColumn, ElImage } from 'element-plus'
-import { useDataStore, useOperationStore, useConfigStore, storeToRefs } from '@/stores'
+import { ElRow, ElCol, ElSpace, ElCard, ElTable, ElTableColumn, ElImage } from 'element-plus'
+import { useDataStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
-import { SkillTags } from '@/components'
+import { MonsterImage, SkillTags } from '@/components'
 
 type MonsterData = {
   id: string
@@ -12,7 +12,6 @@ type MonsterData = {
 }
 
 const { searchKeyword } = storeToRefs(useOperationStore())
-const { componentSize } = storeToRefs(useConfigStore())
 const { smeltData } = storeToRefs(useDataStore())
 const { getMonsterName, getSkillName } = useDataStore()
 
@@ -103,22 +102,17 @@ const normalizedSmeltData = computed(() => {
               :data="smelt.dataList"
               :show-header="false"
             >
-              <ElTableColumn prop="name" width="80" />
+              <!-- <ElTableColumn prop="name" width="80" /> -->
               <ElTableColumn prop="data">
                 <template #default="scope">
                   <template v-if="scope.row.type === 'monsters'">
-                    <div class="smelt-monsters">
-                      <ElImage
+                    <ElSpace wrap :size="8">
+                      <MonsterImage
                         v-for="monster in (scope.row.data as MonsterData[])"
                         :key="monster.id"
-                        :style="{ '--monster-image-size': componentSize === 'small' ? '25px' : '30px' }"
-                        class="monster-image"
-                        :src="convertFilePath(`@/assets/images/monster/${monster.id}.png`)"
-                        :alt="monster.name"
-                        :title="monster.name"
-                        fit="contain"
+                        :monster="monster"
                       />
-                    </div>
+                    </ElSpace>
                   </template>
                   <template v-else>
                     <SkillTags :skills="scope.row.data" />
@@ -152,12 +146,5 @@ const normalizedSmeltData = computed(() => {
     width: 25px;
     height: 25px;
   }
-}
-
-.smelt-monsters {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 </style>
