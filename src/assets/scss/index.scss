@@ -2,6 +2,7 @@
 
 body {
   font-family: "Huninn", sans-serif;
+  user-select: none; /* 禁止選取文字或圖片 */
 }
 
 /* Chrome, Safari, Edge, Opera */
