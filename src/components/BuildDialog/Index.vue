@@ -4,7 +4,6 @@ import type { BuildData, Weapon, ArmorType, MonsterSkill } from '@/types'
 import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
 import { ElDialog, ElInput, ElTable, ElTableColumn, ElSpace, ElButton, ElImage } from 'element-plus'
-import { Refresh } from '@element-plus/icons-vue'
 import { useDataStore, useOperationStore, storeToRefs } from '@/stores'
 import { convertFilePath } from '@/helper'
 import { useStoreRef } from '@/composables'
@@ -133,30 +132,29 @@ watch(() => buildDialog.value.visible, (visible) => {
   >
     <template #header>
       <div class="build-dialog-header">
-        <!-- 重置按鈕 -->
-        <ElButton
-          v-if="buildDialog.mode !== 'preview'"
-          class="reset-button"
-          :icon="Refresh"
-          :type="isChanged ? 'warning' : 'info'"
-          size="small"
-          circle
-          :disabled="!isChanged"
-          @click="reset"
-        />
         <div class="el-dialog__title">
           <span>{{ buildDialogTitle }}</span>
         </div>
-        <ElButton
-          v-if="buildDialog.mode !== 'preview'"
-          type="primary"
-          class="save-button"
-          size="small"
-          :disabled="!isChanged"
-          @click="saveBuildHandler"
-        >
-          {{ buildDialog.mode === 'edit' ? '更新' : '新增' }}
-        </ElButton>
+        <template v-if="buildDialog.mode !== 'preview'">
+          <ElButton
+            type="warning"
+            class="reset-button"
+            size="small"
+            :disabled="!isChanged"
+            @click="reset"
+          >
+            清除
+          </ElButton>
+          <ElButton
+            type="primary"
+            class="save-button"
+            size="small"
+            :disabled="!isChanged"
+            @click="saveBuildHandler"
+          >
+            {{ buildDialog.mode === 'edit' ? '更新' : '新增' }}
+          </ElButton>
+        </template>
       </div>
     </template>
     <template #default>
@@ -249,10 +247,6 @@ watch(() => buildDialog.value.visible, (visible) => {
 <style lang="scss" scoped>
 .el-table :deep(.weapons-row) > td.el-table__cell {
   background-color: var(--el-color-primary-light-9) !important;
-
-  .cell {
-    text-align: center;
-  }
 }
 
 .build-dialog-header {
@@ -273,32 +267,6 @@ watch(() => buildDialog.value.visible, (visible) => {
   }
 }
 
-.build-weapon-container {
-  justify-content: center;
-
-  .build-weapon-button {
-    .weapon-image {
-      width: 25px;
-      height: 25px;
-    }
-  }
-}
-
-.column-image {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
-
-  .weapon-image {
-    transform: scale(1.2);
-  }
-}
-
-.skill-summary-container {
-  margin-top: 12px;
-}
-
 .input-container {
   display: flex;
   align-items: center;
@@ -309,4 +277,29 @@ watch(() => buildDialog.value.visible, (visible) => {
   }
 }
 
+.build-weapon-container {
+  justify-content: center;
+  padding: 0 12px;
+
+  .weapon-image {
+    width: 25px;
+    height: 25px;
+    opacity: 0.5;
+  }
+}
+
+.column-image {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+
+  .weapon-image {
+    transform: scale(1.25);
+  }
+}
+
+.skill-summary-container {
+  margin-top: 12px;
+}
 </style>
