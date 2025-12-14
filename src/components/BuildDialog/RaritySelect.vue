@@ -155,7 +155,10 @@ watch(() => isDialogVisible.value, (visible) => {
     >
       <template #default>
         <div class="rarity-select-dialog">
-          <div class="rarity-button-container">
+          <div
+            v-if="rarityList.length > 0"
+            class="rarity-button-container"
+          >
             <ElButton
               v-for="(rarity) in rarityList"
               :key="rarity.id"

@@ -118,7 +118,6 @@ const getBuildSkills = (buildData: BuildData) => {
 }
 // 設置魔物圖片
 const setMonsterImage = (weapon: BuildWeaponRow) => {
-  console.log(weapon)
   return {
     id: weapon.monster,
     name: weapon.monsterName,

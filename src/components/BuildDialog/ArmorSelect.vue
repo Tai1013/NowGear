@@ -3,10 +3,9 @@ defineOptions({ name: 'ArmorSelect' })
 import type { BuildArmorRow, ArmorType, MonsterSkill } from '@/types'
 import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElImage, ElSpace, ElInput } from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElSpace, ElInput } from 'element-plus'
 import { useDataStore, storeToRefs } from '@/stores'
-import { convertFilePath } from '@/helper'
-import { SkillTags } from '@/components'
+import { SkillTags, MonsterImage } from '@/components'
 import SmeltSelect from './SmeltSelect.vue'
 
 interface ArmorOption {
@@ -104,6 +103,13 @@ const handleCurrentChange = (row: ArmorOption) => {
   }
   isDialogVisible.value = false
 }
+// 設置魔物圖片
+const setMonsterImage = (weapon: BuildArmorRow | ArmorOption) => {
+  return {
+    id: weapon.monster,
+    name: weapon.monsterName
+  }
+}
 
 watch(() => isDialogVisible.value, (visible) => {
   if (singleTableRef.value) singleTableRef.value.setCurrentRow({})
@@ -126,18 +132,10 @@ watch(() => isDialogVisible.value, (visible) => {
   >
     <template v-if="innterArmorData">
       <div class="select-item">
-        <div
-          :style="{ '--monster-image-size': '25px' }"
-          class="monster-image-container"
-        >
-          <ElImage
-            class="monster-image"
-            :src="convertFilePath(`@/assets/images/monster/${innterArmorData.monster}.png`)"
-            fit="contain"
-            :alt="innterArmorData.monsterName"
-            :title="innterArmorData.monsterName"
-          />
-        </div>
+        <MonsterImage
+          v-if="innterArmorData"
+          :monster="setMonsterImage(innterArmorData)"
+        />
         <div>
           <SkillTags :skills="innterArmorData.skills" disabled />
           <div class="smelt-slots">
@@ -179,18 +177,7 @@ watch(() => isDialogVisible.value, (visible) => {
         @row-click="handleCurrentChange"
       >
         <ElTableColumn #default="{ row } : { row: ArmorOption }" width="49">
-          <div
-            :style="{ '--monster-image-size': '25px' }"
-            class="monster-image-container"
-          >
-            <ElImage
-              class="monster-image"
-              :src="convertFilePath(`@/assets/images/monster/${row.monster}.png`)"
-              fit="contain"
-              :alt="row.monsterName"
-              :title="row.monsterName"
-            />
-          </div>
+          <MonsterImage :monster="setMonsterImage(row)" />
         </ElTableColumn>
         <ElTableColumn #default="{ row } : { row: ArmorOption }">
           <SkillTags :skills="row.skills" disabled />

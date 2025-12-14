@@ -3,10 +3,9 @@ defineOptions({ name: 'WeaponSelect' })
 import type { BuildWeaponRow, MonsterSkill } from '@/types'
 import { cloneDeep } from 'radashi'
 import { ref, computed, watch } from 'vue'
-import { ElDialog, ElTable, ElTableColumn, ElImage, ElInput } from 'element-plus'
+import { ElDialog, ElTable, ElTableColumn, ElInput } from 'element-plus'
 import { useDataStore, storeToRefs } from '@/stores'
-import { convertFilePath } from '@/helper'
-import { SkillTags } from '@/components'
+import { SkillTags, MonsterImage } from '@/components'
 import RaritySelect from './RaritySelect.vue'
 
 interface WeaponOption {
@@ -114,6 +113,15 @@ const handleCurrentChange = (row: WeaponOption) => {
   }
   isDialogVisible.value = false
 }
+// 設置魔物圖片
+const setMonsterImage = (weapon: BuildWeaponRow) => {
+  return {
+    id: weapon.monster,
+    name: weapon.monsterName,
+    effect: weapon.effect,
+    riftborne: weapon.riftborne
+  }
+}
 
 watch(() => isDialogVisible.value, (visible) => {
   if (singleTableRef.value) singleTableRef.value.setCurrentRow({})
@@ -147,26 +155,10 @@ watch(() => props.category, () => {
   >
     <template v-if="innerWeaponData">
       <div class="select-item">
-        <div
-          :style="{
-            '--monster-image-size': '25px',
-            '--monster-image': `url('${convertFilePath(`@/assets/images/monster/${innerWeaponData.monster}.png`)}')`
-          }"
-          class="monster-image-container"
-        >
-          <ElImage
-            class="monster-image"
-            :class="{ 'riftborne': innerWeaponData.rarity }"
-            :src="convertFilePath(`@/assets/images/monster/${innerWeaponData.monster}.png`)"
-            fit="contain"
-          />
-          <ElImage
-            v-if="innerWeaponData.effect"
-            class="monster-effect"
-            :src="convertFilePath(`@/assets/images/eff/${innerWeaponData.effect}.png`)"
-            fit="contain"
-          />
-        </div>
+        <MonsterImage
+          v-if="innerWeaponData"
+          :monster="setMonsterImage(innerWeaponData)"
+        />
         <div>
           <SkillTags :skills="innerWeaponData.skills" disabled />
           <RaritySelect
@@ -205,26 +197,7 @@ watch(() => props.category, () => {
         @row-click="handleCurrentChange"
       >
         <ElTableColumn #default="{ row } : { row: WeaponOption }" width="49">
-          <div
-            :style="{
-              '--monster-image-size': '25px',
-              '--monster-image': `url('${convertFilePath(`@/assets/images/monster/${row.monster}.png`)}')`
-            }"
-            class="monster-image-container"
-          >
-            <ElImage
-              class="monster-image"
-              :class="{ 'riftborne': row.riftborne }"
-              :src="convertFilePath(`@/assets/images/monster/${row.monster}.png`)"
-              fit="contain"
-            />
-            <ElImage
-              v-if="row.effect"
-              class="monster-effect"
-              :src="convertFilePath(`@/assets/images/eff/${row.effect}.png`)"
-              fit="contain"
-            />
-          </div>
+          <MonsterImage :monster="setMonsterImage(row)" />
         </ElTableColumn>
         <ElTableColumn #default="{ row } : { row: WeaponOption }">
           <SkillTags :skills="row.skills" disabled />
