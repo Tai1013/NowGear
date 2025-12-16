@@ -10,8 +10,7 @@
     "bow": {
       "effect": "thunder",
       "skills": [
-        { "id": "ballistics", "level": 2 },
-        { "id": "solidarity-winter-hunt", "level": 1 }
+        { "id": "ballistics", "level": 2 }
       ]
     },
     "dual-blades": {
